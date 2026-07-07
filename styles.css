@@ -216,9 +216,21 @@ h2 {
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 18px;
   margin-top: 34px;
   text-transform: uppercase;
+}
+
+.hero-actions .button-link {
+  margin-top: 0;
+}
+
+.hero-actions .text-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 38px;
+  font-size: 12px;
 }
 
 .text-link {
