@@ -60,7 +60,6 @@ img {
 .brand,
 .site-header nav a,
 .text-link,
-.team-list a,
 .site-footer a {
   text-decoration: underline;
   text-decoration-thickness: 1px;
@@ -374,54 +373,6 @@ h2 {
 
 #dog-whistle .section-copy {
   max-width: 640px;
-}
-
-.team-block {
-  display: grid;
-  gap: 34px;
-  align-self: stretch;
-  align-content: center;
-}
-
-.avatar-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 14px;
-}
-
-.avatar {
-  width: clamp(68px, 7vw, 108px);
-  aspect-ratio: 1;
-  border: 1px solid rgba(17, 17, 17, .26);
-  border-radius: 50%;
-  background:
-    radial-gradient(circle at 42% 34%, rgba(246, 245, 239, .96) 0 12%, transparent 13%),
-    linear-gradient(135deg, rgba(17, 17, 17, .86), rgba(68, 88, 84, .52) 46%, rgba(176, 166, 130, .42));
-}
-
-.avatar:nth-child(2) {
-  background:
-    radial-gradient(circle at 56% 38%, rgba(246, 245, 239, .9) 0 10%, transparent 11%),
-    linear-gradient(135deg, rgba(31, 37, 54, .84), rgba(117, 88, 62, .48) 52%, rgba(17, 17, 17, .72));
-}
-
-.avatar:nth-child(3) {
-  background:
-    radial-gradient(circle at 50% 32%, rgba(246, 245, 239, .88) 0 11%, transparent 12%),
-    linear-gradient(135deg, rgba(86, 93, 83, .78), rgba(17, 17, 17, .82) 48%, rgba(150, 142, 118, .38));
-}
-
-.avatar:nth-child(4) {
-  background:
-    radial-gradient(circle at 45% 36%, rgba(246, 245, 239, .92) 0 10%, transparent 11%),
-    linear-gradient(135deg, rgba(17, 17, 17, .82), rgba(86, 68, 74, .54) 48%, rgba(92, 106, 108, .44));
-}
-
-.team-list {
-  display: grid;
-  gap: 18px;
-  font-size: clamp(20px, 3vw, 40px);
-  text-transform: uppercase;
 }
 
 .contact-section {
