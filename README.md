@@ -1,5 +1,50 @@
 # UFO Files Homepage
 
-Static homepage for the UFO Files project.
+Static homepage for [UFO Files](https://ufo-files.app), the public entry point for the project and its related research tools.
 
-Open `index.html` directly in a browser, or serve the directory with any static file server.
+![UFO Files homepage hero](assets/homepage-hero.png)
+
+## Live Site
+
+- Production: <https://ufo-files.app>
+- GitHub Pages source: `main` branch, repository root
+- Custom domain: configured through `CNAME`
+
+## Sections
+
+The page is a single static document with sections for:
+
+- Intro hero
+- About the project
+- Relationship Graph
+- Dog Whistle
+- Meditation
+- Contact
+
+The Team section is intentionally removed until the real team content is ready.
+
+## Local Preview
+
+This site has no build step. You can open `index.html` directly, or serve the repo root:
+
+```sh
+python3 -m http.server 8124
+```
+
+Then visit:
+
+```txt
+http://127.0.0.1:8124
+```
+
+## Files
+
+- `index.html`: page structure and links
+- `styles.css`: layout, typography, section styling, responsive behavior
+- `script.js`: ambient background field and pointer interaction
+- `assets/`: app preview images and README screenshot
+- `CNAME`: GitHub Pages custom domain
+
+## Deployment
+
+Push changes to `main`. GitHub Pages publishes the static files at the custom domain after the Pages build completes.
