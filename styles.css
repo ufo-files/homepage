@@ -250,6 +250,14 @@ h2 {
   line-height: 1;
 }
 
+img.intro-logo {
+  width: clamp(128px, 15vw, 240px);
+  height: auto;
+  max-height: min(28vh, 240px);
+  margin-bottom: clamp(18px, 3vh, 28px);
+  object-fit: contain;
+}
+
 .text-link {
   color: var(--muted);
 }
@@ -453,6 +461,12 @@ h2 {
 
   .hero-inner {
     padding-bottom: 12vh;
+  }
+
+  img.intro-logo {
+    width: clamp(96px, 34vw, 150px);
+    max-height: 18vh;
+    margin-bottom: 18px;
   }
 
   .split-inner,
