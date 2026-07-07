@@ -226,6 +226,18 @@ h2 {
   margin-top: 0;
 }
 
+.hero-actions .hero-primary-button {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--bg);
+}
+
+.hero-actions .hero-primary-button:hover,
+.hero-actions .hero-primary-button:focus-visible {
+  background: rgba(246, 245, 239, .72);
+  color: var(--ink);
+}
+
 .hero-actions .text-link {
   display: inline-flex;
   align-items: center;
