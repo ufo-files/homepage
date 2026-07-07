@@ -191,6 +191,11 @@ h1 {
   line-height: .8;
 }
 
+.hero-inner h1 {
+  max-width: none;
+  margin-left: -.055em;
+}
+
 h2 {
   font-size: clamp(34px, 7vw, 96px);
   line-height: .92;
