@@ -139,12 +139,7 @@ img {
 }
 
 .hero-visual::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(to bottom, rgba(246, 245, 239, .02), rgba(246, 245, 239, .28) 46%, rgba(246, 245, 239, .96) 100%),
-    linear-gradient(to right, rgba(246, 245, 239, .94), rgba(246, 245, 239, .30) 45%, rgba(246, 245, 239, .64));
+  content: none;
 }
 
 .preview-image {

@@ -6,6 +6,7 @@ let viewportWidth = 0;
 let viewportHeight = 0;
 let fieldPoints = [];
 let pointer = { x: 0, y: 0, active: false };
+let animationFrame = 0;
 
 function resize() {
   const ratio = Math.min(window.devicePixelRatio || 1, 2);
@@ -17,7 +18,9 @@ function resize() {
   fieldCanvas.style.height = `${viewportHeight}px`;
   fieldCtx.setTransform(ratio, 0, 0, ratio, 0, 0);
   buildFieldPoints();
-  draw();
+  if (prefersReducedMotion) {
+    drawField();
+  }
 }
 
 function buildFieldPoints() {
@@ -109,11 +112,14 @@ function drawField() {
 function draw() {
   drawField();
   if (!prefersReducedMotion) {
-    requestAnimationFrame(draw);
+    animationFrame = requestAnimationFrame(draw);
   }
 }
 
 resize();
+if (!prefersReducedMotion && !animationFrame) {
+  animationFrame = requestAnimationFrame(draw);
+}
 window.addEventListener("resize", resize);
 window.addEventListener("pointermove", (event) => {
   pointer = { x: event.clientX, y: event.clientY, active: true };
