@@ -53,7 +53,7 @@ jobs:
             --wait-for-timeout=1000 \
             "https://ufo-files.app/?screenshot=1" \
             /tmp/homepage-hero.png
-          magick /tmp/homepage-hero.png -bordercolor black -border 2x2 assets/homepage-hero.png
+          convert /tmp/homepage-hero.png -bordercolor black -border 2x2 assets/homepage-hero.png
 
       - name: Commit screenshot update
         run: |
