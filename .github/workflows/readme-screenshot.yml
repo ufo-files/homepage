@@ -1,0 +1,70 @@
+name: Refresh README Screenshot
+
+on:
+  page_build:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: readme-screenshot
+  cancel-in-progress: false
+
+jobs:
+  capture:
+    name: Capture live hero
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          token: ${{ secrets.UFO_FILES_AUTOMATION_TOKEN || github.token }}
+
+      - name: Wait for live site
+        run: |
+          set -euo pipefail
+          for attempt in {1..30}; do
+            if curl -fsSI "https://ufo-files.app/?screenshot=1" >/dev/null; then
+              exit 0
+            fi
+            echo "Waiting for ufo-files.app to respond (${attempt}/30)..."
+            sleep 10
+          done
+          echo "Timed out waiting for ufo-files.app" >&2
+          exit 1
+
+      - name: Install screenshot tools
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y imagemagick
+          npm install --global playwright@1.55.0
+          playwright install --with-deps chromium
+
+      - name: Capture bordered hero screenshot
+        run: |
+          set -euo pipefail
+          playwright screenshot \
+            --browser=chromium \
+            --viewport-size=1440,1000 \
+            --wait-for-timeout=1000 \
+            "https://ufo-files.app/?screenshot=1" \
+            /tmp/homepage-hero.png
+          magick /tmp/homepage-hero.png -bordercolor black -border 2x2 assets/homepage-hero.png
+
+      - name: Commit screenshot update
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- assets/homepage-hero.png; then
+            echo "README screenshot is already current."
+            exit 0
+          fi
+
+          git config user.name "UFO Files"
+          git config user.email "297273897+ufo-files@users.noreply.github.com"
+          git add assets/homepage-hero.png
+          git commit -m "Refresh homepage hero screenshot"
+          git push

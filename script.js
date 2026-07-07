@@ -1,12 +1,23 @@
 const fieldCanvas = document.getElementById("field");
 const fieldCtx = fieldCanvas.getContext("2d");
-const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const screenshotMode = new URLSearchParams(window.location.search).has("screenshot");
+const prefersReducedMotion = screenshotMode || window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 let viewportWidth = 0;
 let viewportHeight = 0;
 let fieldPoints = [];
 let pointer = { x: 0, y: 0, active: false };
 let animationFrame = 0;
+let screenshotSeed = 0;
+
+function seededRandom() {
+  screenshotSeed = (screenshotSeed * 1664525 + 1013904223) >>> 0;
+  return screenshotSeed / 4294967296;
+}
+
+function fieldRandom() {
+  return screenshotMode ? seededRandom() : Math.random();
+}
 
 function resize() {
   const ratio = Math.min(window.devicePixelRatio || 1, 2);
@@ -25,14 +36,15 @@ function resize() {
 
 function buildFieldPoints() {
   const count = Math.max(42, Math.round((viewportWidth * viewportHeight) / 28000));
+  screenshotSeed = (viewportWidth * 73856093) ^ (viewportHeight * 19349663) ^ 0x9e3779b9;
   fieldPoints = Array.from({ length: count }, (_, index) => {
     const angle = (index / count) * Math.PI * 2;
     return {
-      x: Math.random() * viewportWidth,
-      y: Math.random() * viewportHeight,
-      vx: Math.cos(angle) * (0.08 + Math.random() * 0.12),
-      vy: Math.sin(angle) * (0.08 + Math.random() * 0.12),
-      r: 1 + Math.random() * 1.8,
+      x: fieldRandom() * viewportWidth,
+      y: fieldRandom() * viewportHeight,
+      vx: Math.cos(angle) * (0.08 + fieldRandom() * 0.12),
+      vy: Math.sin(angle) * (0.08 + fieldRandom() * 0.12),
+      r: 1 + fieldRandom() * 1.8,
       ox: 0,
       oy: 0,
       rx: 0,
