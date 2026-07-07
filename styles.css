@@ -224,7 +224,10 @@ h2 {
 
 .hero-actions .button-link {
   margin-top: 0;
-  font-size: 13px;
+  min-height: 0;
+  padding: .875rem .875rem;
+  font-size: 1rem;
+  line-height: 1;
 }
 
 .hero-actions .hero-primary-button {
@@ -242,8 +245,9 @@ h2 {
 .hero-actions .text-link {
   display: inline-flex;
   align-items: center;
-  min-height: 38px;
-  font-size: 13px;
+  min-height: 0;
+  font-size: 1rem;
+  line-height: 1;
 }
 
 .text-link {
