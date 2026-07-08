@@ -455,7 +455,7 @@ img.intro-logo {
   }
 
   .section-inner {
-    width: min(100% - 24px, 1180px);
+    width: min(100% - 36px, 1180px);
     padding: 84px 0;
   }
 
