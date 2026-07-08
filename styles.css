@@ -225,8 +225,8 @@ h2 {
 .hero-actions .button-link {
   margin-top: 0;
   min-height: 0;
-  padding: .875rem .875rem;
-  font-size: 1rem;
+  padding: 1rem;
+  font-size: 1.25rem;
   line-height: 1;
 }
 
