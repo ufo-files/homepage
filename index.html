@@ -13,7 +13,6 @@
     <a class="brand" href="#intro">UFO Files</a>
     <nav>
       <a href="#about">About</a>
-      <a href="#archive">Archive</a>
       <a href="#relationship-graph">Graph</a>
       <a href="#dog-whistle">Dog Whistle</a>
       <a href="#meditation">Meditation</a>
@@ -44,6 +43,11 @@
           <a class="button-link" href="https://github.com/ufo-files">View on GitHub</a>
         </div>
         <div class="metric-grid" aria-label="Project principles">
+          <div class="archive-metric" aria-live="polite">
+            <span class="archive-count-label">Documents archived</span>
+            <strong id="archive-count" class="archive-count" data-fallback-count="3561">Loading</strong>
+            <p id="archive-count-status" class="archive-count-status">Reading the latest archive manifest.</p>
+          </div>
           <div>
             <span class="metric">Open</span>
             <p>Source data and derived graph outputs are inspectable.</p>
@@ -56,22 +60,6 @@
             <span class="metric">Iterative</span>
             <p>The graph improves as new releases and corrections arrive.</p>
           </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="archive" class="section archive-section" aria-labelledby="archive-title">
-      <div class="section-inner archive-inner">
-        <div class="section-copy">
-          <p class="eyebrow">Archive</p>
-          <h2 id="archive-title">Source documents preserved as evidence.</h2>
-          <p>The archive keeps original files separate from derived transcripts, thumbnails, and graph data so every interpretation can point back to its source material.</p>
-          <a class="button-link" href="https://ufo-files.github.io/relationship-graph/">Explore Documents</a>
-        </div>
-        <div class="archive-count-panel" aria-live="polite">
-          <span class="archive-count-label">Documents archived</span>
-          <strong id="archive-count" class="archive-count" data-fallback-count="3561">Loading</strong>
-          <span id="archive-count-status" class="archive-count-status">Reading the latest archive manifest.</span>
         </div>
       </div>
     </section>
