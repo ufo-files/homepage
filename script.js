@@ -9,6 +9,7 @@ let fieldPoints = [];
 let pointer = { x: 0, y: 0, active: false };
 let animationFrame = 0;
 let screenshotSeed = 0;
+const archiveManifestUrl = "https://raw.githubusercontent.com/ufo-files/data-archive/main/manifest/archive-manifest.json";
 
 function seededRandom() {
   screenshotSeed = (screenshotSeed * 1664525 + 1013904223) >>> 0;
@@ -128,7 +129,57 @@ function draw() {
   }
 }
 
+function formatNumber(value) {
+  return new Intl.NumberFormat("en-US").format(value);
+}
+
+function formatManifestDate(value) {
+  const parsed = value ? new Date(value) : null;
+  if (!parsed || Number.isNaN(parsed.getTime())) {
+    return "";
+  }
+  return parsed.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    timeZone: "UTC",
+  });
+}
+
+async function loadArchiveCount() {
+  const countElement = document.getElementById("archive-count");
+  const statusElement = document.getElementById("archive-count-status");
+  if (!countElement || !statusElement) return;
+
+  const fallbackCount = Number.parseInt(countElement.dataset.fallbackCount || "", 10);
+  try {
+    const response = await fetch(`${archiveManifestUrl}?v=${Date.now()}`, { cache: "no-store" });
+    if (!response.ok) {
+      throw new Error(`manifest returned ${response.status}`);
+    }
+    const manifest = await response.json();
+    const count = Number.isFinite(manifest.count) ? manifest.count : manifest.records?.length;
+    if (!Number.isFinite(count)) {
+      throw new Error("manifest did not include a document count");
+    }
+    const generatedDate = formatManifestDate(manifest.generated_utc);
+    countElement.textContent = formatNumber(count);
+    statusElement.textContent = generatedDate
+      ? `Live from the archive manifest, updated ${generatedDate}.`
+      : "Live from the archive manifest.";
+  } catch (error) {
+    if (Number.isFinite(fallbackCount)) {
+      countElement.textContent = formatNumber(fallbackCount);
+      statusElement.textContent = "Last published archive count; live manifest unavailable.";
+    } else {
+      countElement.textContent = "Unavailable";
+      statusElement.textContent = "Archive manifest unavailable.";
+    }
+  }
+}
+
 resize();
+loadArchiveCount();
 if (!prefersReducedMotion && !animationFrame) {
   animationFrame = requestAnimationFrame(draw);
 }
