@@ -219,7 +219,6 @@ h2 {
   align-items: center;
   gap: 18px;
   margin-top: 34px;
-  text-transform: uppercase;
 }
 
 .hero-actions .button-link {
@@ -277,7 +276,6 @@ img.intro-logo {
   background: rgba(246, 245, 239, .72);
   color: var(--ink);
   font-size: clamp(15px, 1.5vw, 19px);
-  text-transform: uppercase;
   text-decoration: none;
   backdrop-filter: blur(10px);
 }
