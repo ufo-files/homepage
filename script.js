@@ -11,7 +11,36 @@ let animationFrame = 0;
 let screenshotSeed = 0;
 const archiveManifestUrl = "https://raw.githubusercontent.com/ufo-files/data-archive/main/manifest/archive-manifest.json";
 const archiveTreeUrl = "https://api.github.com/repos/ufo-files/data-archive/git/trees/main?recursive=1";
-const archiveDocumentPattern = /^originals\/.+\.pdf$/i;
+const archiveSourceFileExtensions = new Set([
+  ".pdf",
+  ".doc",
+  ".docx",
+  ".xls",
+  ".xlsx",
+  ".ppt",
+  ".pptx",
+  ".rtf",
+  ".txt",
+  ".csv",
+  ".html",
+  ".htm",
+  ".xml",
+  ".jpg",
+  ".jpeg",
+  ".png",
+  ".gif",
+  ".webp",
+  ".heic",
+  ".tif",
+  ".tiff",
+  ".mp4",
+  ".mov",
+  ".m4v",
+  ".avi",
+  ".mkv",
+  ".wmv",
+  ".webm",
+]);
 
 function seededRandom() {
   screenshotSeed = (screenshotSeed * 1664525 + 1013904223) >>> 0;
@@ -148,6 +177,14 @@ function formatManifestDate(value) {
   });
 }
 
+function isArchiveSourceFile(entry) {
+  if (entry?.type !== "blob" || !entry.path?.startsWith("originals/")) {
+    return false;
+  }
+  const extension = entry.path.slice(entry.path.lastIndexOf(".")).toLowerCase();
+  return archiveSourceFileExtensions.has(extension);
+}
+
 async function loadArchiveCount() {
   const countElement = document.getElementById("archive-count");
   const statusElement = document.getElementById("archive-count-status");
@@ -166,14 +203,12 @@ async function loadArchiveCount() {
     if (archiveTree.truncated || !Array.isArray(archiveTree.tree)) {
       throw new Error("archive tree was truncated or malformed");
     }
-    const count = archiveTree.tree.filter((entry) => {
-      return entry?.type === "blob" && archiveDocumentPattern.test(entry.path || "");
-    }).length;
+    const count = archiveTree.tree.filter(isArchiveSourceFile).length;
     if (!Number.isFinite(count) || count <= 0) {
-      throw new Error("archive tree did not include document files");
+      throw new Error("archive tree did not include source files");
     }
     countElement.textContent = formatNumber(count);
-    statusElement.textContent = "Live from the data-archive GitHub tree.";
+    statusElement.textContent = "Live count of PDFs, media, and source documents. ZIP bundles excluded.";
   } catch (treeError) {
     try {
       const response = await fetch(`${archiveManifestUrl}?v=${Date.now()}`, { cache: "no-store" });
