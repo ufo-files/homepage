@@ -226,7 +226,7 @@ h2 {
   margin-top: 0;
   min-height: 0;
   padding: 1rem;
-  font-size: 1.25rem;
+  font-size: clamp(18px, 2.1vw, 28px);
   line-height: 1;
 }
 
@@ -276,7 +276,7 @@ img.intro-logo {
   border: 1px solid currentColor;
   background: rgba(246, 245, 239, .72);
   color: var(--ink);
-  font-size: 12px;
+  font-size: clamp(15px, 1.5vw, 19px);
   text-transform: uppercase;
   text-decoration: none;
   backdrop-filter: blur(10px);
