@@ -10,6 +10,8 @@ let pointer = { x: 0, y: 0, active: false };
 let animationFrame = 0;
 let screenshotSeed = 0;
 const archiveManifestUrl = "https://raw.githubusercontent.com/ufo-files/data-archive/main/manifest/archive-manifest.json";
+const archiveTreeUrl = "https://api.github.com/repos/ufo-files/data-archive/git/trees/main?recursive=1";
+const archiveDocumentPattern = /^originals\/.+\.pdf$/i;
 
 function seededRandom() {
   screenshotSeed = (screenshotSeed * 1664525 + 1013904223) >>> 0;
@@ -153,27 +155,49 @@ async function loadArchiveCount() {
 
   const fallbackCount = Number.parseInt(countElement.dataset.fallbackCount || "", 10);
   try {
-    const response = await fetch(`${archiveManifestUrl}?v=${Date.now()}`, { cache: "no-store" });
-    if (!response.ok) {
-      throw new Error(`manifest returned ${response.status}`);
+    const treeResponse = await fetch(`${archiveTreeUrl}&v=${Date.now()}`, {
+      cache: "no-store",
+      headers: { Accept: "application/vnd.github+json" },
+    });
+    if (!treeResponse.ok) {
+      throw new Error(`archive tree returned ${treeResponse.status}`);
     }
-    const manifest = await response.json();
-    const count = Number.isFinite(manifest.count) ? manifest.count : manifest.records?.length;
-    if (!Number.isFinite(count)) {
-      throw new Error("manifest did not include a document count");
+    const archiveTree = await treeResponse.json();
+    if (archiveTree.truncated || !Array.isArray(archiveTree.tree)) {
+      throw new Error("archive tree was truncated or malformed");
     }
-    const generatedDate = formatManifestDate(manifest.generated_utc);
+    const count = archiveTree.tree.filter((entry) => {
+      return entry?.type === "blob" && archiveDocumentPattern.test(entry.path || "");
+    }).length;
+    if (!Number.isFinite(count) || count <= 0) {
+      throw new Error("archive tree did not include document files");
+    }
     countElement.textContent = formatNumber(count);
-    statusElement.textContent = generatedDate
-      ? `Live from the archive manifest, updated ${generatedDate}.`
-      : "Live from the archive manifest.";
-  } catch (error) {
-    if (Number.isFinite(fallbackCount)) {
-      countElement.textContent = formatNumber(fallbackCount);
-      statusElement.textContent = "Last published archive count; live manifest unavailable.";
-    } else {
-      countElement.textContent = "Unavailable";
-      statusElement.textContent = "Archive manifest unavailable.";
+    statusElement.textContent = "Live from the data-archive GitHub tree.";
+  } catch (treeError) {
+    try {
+      const response = await fetch(`${archiveManifestUrl}?v=${Date.now()}`, { cache: "no-store" });
+      if (!response.ok) {
+        throw new Error(`manifest returned ${response.status}`);
+      }
+      const manifest = await response.json();
+      const count = Number.isFinite(manifest.count) ? manifest.count : manifest.records?.length;
+      if (!Number.isFinite(count)) {
+        throw new Error("manifest did not include a document count");
+      }
+      const generatedDate = formatManifestDate(manifest.generated_utc);
+      countElement.textContent = formatNumber(count);
+      statusElement.textContent = generatedDate
+        ? `Live from the archive manifest, updated ${generatedDate}.`
+        : "Live from the archive manifest.";
+    } catch (manifestError) {
+      if (Number.isFinite(fallbackCount)) {
+        countElement.textContent = formatNumber(fallbackCount);
+        statusElement.textContent = "Last published archive count; live index unavailable.";
+      } else {
+        countElement.textContent = "Unavailable";
+        statusElement.textContent = "Archive index unavailable.";
+      }
     }
   }
 }
