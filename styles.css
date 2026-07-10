@@ -271,7 +271,7 @@ img.intro-logo {
   justify-content: center;
   min-height: 38px;
   margin-top: 28px;
-  padding: 0 14px;
+  padding: 0.75rem 1rem;
   border: 1px solid currentColor;
   background: rgba(246, 245, 239, .72);
   color: var(--ink);
