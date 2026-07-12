@@ -54,7 +54,6 @@ img {
   align-items: center;
   min-height: 64px;
   padding: 14px 18px;
-  border-bottom: 1px solid rgba(17, 17, 17, .1);
   background: rgba(246, 245, 239, .88);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
