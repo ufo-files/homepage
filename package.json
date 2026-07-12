@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "screenshots": "node scripts/capture_screenshots.js"
+    "export:graph-svg": "node scripts/export_relationship_graph_svg.js",
+    "screenshots": "npm run export:graph-svg && node scripts/capture_screenshots.js"
   },
   "devDependencies": {
     "@playwright/test": "^1.53.0"
