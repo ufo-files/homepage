@@ -99,8 +99,18 @@ img {
 }
 
 .brand {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
   font-size: 15px;
   text-transform: uppercase;
+}
+
+.brand-logo {
+  width: 48px;
+  height: 48px;
+  flex: 0 0 auto;
+  object-fit: contain;
 }
 
 .site-header nav {
@@ -280,14 +290,6 @@ h2 {
   min-height: 0;
   font-size: 1rem;
   line-height: 1;
-}
-
-img.intro-logo {
-  width: clamp(128px, 15vw, 240px);
-  height: auto;
-  max-height: min(28vh, 240px);
-  margin-bottom: 0;
-  object-fit: contain;
 }
 
 .text-link {
@@ -513,6 +515,11 @@ img.intro-logo {
     gap: 8px;
   }
 
+  .brand-logo {
+    width: 38px;
+    height: 38px;
+  }
+
   .site-header nav {
     justify-content: flex-start;
     gap: 10px;
@@ -525,12 +532,6 @@ img.intro-logo {
 
   .hero-inner {
     padding-bottom: 12vh;
-  }
-
-  img.intro-logo {
-    width: clamp(96px, 34vw, 150px);
-    max-height: 18vh;
-    margin-bottom: 18px;
   }
 
   .split-inner,
