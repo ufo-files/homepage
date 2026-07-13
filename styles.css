@@ -7,6 +7,7 @@
   --dark: #111;
   --paper: #fffef8;
   --font: "SF Mono", "IBM Plex Mono", "Roboto Mono", ui-monospace, monospace;
+  --support-banner-height: 32px;
 }
 
 * {
@@ -15,6 +16,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--support-banner-height) + 64px);
 }
 
 body {
@@ -42,9 +44,37 @@ img {
   background: var(--bg);
 }
 
-.site-header {
+.support-banner {
   position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
+  z-index: 11;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--support-banner-height);
+  padding: 0 16px;
+  background: var(--dark);
+  color: var(--bg);
+  font-size: 11px;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.support-banner p {
+  margin: 0;
+}
+
+.support-banner a {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.site-header {
+  position: fixed;
+  top: var(--support-banner-height);
   left: 0;
   right: 0;
   z-index: 10;
