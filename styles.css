@@ -190,7 +190,7 @@ h2 {
 
 h1 {
   font-size: clamp(64px, 17vw, 218px);
-  line-height: .8;
+  line-height: 1;
 }
 
 .hero-inner h1 {
