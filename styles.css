@@ -226,6 +226,7 @@ h1 {
 .hero-inner h1 {
   max-width: none;
   margin-left: -.055em;
+  margin-bottom: 0;
 }
 
 h2 {
