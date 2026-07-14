@@ -15,6 +15,38 @@ const archiveCountRefreshMs = 2 * 60 * 1000;
 const releaseArchiveManifestUrl = "https://raw.githubusercontent.com/ufo-files/data-archive/main/manifest/archive-manifest.json";
 const releaseArchiveReleasesUrl = "https://api.github.com/repos/ufo-files/data-archive/releases?per_page=100";
 const largeArchiveTreeUrl = "https://api.github.com/repos/ufo-files/data-archive-large-files/git/trees/main?recursive=1";
+const menuToggle = document.getElementById("menu-toggle");
+const siteHeader = document.getElementById("site-header");
+const siteNavigation = document.getElementById("site-navigation");
+const mobileMenu = window.matchMedia("(max-width: 820px)");
+
+function setMenuState(open = false) {
+  if (!menuToggle || !siteHeader || !siteNavigation) return;
+  const isMobile = mobileMenu.matches;
+  const isOpen = isMobile && open;
+  menuToggle.hidden = !isMobile;
+  menuToggle.setAttribute("aria-expanded", String(isOpen));
+  menuToggle.setAttribute("aria-label", isOpen ? "Close navigation" : "Open navigation");
+  siteNavigation.hidden = isMobile && !isOpen;
+  siteHeader.classList.toggle("menu-open", isOpen);
+}
+
+if (menuToggle && siteNavigation) {
+  setMenuState(false);
+  menuToggle.addEventListener("click", () => {
+    setMenuState(menuToggle.getAttribute("aria-expanded") !== "true");
+  });
+  siteNavigation.addEventListener("click", (event) => {
+    if (event.target.closest("a")) setMenuState(false);
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && menuToggle.getAttribute("aria-expanded") === "true") {
+      setMenuState(false);
+      menuToggle.focus();
+    }
+  });
+  mobileMenu.addEventListener("change", () => setMenuState(false));
+}
 
 function seededRandom() {
   screenshotSeed = (screenshotSeed * 1664525 + 1013904223) >>> 0;

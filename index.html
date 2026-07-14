@@ -12,12 +12,19 @@
   <aside class="support-banner" aria-label="Support Hush Line">
     <p>Protect whistleblowers. Support <a href="https://hushline.app">Hush Line</a>.</p>
   </aside>
-  <header class="site-header" aria-label="Primary navigation">
+  <header id="site-header" class="site-header" aria-label="Primary navigation">
     <a class="brand" href="#intro">
       <img class="brand-logo" src="assets/logo.svg" alt="" aria-hidden="true">
       <span>UFO Files</span>
     </a>
-    <nav>
+    <button id="menu-toggle" class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-navigation" aria-label="Open navigation" hidden>
+      <span class="menu-icon" aria-hidden="true">
+        <span></span>
+        <span></span>
+        <span></span>
+      </span>
+    </button>
+    <nav id="site-navigation">
       <a href="#about">About</a>
       <a href="#relationship-graph">Graph</a>
       <a href="#dog-whistle">Dog Whistle</a>
