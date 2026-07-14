@@ -151,8 +151,24 @@ function formatManifestDate(value) {
   });
 }
 
+function isArchivedSourcePath(path) {
+  if (typeof path !== "string" || !path.startsWith("originals/")) return false;
+  const parts = path.split("/");
+  if (parts[1] === "National-Archives-UAP-Bulk" && parts.length >= 3) {
+    if (!["audio", "documents", "pdfs", "photo", "video"].includes(parts[2])) return false;
+  }
+  const name = parts.at(-1).toLowerCase();
+  if (["checksums.sha256", "manifest.json", "manifest.tsv"].includes(name)) return false;
+  if (name.startsWith("failed-downloads") || name.startsWith("stopped-downloads")) return false;
+  return true;
+}
+
 function isArchivedOriginal(entry) {
-  return entry?.type === "blob" && entry.path?.startsWith("originals/");
+  return entry?.type === "blob" && isArchivedSourcePath(entry.path);
+}
+
+function isReleaseSourceAsset(asset) {
+  return isArchivedSourcePath(asset?.label);
 }
 
 async function loadReleaseArchiveManifestCount() {
@@ -164,9 +180,11 @@ async function loadReleaseArchiveManifestCount() {
     throw new Error(`release archive manifest returned ${response.status}`);
   }
   const manifest = await response.json();
-  const count = Number.isFinite(manifest.release_asset_count)
-    ? manifest.release_asset_count
-    : manifest.count;
+  const count = Number.isFinite(manifest.release_source_file_count)
+    ? manifest.release_source_file_count
+    : Number.isFinite(manifest.release_asset_count)
+      ? manifest.release_asset_count
+      : manifest.count;
   if (!Number.isFinite(count) || count < 0) {
     throw new Error("release archive manifest did not include a file count");
   }
@@ -190,7 +208,7 @@ async function loadLiveReleaseArchiveCount() {
     }
     releases.forEach((release) => {
       if (!Array.isArray(release.assets)) return;
-      count += release.assets.length;
+      count += release.assets.filter(isReleaseSourceAsset).length;
       release.assets.forEach((asset) => {
         const updatedAt = asset.updated_at || asset.created_at || "";
         if (updatedAt > latestUpdate) latestUpdate = updatedAt;
@@ -239,7 +257,7 @@ async function loadArchiveCount() {
     ]);
     countElement.textContent = formatNumber(releaseArchive.count + largeArchiveCount);
     const updated = releaseArchive.generatedDate ? ` Updated ${releaseArchive.generatedDate}.` : "";
-    statusElement.textContent = `${formatNumber(releaseArchive.count)} release assets + ${formatNumber(largeArchiveCount)} large files.${updated}`;
+    statusElement.textContent = `${formatNumber(releaseArchive.count)} Release files + ${formatNumber(largeArchiveCount)} large files.${updated}`;
   } catch (error) {
     countElement.textContent = "Unavailable";
     statusElement.textContent = "Combined archive indexes are temporarily unavailable.";

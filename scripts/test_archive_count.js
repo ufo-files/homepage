@@ -57,16 +57,32 @@ async function main() {
     if (url.includes("/releases?")) {
       return response(200, [
         {
-          assets: Array.from({ length: 1000 }, (_, index) => ({
-            id: index,
-            updated_at: "2026-07-14T04:34:19Z",
-          })),
+          assets: [
+            ...Array.from({ length: 980 }, (_, index) => ({
+              id: index,
+              label: `originals/Black-Vault-UFO/documents/source-${index}.txt`,
+              updated_at: "2026-07-14T04:34:19Z",
+            })),
+            ...Array.from({ length: 20 }, (_, index) => ({
+              id: 980 + index,
+              label: `originals/Black-Vault-UFO/metadata/failed-downloads-${index}.json`,
+              updated_at: "2026-07-14T04:34:19Z",
+            })),
+          ],
         },
         {
-          assets: Array.from({ length: 33 }, (_, index) => ({
-            id: 1000 + index,
-            updated_at: "2026-07-14T04:08:28Z",
-          })),
+          assets: [
+            ...Array.from({ length: 11 }, (_, index) => ({
+              id: 1000 + index,
+              label: `originals/AARO-UAP-Records/pdfs/source-${index}.pdf`,
+              updated_at: "2026-07-14T04:08:28Z",
+            })),
+            ...Array.from({ length: 22 }, (_, index) => ({
+              id: 1011 + index,
+              label: `originals/AARO-UAP-Records/metadata/stopped-downloads-${index}.json`,
+              updated_at: "2026-07-14T04:08:28Z",
+            })),
+          ],
         },
       ]);
     }
@@ -85,8 +101,8 @@ async function main() {
       ],
     });
   });
-  assert.equal(combined.elements["archive-count"].textContent, "1,035");
-  assert.match(combined.elements["archive-count-status"].textContent, /1,033 release assets \+ 2 large files/);
+  assert.equal(combined.elements["archive-count"].textContent, "993");
+  assert.match(combined.elements["archive-count-status"].textContent, /991 Release files \+ 2 large files/);
 
   const unavailable = await renderCount(async (url) => {
     if (url.includes("/releases?")) return response(500, {});
