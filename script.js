@@ -11,7 +11,7 @@ let animationFrame = 0;
 let screenshotSeed = 0;
 let archiveCountLoading = false;
 let cachedLargeArchiveCount = null;
-const archiveCountRefreshMs = 60 * 1000;
+const archiveCountRefreshMs = 2 * 60 * 1000;
 const releaseArchiveManifestUrl = "https://raw.githubusercontent.com/ufo-files/data-archive/main/manifest/archive-manifest.json";
 const releaseArchiveReleasesUrl = "https://api.github.com/repos/ufo-files/data-archive/releases?per_page=100";
 const largeArchiveTreeUrl = "https://api.github.com/repos/ufo-files/data-archive-large-files/git/trees/main?recursive=1";
@@ -229,18 +229,25 @@ async function loadReleaseArchiveCount() {
 
 async function loadLargeArchiveCount() {
   if (Number.isFinite(cachedLargeArchiveCount)) return cachedLargeArchiveCount;
-  const response = await fetch(`${largeArchiveTreeUrl}&v=${Date.now()}`, {
-    cache: "no-store",
-    headers: { Accept: "application/vnd.github+json" },
-  });
-  if (!response.ok) {
-    throw new Error(`large archive tree returned ${response.status}`);
+  try {
+    const response = await fetch(`${largeArchiveTreeUrl}&v=${Date.now()}`, {
+      cache: "no-store",
+      headers: { Accept: "application/vnd.github+json" },
+    });
+    if (!response.ok) {
+      throw new Error(`large archive tree returned ${response.status}`);
+    }
+    const archiveTree = await response.json();
+    if (archiveTree.truncated || !Array.isArray(archiveTree.tree)) {
+      throw new Error("large archive tree was truncated or malformed");
+    }
+    cachedLargeArchiveCount = archiveTree.tree.filter(isArchivedOriginal).length;
+  } catch (error) {
+    // A newly recreated or rate-limited large-file repository is a valid zero
+    // until a successful tree response gives us a count. Do not take down the
+    // independently available Release count.
+    cachedLargeArchiveCount = 0;
   }
-  const archiveTree = await response.json();
-  if (archiveTree.truncated || !Array.isArray(archiveTree.tree)) {
-    throw new Error("large archive tree was truncated or malformed");
-  }
-  cachedLargeArchiveCount = archiveTree.tree.filter(isArchivedOriginal).length;
   return cachedLargeArchiveCount;
 }
 

@@ -109,15 +109,23 @@ async function main() {
     if (url.includes("raw.githubusercontent.com")) return response(404, {});
     return response(500, {});
   });
-  assert.equal(unavailable.elements["archive-count"].textContent, "Unavailable");
+  assert.equal(unavailable.elements["archive-count"].textContent, "0");
+  assert.match(unavailable.elements["archive-count-status"].textContent, /0 Release files \+ 0 large files/);
 
   const live = await renderCount(async (url) => {
     if (url.includes("/releases?")) return response(500, {});
     if (url.includes("raw.githubusercontent.com")) return response(404, {});
     return response(200, { truncated: false, tree: [] });
   }, { screenshot: false });
-  assert.equal(live.interval.delay, 60 * 1000);
+  assert.equal(live.interval.delay, 2 * 60 * 1000);
   assert.equal(typeof live.listeners.visibilitychange, "function");
+
+  const rateLimitedLargeRepo = await renderCount(async (url) => {
+    if (url.includes("/releases?")) return response(200, []);
+    return response(403, {});
+  });
+  assert.equal(rateLimitedLargeRepo.elements["archive-count"].textContent, "0");
+  assert.match(rateLimitedLargeRepo.elements["archive-count-status"].textContent, /0 Release files \+ 0 large files/);
 
   const fallback = await renderCount(async (url) => {
     if (url.includes("/releases?")) return response(403, {});
