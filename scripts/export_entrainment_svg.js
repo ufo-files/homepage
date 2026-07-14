@@ -7,11 +7,12 @@ const WIDTH = 1438;
 const HEIGHT = 808;
 const TAU = Math.PI * 2;
 const CARRIER_PAIRS = Object.freeze([
-  Object.freeze({ left: 110, right: 111.5, difference: 1.5 }),
-  Object.freeze({ left: 165, right: 169, difference: 4 }),
-  Object.freeze({ left: 220, right: 226, difference: 6 }),
+  Object.freeze({ left: 100, right: 104, difference: 4 }),
 ]);
-const SNAPSHOT_TIME = 0.66;
+const SNAPSHOT_TIME = 0.5;
+const SCOPE_FRAME_COUNT = 7;
+const SCOPE_FRAME_STEP = 1 / 60;
+const LIVE_FRAME_TIME = SNAPSHOT_TIME + (SCOPE_FRAME_COUNT - 1) * SCOPE_FRAME_STEP;
 const SAMPLE_RATE = 48000;
 const PLAYBACK_SECONDS = 2;
 const CARRIER_LEVEL = 0.34 / Math.sqrt(CARRIER_PAIRS.length);
@@ -92,7 +93,7 @@ function buildPlaybackBuffer() {
 const PLAYBACK = buildPlaybackBuffer();
 
 function calculateLiveLevels() {
-  const start = Math.floor((SNAPSHOT_TIME + 17 * 0.0055) * SAMPLE_RATE);
+  const start = Math.floor(LIVE_FRAME_TIME * SAMPLE_RATE);
   const length = Math.min(2048, PLAYBACK.left.length - start);
   let leftSquare = 0;
   let rightSquare = 0;
@@ -124,13 +125,12 @@ function playbackSample(time, channel) {
 }
 
 function countPlaybackTurns(channel) {
-  const frameTime = SNAPSHOT_TIME + 17 * 0.0055;
   const windowSeconds = 0.052;
   let turns = 0;
-  let previous = playbackSample(frameTime, channel);
+  let previous = playbackSample(LIVE_FRAME_TIME, channel);
   let previousDirection = 0;
   for (let index = 1; index <= 231; index += 1) {
-    const sample = playbackSample(frameTime + (index / 231) * windowSeconds, channel);
+    const sample = playbackSample(LIVE_FRAME_TIME + (index / 231) * windowSeconds, channel);
     const direction = Math.sign(sample - previous);
     if (direction && previousDirection && direction !== previousDirection) turns += 1;
     if (direction) previousDirection = direction;
@@ -143,12 +143,11 @@ function channelPath(startX, endX, channel) {
   const points = [];
   const width = endX - startX;
   const windowSeconds = 0.052;
-  const frameTime = SNAPSHOT_TIME + 17 * 0.0055;
   let peak = 0;
   for (let x = 0; x <= width; x += 2) {
     const ratio = x / width;
     const envelope = Math.sin(Math.PI * ratio) * 0.2 + 0.8;
-    const sample = playbackSample(frameTime + ratio * windowSeconds, channel);
+    const sample = playbackSample(LIVE_FRAME_TIME + ratio * windowSeconds, channel);
     peak = Math.max(peak, Math.abs(sample));
     points.push({
       x: startX + x,
@@ -167,7 +166,7 @@ function vectorscopePath(frame) {
   const points = [];
   const samples = 260;
   const windowSeconds = 0.075;
-  const frameTime = SNAPSHOT_TIME + frame * 0.0055;
+  const frameTime = SNAPSHOT_TIME + frame * SCOPE_FRAME_STEP;
   let peak = 0;
 
   for (let index = 0; index < samples; index += 1) {
@@ -191,17 +190,16 @@ function buildSvg() {
   const gridLines = [127, 220, 313, 406, 499, 592, 685]
     .map((y) => `<line x1="41" y1="${y}" x2="1397" y2="${y}"/>`)
     .join("");
-  const scopeFrameCount = 18;
-  const scopeHistory = Array.from({ length: scopeFrameCount }, (_, index) => {
-    const recency = (index + 1) / scopeFrameCount;
+  const scopeHistory = Array.from({ length: SCOPE_FRAME_COUNT }, (_, index) => {
+    const recency = (index + 1) / SCOPE_FRAME_COUNT;
     const opacity = number(0.025 + recency * recency * 0.62);
     return `<path d="${vectorscopePath(index)}" opacity="${opacity}"/>`;
   }).join("");
 
   return `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="${WIDTH}" height="${HEIGHT}" viewBox="0 0 ${WIDTH} ${HEIGHT}" preserveAspectRatio="xMidYMid meet" data-state="playing">
-  <title>Entrainment Figure 3B program playing with live PCM telemetry</title>
-  <desc>Deterministic vector snapshot of the active three-pair stereo carriers, differential amplitude contours, filtered pink layer, and fading mid-side vectorscope history.</desc>
+  <title>Entrainment reference program playing with live PCM telemetry</title>
+  <desc>Deterministic vector snapshot of the active 100 and 104 hertz stereo carriers, differential amplitude contour, filtered pink layer, and fading mid-side vectorscope history.</desc>
   <rect width="${WIDTH}" height="${HEIGHT}" fill="#f6f5ef"/>
   <g fill="none" stroke="#111" stroke-width="1" stroke-opacity=".075" vector-effect="non-scaling-stroke">${gridLines}</g>
   <g fill="#111" fill-opacity=".58" font-family="SFMono-Regular, SF Mono, ui-monospace, monospace" font-size="10">
@@ -230,9 +228,7 @@ const svg = buildSvg();
 if (/<image\b/i.test(svg)) throw new Error("Entrainment SVG must not contain raster images.");
 if (!/<path\b/i.test(svg)) throw new Error("Entrainment SVG contains no signal geometry.");
 for (const channel of ["left", "right"]) {
-  if (countPlaybackTurns(channel) < 14) {
-    throw new Error(`Entrainment ${channel} playback trace is not sufficiently complex.`);
-  }
+  if (countPlaybackTurns(channel) < 8) throw new Error(`Entrainment ${channel} playback trace is incomplete.`);
 }
 fs.writeFileSync(OUTPUT_PATH, svg);
 console.log(`Wrote ${path.relative(ROOT, OUTPUT_PATH)}`);
