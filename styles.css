@@ -128,7 +128,7 @@ img {
   width: 40px;
   height: 40px;
   padding: 0;
-  border: 1px solid var(--line);
+  border: 0;
   border-radius: 0;
   background: rgba(246, 245, 239, .78);
   color: var(--ink);
@@ -138,12 +138,7 @@ img {
   -webkit-backdrop-filter: blur(12px);
 }
 
-.menu-toggle:hover {
-  border-color: var(--ink);
-}
-
 .menu-toggle:focus-visible {
-  border-color: var(--ink);
   outline: 2px solid currentColor;
   outline-offset: 2px;
 }
