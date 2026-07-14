@@ -195,12 +195,17 @@ img {
 }
 
 .graph-image,
-.dog-image {
+.dog-image,
+.entrainment-image {
   background: var(--bg);
 }
 
 .meditation-image {
   background: #050505;
+}
+
+.entrainment-image {
+  transform: translateX(15%);
 }
 
 .hero-visual .preview-label {
@@ -483,6 +488,10 @@ h2 {
   max-width: 640px;
 }
 
+#entrainment .section-copy {
+  max-width: 620px;
+}
+
 .contact-section {
   min-height: 86vh;
   border-top: 0;
@@ -573,6 +582,10 @@ h2 {
   .preview-image {
     width: 160%;
     left: -30%;
+  }
+
+  .entrainment-image {
+    transform: none;
   }
 }
 

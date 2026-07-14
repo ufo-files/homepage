@@ -21,6 +21,7 @@ The page is a single static document with sections for:
 - Relationship Graph
 - Dog Whistle
 - Meditation
+- Entrainment
 - Contact
 
 The Team section is intentionally removed until the real team content is ready.
