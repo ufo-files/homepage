@@ -21,6 +21,7 @@ The page is a single static document with sections for:
 - Relationship Graph
 - Dog Whistle
 - Meditation
+- Entrainment
 - Contact
 
 The Team section is intentionally removed until the real team content is ready.
@@ -44,7 +45,10 @@ http://127.0.0.1:8124
 - `index.html`: page structure and links
 - `styles.css`: layout, typography, section styling, responsive behavior
 - `script.js`: ambient background field and pointer interaction
-- `assets/`: app preview images and README screenshot
+- `assets/`: generated app previews and README screenshot. Relationship Graph
+  and Entrainment previews are SVGs rebuilt by `npm run screenshots`; the
+  Entrainment preview depicts the active Reference playback state from
+  deterministic carrier, contour, filtered pink-noise, and stereo-pan samples.
 - `CNAME`: GitHub Pages custom domain
 
 ## Deployment
