@@ -10,8 +10,10 @@ let pointer = { x: 0, y: 0, active: false };
 let animationFrame = 0;
 let screenshotSeed = 0;
 let archiveCountLoading = false;
-const archiveCountRefreshMs = 5 * 60 * 1000;
+let cachedLargeArchiveCount = null;
+const archiveCountRefreshMs = 60 * 1000;
 const releaseArchiveManifestUrl = "https://raw.githubusercontent.com/ufo-files/data-archive/main/manifest/archive-manifest.json";
+const releaseArchiveReleasesUrl = "https://api.github.com/repos/ufo-files/data-archive/releases?per_page=100";
 const largeArchiveTreeUrl = "https://api.github.com/repos/ufo-files/data-archive-large-files/git/trees/main?recursive=1";
 
 function seededRandom() {
@@ -153,7 +155,7 @@ function isArchivedOriginal(entry) {
   return entry?.type === "blob" && entry.path?.startsWith("originals/");
 }
 
-async function loadReleaseArchiveCount() {
+async function loadReleaseArchiveManifestCount() {
   const response = await fetch(`${releaseArchiveManifestUrl}?v=${Date.now()}`, { cache: "no-store" });
   if (response.status === 404) {
     return { count: 0, generatedDate: "" };
@@ -171,7 +173,44 @@ async function loadReleaseArchiveCount() {
   return { count, generatedDate: formatManifestDate(manifest.generated_utc) };
 }
 
+async function loadLiveReleaseArchiveCount() {
+  let count = 0;
+  let latestUpdate = "";
+  for (let page = 1; page <= 10; page += 1) {
+    const response = await fetch(`${releaseArchiveReleasesUrl}&page=${page}&v=${Date.now()}`, {
+      cache: "no-store",
+      headers: { Accept: "application/vnd.github+json" },
+    });
+    if (!response.ok) {
+      throw new Error(`release archive inventory returned ${response.status}`);
+    }
+    const releases = await response.json();
+    if (!Array.isArray(releases)) {
+      throw new Error("release archive inventory was malformed");
+    }
+    releases.forEach((release) => {
+      if (!Array.isArray(release.assets)) return;
+      count += release.assets.length;
+      release.assets.forEach((asset) => {
+        const updatedAt = asset.updated_at || asset.created_at || "";
+        if (updatedAt > latestUpdate) latestUpdate = updatedAt;
+      });
+    });
+    if (releases.length < 100) break;
+  }
+  return { count, generatedDate: formatManifestDate(latestUpdate) };
+}
+
+async function loadReleaseArchiveCount() {
+  try {
+    return await loadLiveReleaseArchiveCount();
+  } catch (error) {
+    return loadReleaseArchiveManifestCount();
+  }
+}
+
 async function loadLargeArchiveCount() {
+  if (Number.isFinite(cachedLargeArchiveCount)) return cachedLargeArchiveCount;
   const response = await fetch(`${largeArchiveTreeUrl}&v=${Date.now()}`, {
     cache: "no-store",
     headers: { Accept: "application/vnd.github+json" },
@@ -183,7 +222,8 @@ async function loadLargeArchiveCount() {
   if (archiveTree.truncated || !Array.isArray(archiveTree.tree)) {
     throw new Error("large archive tree was truncated or malformed");
   }
-  return archiveTree.tree.filter(isArchivedOriginal).length;
+  cachedLargeArchiveCount = archiveTree.tree.filter(isArchivedOriginal).length;
+  return cachedLargeArchiveCount;
 }
 
 async function loadArchiveCount() {
