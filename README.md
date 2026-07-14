@@ -47,7 +47,9 @@ http://127.0.0.1:8124
 - `script.js`: ambient background field and pointer interaction
 - `assets/`: generated app previews and README screenshot. Relationship Graph
   and Entrainment previews are SVGs rebuilt by `npm run screenshots`; the
-  Entrainment preview depicts its active playback state.
+  Entrainment preview depicts the active three-pair Figure 3B playback state
+  from deterministic carrier, contour, filtered pink-noise, and stereo-pan
+  samples.
 - `CNAME`: GitHub Pages custom domain
 
 ## Deployment
