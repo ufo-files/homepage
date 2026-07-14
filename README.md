@@ -46,7 +46,8 @@ http://127.0.0.1:8124
 - `styles.css`: layout, typography, section styling, responsive behavior
 - `script.js`: ambient background field and pointer interaction
 - `assets/`: generated app previews and README screenshot. Relationship Graph
-  and Entrainment previews are SVGs rebuilt by `npm run screenshots`.
+  and Entrainment previews are SVGs rebuilt by `npm run screenshots`; the
+  Entrainment preview depicts its active playback state.
 - `CNAME`: GitHub Pages custom domain
 
 ## Deployment

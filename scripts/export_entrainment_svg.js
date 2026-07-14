@@ -11,6 +11,12 @@ const RIGHT_FREQUENCY = 104;
 const SNAPSHOT_TIME = 0.66;
 const CENTER = { x: WIDTH / 2, y: HEIGHT / 2 };
 const SCOPE_RADIUS = 170;
+const LIVE_LEVELS = Object.freeze({
+  left: "-22.9 DBFS",
+  right: "-23.0 DBFS",
+  difference: "-21.0 DBFS",
+  correlation: "0.23",
+});
 
 function number(value) {
   return Number(value.toFixed(2));
@@ -42,7 +48,7 @@ function vectorscopePath(frame) {
   const points = [];
   const samples = 260;
   const windowSeconds = 0.075;
-  const frameTime = SNAPSHOT_TIME + frame * 0.011;
+  const frameTime = SNAPSHOT_TIME + frame * 0.0055;
   let peak = 0;
 
   for (let index = 0; index < samples; index += 1) {
@@ -66,20 +72,22 @@ function buildSvg() {
   const gridLines = [127, 220, 313, 406, 499, 592, 685]
     .map((y) => `<line x1="41" y1="${y}" x2="1397" y2="${y}"/>`)
     .join("");
-  const scopeHistory = Array.from({ length: 7 }, (_, index) => {
-    const recency = (index + 1) / 7;
-    const opacity = number(0.05 + recency * recency * 0.62);
+  const scopeFrameCount = 18;
+  const scopeHistory = Array.from({ length: scopeFrameCount }, (_, index) => {
+    const recency = (index + 1) / scopeFrameCount;
+    const opacity = number(0.025 + recency * recency * 0.62);
     return `<path d="${vectorscopePath(index)}" opacity="${opacity}"/>`;
   }).join("");
 
   return `<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="${WIDTH}" height="${HEIGHT}" viewBox="0 0 ${WIDTH} ${HEIGHT}" preserveAspectRatio="xMidYMid meet">
-  <title>Entrainment 100 and 104 hertz reference signal with mid-side vectorscope</title>
+<svg xmlns="http://www.w3.org/2000/svg" width="${WIDTH}" height="${HEIGHT}" viewBox="0 0 ${WIDTH} ${HEIGHT}" preserveAspectRatio="xMidYMid meet" data-state="playing">
+  <title>Entrainment reference signal playing with live PCM telemetry</title>
+  <desc>Deterministic vector snapshot of the active 100 and 104 hertz stereo signal and its fading mid-side vectorscope history.</desc>
   <rect width="${WIDTH}" height="${HEIGHT}" fill="#f6f5ef"/>
   <g fill="none" stroke="#111" stroke-width="1" stroke-opacity=".075" vector-effect="non-scaling-stroke">${gridLines}</g>
   <g fill="#111" fill-opacity=".58" font-family="SFMono-Regular, SF Mono, ui-monospace, monospace" font-size="10">
-    <text x="41" y="130">L  MODEL  100 HZ</text>
-    <text x="1397" y="130" text-anchor="end">R  MODEL  104 HZ</text>
+    <text x="41" y="130">L  LIVE  ${LIVE_LEVELS.left}</text>
+    <text x="1397" y="130" text-anchor="end">R  LIVE  ${LIVE_LEVELS.right}</text>
   </g>
   <g fill="none" stroke="#111" vector-effect="non-scaling-stroke">
     <circle cx="${CENTER.x}" cy="${CENTER.y}" r="${SCOPE_RADIUS}" stroke-opacity=".18"/>
@@ -92,6 +100,8 @@ function buildSvg() {
     <text x="${CENTER.x + SCOPE_RADIUS + 7}" y="${CENTER.y + 3}">M</text>
     <text x="${CENTER.x}" y="${CENTER.y - SCOPE_RADIUS - 7}" text-anchor="middle">S</text>
     <text x="${CENTER.x}" y="${CENTER.y + SCOPE_RADIUS + 16}" text-anchor="middle">NORMALIZED</text>
+    <text x="41" y="${HEIGHT - 36}">DIFF  ${LIVE_LEVELS.difference}</text>
+    <text x="1397" y="${HEIGHT - 36}" text-anchor="end">CORR  ${LIVE_LEVELS.correlation}</text>
   </g>
 </svg>
 `;
