@@ -6,7 +6,8 @@
     "export:graph-svg": "node scripts/export_relationship_graph_svg.js",
     "export:entrainment-svg": "node scripts/export_entrainment_svg.js",
     "export:previews": "npm run export:graph-svg && npm run export:entrainment-svg",
-    "screenshots": "npm run export:previews && node scripts/capture_screenshots.js"
+    "screenshots": "npm run export:previews && node scripts/capture_screenshots.js",
+    "test": "node scripts/test_archive_count.js"
   },
   "devDependencies": {
     "@playwright/test": "^1.53.0"

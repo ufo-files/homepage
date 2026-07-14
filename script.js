@@ -9,38 +9,10 @@ let fieldPoints = [];
 let pointer = { x: 0, y: 0, active: false };
 let animationFrame = 0;
 let screenshotSeed = 0;
-const archiveManifestUrl = "https://raw.githubusercontent.com/ufo-files/data-archive/main/manifest/archive-manifest.json";
-const archiveTreeUrl = "https://api.github.com/repos/ufo-files/data-archive/git/trees/main?recursive=1";
-const archiveSourceFileExtensions = new Set([
-  ".pdf",
-  ".doc",
-  ".docx",
-  ".xls",
-  ".xlsx",
-  ".ppt",
-  ".pptx",
-  ".rtf",
-  ".txt",
-  ".csv",
-  ".html",
-  ".htm",
-  ".xml",
-  ".jpg",
-  ".jpeg",
-  ".png",
-  ".gif",
-  ".webp",
-  ".heic",
-  ".tif",
-  ".tiff",
-  ".mp4",
-  ".mov",
-  ".m4v",
-  ".avi",
-  ".mkv",
-  ".wmv",
-  ".webm",
-]);
+let archiveCountLoading = false;
+const archiveCountRefreshMs = 5 * 60 * 1000;
+const releaseArchiveManifestUrl = "https://raw.githubusercontent.com/ufo-files/data-archive/main/manifest/archive-manifest.json";
+const largeArchiveTreeUrl = "https://api.github.com/repos/ufo-files/data-archive-large-files/git/trees/main?recursive=1";
 
 function seededRandom() {
   screenshotSeed = (screenshotSeed * 1664525 + 1013904223) >>> 0;
@@ -177,68 +149,73 @@ function formatManifestDate(value) {
   });
 }
 
-function isArchiveSourceFile(entry) {
-  if (entry?.type !== "blob" || !entry.path?.startsWith("originals/")) {
-    return false;
+function isArchivedOriginal(entry) {
+  return entry?.type === "blob" && entry.path?.startsWith("originals/");
+}
+
+async function loadReleaseArchiveCount() {
+  const response = await fetch(`${releaseArchiveManifestUrl}?v=${Date.now()}`, { cache: "no-store" });
+  if (response.status === 404) {
+    return { count: 0, generatedDate: "" };
   }
-  const extension = entry.path.slice(entry.path.lastIndexOf(".")).toLowerCase();
-  return archiveSourceFileExtensions.has(extension);
+  if (!response.ok) {
+    throw new Error(`release archive manifest returned ${response.status}`);
+  }
+  const manifest = await response.json();
+  const count = Number.isFinite(manifest.release_asset_count)
+    ? manifest.release_asset_count
+    : manifest.count;
+  if (!Number.isFinite(count) || count < 0) {
+    throw new Error("release archive manifest did not include a file count");
+  }
+  return { count, generatedDate: formatManifestDate(manifest.generated_utc) };
+}
+
+async function loadLargeArchiveCount() {
+  const response = await fetch(`${largeArchiveTreeUrl}&v=${Date.now()}`, {
+    cache: "no-store",
+    headers: { Accept: "application/vnd.github+json" },
+  });
+  if (!response.ok) {
+    throw new Error(`large archive tree returned ${response.status}`);
+  }
+  const archiveTree = await response.json();
+  if (archiveTree.truncated || !Array.isArray(archiveTree.tree)) {
+    throw new Error("large archive tree was truncated or malformed");
+  }
+  return archiveTree.tree.filter(isArchivedOriginal).length;
 }
 
 async function loadArchiveCount() {
   const countElement = document.getElementById("archive-count");
   const statusElement = document.getElementById("archive-count-status");
-  if (!countElement || !statusElement) return;
+  if (!countElement || !statusElement || archiveCountLoading) return;
 
-  const fallbackCount = Number.parseInt(countElement.dataset.fallbackCount || "", 10);
+  archiveCountLoading = true;
   try {
-    const treeResponse = await fetch(`${archiveTreeUrl}&v=${Date.now()}`, {
-      cache: "no-store",
-      headers: { Accept: "application/vnd.github+json" },
-    });
-    if (!treeResponse.ok) {
-      throw new Error(`archive tree returned ${treeResponse.status}`);
-    }
-    const archiveTree = await treeResponse.json();
-    if (archiveTree.truncated || !Array.isArray(archiveTree.tree)) {
-      throw new Error("archive tree was truncated or malformed");
-    }
-    const count = archiveTree.tree.filter(isArchiveSourceFile).length;
-    if (!Number.isFinite(count) || count <= 0) {
-      throw new Error("archive tree did not include source files");
-    }
-    countElement.textContent = formatNumber(count);
-    statusElement.textContent = "Live count of PDFs, media, and source documents. ZIP bundles excluded.";
-  } catch (treeError) {
-    try {
-      const response = await fetch(`${archiveManifestUrl}?v=${Date.now()}`, { cache: "no-store" });
-      if (!response.ok) {
-        throw new Error(`manifest returned ${response.status}`);
-      }
-      const manifest = await response.json();
-      const count = Number.isFinite(manifest.count) ? manifest.count : manifest.records?.length;
-      if (!Number.isFinite(count)) {
-        throw new Error("manifest did not include a document count");
-      }
-      const generatedDate = formatManifestDate(manifest.generated_utc);
-      countElement.textContent = formatNumber(count);
-      statusElement.textContent = generatedDate
-        ? `Live from the archive manifest, updated ${generatedDate}.`
-        : "Live from the archive manifest.";
-    } catch (manifestError) {
-      if (Number.isFinite(fallbackCount)) {
-        countElement.textContent = formatNumber(fallbackCount);
-        statusElement.textContent = "Last published archive count; live index unavailable.";
-      } else {
-        countElement.textContent = "Unavailable";
-        statusElement.textContent = "Archive index unavailable.";
-      }
-    }
+    const [releaseArchive, largeArchiveCount] = await Promise.all([
+      loadReleaseArchiveCount(),
+      loadLargeArchiveCount(),
+    ]);
+    countElement.textContent = formatNumber(releaseArchive.count + largeArchiveCount);
+    const updated = releaseArchive.generatedDate ? ` Updated ${releaseArchive.generatedDate}.` : "";
+    statusElement.textContent = `${formatNumber(releaseArchive.count)} release assets + ${formatNumber(largeArchiveCount)} large files.${updated}`;
+  } catch (error) {
+    countElement.textContent = "Unavailable";
+    statusElement.textContent = "Combined archive indexes are temporarily unavailable.";
+  } finally {
+    archiveCountLoading = false;
   }
 }
 
 resize();
 loadArchiveCount();
+if (!screenshotMode) {
+  window.setInterval(loadArchiveCount, archiveCountRefreshMs);
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden) loadArchiveCount();
+  });
+}
 if (!prefersReducedMotion && !animationFrame) {
   animationFrame = requestAnimationFrame(draw);
 }
