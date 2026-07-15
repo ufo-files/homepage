@@ -85,9 +85,15 @@ async function main() {
 
   const fifthAnnouncement = await renderCount(async () => response(500, {}), {
     screenshot: false,
-    random: 0.99,
+    random: 0.75,
   });
   assert.equal(fifthAnnouncement.elements.announcement.textContent, "Question everything.");
+
+  const sixthAnnouncement = await renderCount(async () => response(500, {}), {
+    screenshot: false,
+    random: 0.99,
+  });
+  assert.equal(sixthAnnouncement.elements.announcement.textContent, "Prepare to suspend disbelief.");
 
   const unavailable = await renderCount(async () => response(500, {}));
   assert.equal(unavailable.elements["archive-count"].textContent, "Unavailable");
