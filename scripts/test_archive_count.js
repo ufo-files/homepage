@@ -74,6 +74,7 @@ async function main() {
     "Prepare to suspend disbelief.",
     "Trust no one.",
     "Open your eyes.",
+    "Free your mind.",
   ];
   for (const [index, expected] of announcementMessages.entries()) {
     const rendered = await renderCount(async () => response(500, {}), {
