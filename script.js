@@ -17,7 +17,12 @@ const siteHeader = document.getElementById("site-header");
 const siteNavigation = document.getElementById("site-navigation");
 const mobileMenu = window.matchMedia("(max-width: 820px)");
 const announcement = document.querySelector(".announcement-banner p");
-const announcementMessages = ["Happy seeking.", "Enjoy your trip.", "Explore freely."];
+const announcementMessages = [
+  "Happy seeking.",
+  "Enjoy your trip.",
+  "Explore freely.",
+  "Welcome to the rabbit hole.",
+];
 
 if (announcement) {
   const messageIndex = screenshotMode ? 0 : Math.floor(Math.random() * announcementMessages.length);

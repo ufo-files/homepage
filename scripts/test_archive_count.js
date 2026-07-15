@@ -67,15 +67,21 @@ async function main() {
 
   const secondAnnouncement = await renderCount(async () => response(500, {}), {
     screenshot: false,
-    random: 0.5,
+    random: 0.3,
   });
   assert.equal(secondAnnouncement.elements.announcement.textContent, "Enjoy your trip.");
 
   const thirdAnnouncement = await renderCount(async () => response(500, {}), {
     screenshot: false,
-    random: 0.99,
+    random: 0.6,
   });
   assert.equal(thirdAnnouncement.elements.announcement.textContent, "Explore freely.");
+
+  const fourthAnnouncement = await renderCount(async () => response(500, {}), {
+    screenshot: false,
+    random: 0.99,
+  });
+  assert.equal(fourthAnnouncement.elements.announcement.textContent, "Welcome to the rabbit hole.");
 
   const unavailable = await renderCount(async () => response(500, {}));
   assert.equal(unavailable.elements["archive-count"].textContent, "Unavailable");
