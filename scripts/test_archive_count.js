@@ -69,7 +69,7 @@ async function main() {
     async () => response(200, { truncated: false, tree: [] }),
     { screenshot: false },
   );
-  assert.equal(live.interval.delay, 2 * 60 * 1000);
+  assert.equal(live.interval.delay, 60 * 1000);
   assert.equal(typeof live.listeners.visibilitychange, "function");
 
   const malformed = await renderCount(async () => response(200, { count: "1675" }));
