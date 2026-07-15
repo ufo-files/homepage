@@ -25,6 +25,7 @@ const announcementMessages = [
   "Question everything.",
   "Prepare to suspend disbelief.",
   "Trust no one.",
+  "Open your eyes.",
 ];
 
 if (announcement) {
