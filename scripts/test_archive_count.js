@@ -65,35 +65,22 @@ async function main() {
   assert.match(liveCount.elements["archive-count-status"].textContent, /July 15, 2026/);
   assert.equal(liveCount.elements.announcement.textContent, "Happy seeking.");
 
-  const secondAnnouncement = await renderCount(async () => response(500, {}), {
-    screenshot: false,
-    random: 0.25,
-  });
-  assert.equal(secondAnnouncement.elements.announcement.textContent, "Enjoy your trip.");
-
-  const thirdAnnouncement = await renderCount(async () => response(500, {}), {
-    screenshot: false,
-    random: 0.45,
-  });
-  assert.equal(thirdAnnouncement.elements.announcement.textContent, "Explore freely.");
-
-  const fourthAnnouncement = await renderCount(async () => response(500, {}), {
-    screenshot: false,
-    random: 0.65,
-  });
-  assert.equal(fourthAnnouncement.elements.announcement.textContent, "Welcome to the rabbit hole.");
-
-  const fifthAnnouncement = await renderCount(async () => response(500, {}), {
-    screenshot: false,
-    random: 0.75,
-  });
-  assert.equal(fifthAnnouncement.elements.announcement.textContent, "Question everything.");
-
-  const sixthAnnouncement = await renderCount(async () => response(500, {}), {
-    screenshot: false,
-    random: 0.99,
-  });
-  assert.equal(sixthAnnouncement.elements.announcement.textContent, "Prepare to suspend disbelief.");
+  const announcementMessages = [
+    "Happy seeking.",
+    "Enjoy your trip.",
+    "Explore freely.",
+    "Welcome to the rabbit hole.",
+    "Question everything.",
+    "Prepare to suspend disbelief.",
+    "Trust no one.",
+  ];
+  for (const [index, expected] of announcementMessages.entries()) {
+    const rendered = await renderCount(async () => response(500, {}), {
+      screenshot: false,
+      random: (index + 0.5) / announcementMessages.length,
+    });
+    assert.equal(rendered.elements.announcement.textContent, expected);
+  }
 
   const unavailable = await renderCount(async () => response(500, {}));
   assert.equal(unavailable.elements["archive-count"].textContent, "Unavailable");

@@ -24,6 +24,7 @@ const announcementMessages = [
   "Welcome to the rabbit hole.",
   "Question everything.",
   "Prepare to suspend disbelief.",
+  "Trust no one.",
 ];
 
 if (announcement) {
