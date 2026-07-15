@@ -16,6 +16,13 @@ const menuToggle = document.getElementById("menu-toggle");
 const siteHeader = document.getElementById("site-header");
 const siteNavigation = document.getElementById("site-navigation");
 const mobileMenu = window.matchMedia("(max-width: 820px)");
+const announcement = document.querySelector(".announcement-banner p");
+const announcementMessages = ["Happy seeking.", "Enjoy your trip.", "Explore freely."];
+
+if (announcement) {
+  const messageIndex = screenshotMode ? 0 : Math.floor(Math.random() * announcementMessages.length);
+  announcement.textContent = announcementMessages[messageIndex];
+}
 
 function setMenuState(open = false) {
   if (!menuToggle || !siteHeader || !siteNavigation) return;

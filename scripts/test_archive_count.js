@@ -12,7 +12,7 @@ function response(status, payload) {
   };
 }
 
-async function renderCount(fetch, { screenshot = true } = {}) {
+async function renderCount(fetch, { screenshot = true, random = 0 } = {}) {
   const context2d = new Proxy({}, { get: () => () => {} });
   const listeners = {};
   let interval = null;
@@ -20,6 +20,7 @@ async function renderCount(fetch, { screenshot = true } = {}) {
     field: { getContext: () => context2d, style: {} },
     "archive-count": { textContent: "Loading" },
     "archive-count-status": { textContent: "Loading" },
+    announcement: { textContent: "Happy seeking." },
   };
   const window = {
     devicePixelRatio: 1,
@@ -38,12 +39,14 @@ async function renderCount(fetch, { screenshot = true } = {}) {
     document: {
       hidden: false,
       getElementById: (id) => elements[id] || null,
+      querySelector: (selector) => selector === ".announcement-banner p" ? elements.announcement : null,
       addEventListener: (name, callback) => {
         listeners[name] = callback;
       },
     },
     fetch,
     Intl,
+    Math: Object.assign(Object.create(Math), { random: () => random }),
     URLSearchParams,
     window,
   });
@@ -60,6 +63,19 @@ async function main() {
   assert.equal(liveCount.elements["archive-count"].textContent, "1,675");
   assert.match(liveCount.elements["archive-count-status"].textContent, /Live Data Archive index/);
   assert.match(liveCount.elements["archive-count-status"].textContent, /July 15, 2026/);
+  assert.equal(liveCount.elements.announcement.textContent, "Happy seeking.");
+
+  const secondAnnouncement = await renderCount(async () => response(500, {}), {
+    screenshot: false,
+    random: 0.5,
+  });
+  assert.equal(secondAnnouncement.elements.announcement.textContent, "Enjoy your trip.");
+
+  const thirdAnnouncement = await renderCount(async () => response(500, {}), {
+    screenshot: false,
+    random: 0.99,
+  });
+  assert.equal(thirdAnnouncement.elements.announcement.textContent, "Explore freely.");
 
   const unavailable = await renderCount(async () => response(500, {}));
   assert.equal(unavailable.elements["archive-count"].textContent, "Unavailable");
