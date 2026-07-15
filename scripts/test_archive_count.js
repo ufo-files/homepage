@@ -75,6 +75,7 @@ async function main() {
     "Trust no one.",
     "Open your eyes.",
     "Free your mind.",
+    "Tune in.",
   ];
   for (const [index, expected] of announcementMessages.entries()) {
     const rendered = await renderCount(async () => response(500, {}), {

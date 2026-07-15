@@ -27,6 +27,7 @@ const announcementMessages = [
   "Trust no one.",
   "Open your eyes.",
   "Free your mind.",
+  "Tune in.",
 ];
 
 if (announcement) {
