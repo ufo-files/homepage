@@ -10,11 +10,8 @@ let pointer = { x: 0, y: 0, active: false };
 let animationFrame = 0;
 let screenshotSeed = 0;
 let archiveCountLoading = false;
-let cachedLargeArchive = null;
 const archiveCountRefreshMs = 2 * 60 * 1000;
-const largeArchiveCacheMs = 10 * 60 * 1000;
-const standardArchiveTreeUrl = "https://api.github.com/repos/ufo-files/data-archive/git/trees/main?recursive=1";
-const largeArchiveTreeUrl = "https://api.github.com/repos/ufo-files/data-archive-large-files/git/trees/main?recursive=1";
+const archiveCountUrl = "https://raw.githubusercontent.com/ufo-files/data-archive/archive-count/archive-count.json";
 const menuToggle = document.getElementById("menu-toggle");
 const siteHeader = document.getElementById("site-header");
 const siteNavigation = document.getElementById("site-navigation");
@@ -170,49 +167,31 @@ function formatNumber(value) {
   return new Intl.NumberFormat("en-US").format(value);
 }
 
-function isArchivedSourcePath(path) {
-  if (typeof path !== "string" || !path.startsWith("originals/")) return false;
-  const parts = path.split("/");
-  if (parts.length < 4 || parts[1] === "American-Alchemy") return false;
-  const source = parts[1];
-  const directories = parts.slice(2, -1);
-  const name = parts.at(-1).toLowerCase();
-  if (name === ".ds_store" || name.includes(".bak-")) return false;
-  if ([".part", ".tmp", ".download", ".crdownload"].some((suffix) => name.endsWith(suffix))) return false;
-  if (name.startsWith("failed-downloads") || name.startsWith("stopped-downloads")) return false;
-  if (directories.some((directory) => ["metadata", "logs", ".extracted", ".state"].includes(directory))) return false;
-  if (source === "DPIArchive") return directories.includes("documents");
-  if (source === "FBI-Vault-UFO") return directories.includes("pdfs");
-  if (["Legacy-Documents", "wikileaks"].includes(source)) return true;
-  return directories.some((directory) => ["audio", "documents", "pdfs", "photo", "video", "videos"].includes(directory));
+function formatArchiveDate(value) {
+  if (!value) return "";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "";
+  return new Intl.DateTimeFormat("en-US", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    timeZone: "UTC",
+  }).format(date);
 }
 
-function isArchivedOriginal(entry) {
-  return entry?.type === "blob" && isArchivedSourcePath(entry.path);
-}
-
-async function loadArchiveTreeCount(url, label) {
-  const response = await fetch(`${url}&v=${Date.now()}`, {
+async function loadPublishedArchiveCount() {
+  const response = await fetch(`${archiveCountUrl}?v=${Date.now()}`, {
     cache: "no-store",
-    headers: { Accept: "application/vnd.github+json" },
   });
-  if (!response.ok) throw new Error(`${label} archive tree returned ${response.status}`);
-  const archiveTree = await response.json();
-  if (archiveTree.truncated || !Array.isArray(archiveTree.tree)) {
-    throw new Error(`${label} archive tree was truncated or malformed`);
+  if (!response.ok) throw new Error(`archive count returned ${response.status}`);
+  const archive = await response.json();
+  if (!Number.isInteger(archive.count) || archive.count < 0) {
+    throw new Error("archive count was malformed");
   }
-  return archiveTree.tree.filter(isArchivedOriginal).length;
-}
-
-async function loadLargeArchiveCount() {
-  if (cachedLargeArchive && cachedLargeArchive.expires > Date.now()) return cachedLargeArchive.count;
-  try {
-    const count = await loadArchiveTreeCount(largeArchiveTreeUrl, "large");
-    cachedLargeArchive = { count, expires: Date.now() + largeArchiveCacheMs };
-    return count;
-  } catch (error) {
-    return cachedLargeArchive?.count ?? 0;
-  }
+  return {
+    count: archive.count,
+    generatedDate: formatArchiveDate(archive.generated_utc),
+  };
 }
 
 async function loadArchiveCount() {
@@ -222,15 +201,13 @@ async function loadArchiveCount() {
 
   archiveCountLoading = true;
   try {
-    const [standardArchiveCount, largeArchiveCount] = await Promise.all([
-      loadArchiveTreeCount(standardArchiveTreeUrl, "standard"),
-      loadLargeArchiveCount(),
-    ]);
-    countElement.textContent = formatNumber(standardArchiveCount + largeArchiveCount);
-    statusElement.textContent = `${formatNumber(standardArchiveCount)} standard files + ${formatNumber(largeArchiveCount)} large files. Updates automatically.`;
+    const archive = await loadPublishedArchiveCount();
+    countElement.textContent = formatNumber(archive.count);
+    const updated = archive.generatedDate ? ` Updated ${archive.generatedDate}.` : "";
+    statusElement.textContent = `Live Data Archive index.${updated}`;
   } catch (error) {
     countElement.textContent = "Unavailable";
-    statusElement.textContent = "Combined archive indexes are temporarily unavailable.";
+    statusElement.textContent = "The live archive index is temporarily unavailable.";
   } finally {
     archiveCountLoading = false;
   }

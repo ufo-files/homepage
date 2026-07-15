@@ -53,36 +53,13 @@ async function renderCount(fetch, { screenshot = true } = {}) {
 }
 
 async function main() {
-  const standardTree = [
-    { type: "blob", path: "README.md" },
-    ...Array.from({ length: 11 }, (_, index) => ({
-      type: "blob",
-      path: `originals/AARO-UAP-Records/pdfs/source-${index}.pdf`,
-    })),
-    { type: "blob", path: "originals/AARO-UAP-Records/manifest.json" },
-    { type: "blob", path: "originals/AARO-UAP-Records/metadata/manifest.json" },
-    { type: "blob", path: "originals/Black-Vault-UFO/audio/radio.wav" },
-    { type: "blob", path: "originals/Black-Vault-UFO/documents/report.txt" },
-    { type: "blob", path: "originals/Black-Vault-UFO/pdfs/report.pdf" },
-    { type: "blob", path: "originals/Black-Vault-UFO/zips/convenience.zip" },
-    { type: "blob", path: "originals/DPIArchive/documents/source.pdf" },
-    { type: "blob", path: "originals/DPIArchive/pdfs/source.pdf" },
-    { type: "blob", path: "originals/FBI-Vault-UFO/pdfs/ufo-part-01.pdf" },
-    { type: "blob", path: "originals/FBI-Vault-UFO/documents/ufo-part-01.pdf" },
-    { type: "blob", path: "originals/American-Alchemy/videos/excluded.mp4" },
-  ];
-  const largeTree = [
-    { type: "blob", path: "originals/Black-Vault-UFO/pdfs/large.pdf" },
-    { type: "blob", path: "originals/War-Gov-PURSUE/release-01/videos/large.mp4" },
-    { type: "blob", path: "originals/Black-Vault-UFO/zips/convenience.zip" },
-  ];
-
-  const combined = await renderCount(async (url) => {
-    const tree = url.includes("data-archive-large-files") ? largeTree : standardTree;
-    return response(200, { truncated: false, tree });
-  });
-  assert.equal(combined.elements["archive-count"].textContent, "18");
-  assert.match(combined.elements["archive-count-status"].textContent, /16 standard files \+ 2 large files/);
+  const liveCount = await renderCount(async () => response(200, {
+    count: 1675,
+    generated_utc: "2026-07-15T01:30:00Z",
+  }));
+  assert.equal(liveCount.elements["archive-count"].textContent, "1,675");
+  assert.match(liveCount.elements["archive-count-status"].textContent, /Live Data Archive index/);
+  assert.match(liveCount.elements["archive-count-status"].textContent, /July 15, 2026/);
 
   const unavailable = await renderCount(async () => response(500, {}));
   assert.equal(unavailable.elements["archive-count"].textContent, "Unavailable");
@@ -95,23 +72,8 @@ async function main() {
   assert.equal(live.interval.delay, 2 * 60 * 1000);
   assert.equal(typeof live.listeners.visibilitychange, "function");
 
-  const rateLimitedLargeRepo = await renderCount(async (url) => {
-    if (url.includes("data-archive-large-files")) return response(403, {});
-    return response(200, {
-      truncated: false,
-      tree: [{ type: "blob", path: "originals/AARO-UAP-Records/pdfs/source.pdf" }],
-    });
-  });
-  assert.equal(rateLimitedLargeRepo.elements["archive-count"].textContent, "1");
-  assert.match(rateLimitedLargeRepo.elements["archive-count-status"].textContent, /1 standard files \+ 0 large files/);
-
-  const truncated = await renderCount(async (url) => {
-    if (url.includes("data-archive-large-files")) {
-      return response(200, { truncated: false, tree: [] });
-    }
-    return response(200, { truncated: true, tree: standardTree });
-  });
-  assert.equal(truncated.elements["archive-count"].textContent, "Unavailable");
+  const malformed = await renderCount(async () => response(200, { count: "1675" }));
+  assert.equal(malformed.elements["archive-count"].textContent, "Unavailable");
 }
 
 main().catch((error) => {
