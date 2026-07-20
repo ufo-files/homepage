@@ -390,15 +390,15 @@ h2 {
 .metric-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1px;
-  border: 1px solid var(--line);
-  background: var(--line);
+  gap: 0;
+  border: 0;
+  background: transparent;
 }
 
 .metric-grid div {
   min-height: 200px;
   padding: 18px;
-  background: rgba(246, 245, 239, .9);
+  background: transparent;
 }
 
 .metric {
@@ -419,11 +419,14 @@ h2 {
   gap: 14px;
   min-height: 290px;
   align-content: end;
+  justify-items: center;
   padding-bottom: clamp(30px, 3vw, 42px);
+  text-align: center;
 }
 
 .archive-metric .button-link {
-  justify-self: start;
+  width: auto;
+  justify-self: center;
 }
 
 .archive-count-label,
