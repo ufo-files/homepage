@@ -376,6 +376,10 @@ h2 {
   align-items: center;
 }
 
+.about-inner {
+  display: block;
+}
+
 .section-copy p:not(.eyebrow) {
   max-width: 620px;
   margin: 26px 0 0;
@@ -416,6 +420,10 @@ h2 {
   min-height: 290px;
   align-content: end;
   padding-bottom: clamp(30px, 3vw, 42px);
+}
+
+.archive-metric .button-link {
+  justify-self: start;
 }
 
 .archive-count-label,
