@@ -3,7 +3,7 @@ const fs = require("node:fs");
 const vm = require("node:vm");
 
 const source = fs.readFileSync(new URL("../script.js", `file://${__filename}`), "utf8");
-assert.match(source, /ufo-files\/data-archive-1\/archive-count\/archive-count\.json/);
+assert.match(source, /ufo-files\/data-archive-2\/archive-count\/archive-count\.json/);
 
 function response(status, payload) {
   return {
