@@ -196,7 +196,6 @@ function formatArchiveDate(value) {
     month: "long",
     timeZoneName: "short",
     year: "numeric",
-    timeZone: "UTC",
   }).format(date);
 }
 
