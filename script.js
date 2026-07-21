@@ -191,7 +191,10 @@ function formatArchiveDate(value) {
   if (Number.isNaN(date.getTime())) return "";
   return new Intl.DateTimeFormat("en-US", {
     day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
     month: "long",
+    timeZoneName: "short",
     year: "numeric",
     timeZone: "UTC",
   }).format(date);

@@ -5,7 +5,7 @@ const vm = require("node:vm");
 const source = fs.readFileSync(new URL("../script.js", `file://${__filename}`), "utf8");
 const html = fs.readFileSync(new URL("../index.html", `file://${__filename}`), "utf8");
 assert.match(source, /ufo-files\/data-archive-2\/archive-count\/archive-count\.json/);
-assert.match(html, /script\.js\?v=20260721-live-archive-count-v9/);
+assert.match(html, /script\.js\?v=20260721-readable-archive-time-v10/);
 
 function response(status, payload) {
   return {
@@ -65,7 +65,7 @@ async function main() {
   }));
   assert.equal(liveCount.elements["archive-count"].textContent, "1,675");
   assert.match(liveCount.elements["archive-count-status"].textContent, /Live Data Archive index/);
-  assert.match(liveCount.elements["archive-count-status"].textContent, /July 15, 2026/);
+  assert.match(liveCount.elements["archive-count-status"].textContent, /July 15, 2026 at 1:30 AM UTC/);
   assert.equal(liveCount.elements.announcement.textContent, "Happy seeking.");
 
   const announcementMessages = [
