@@ -4,13 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>UFO Files</title>
-  <meta name="description" content="Explore public UFO and UAP documents, transcripts, people, programs, places, and events.">
-  <link rel="stylesheet" href="styles.css?v=announcement-20260715">
+  <meta name="description" content="An open research index of public UAP records with source-linked entities, relationships, evidence excerpts, and reproducible graph data.">
+  <link rel="stylesheet" href="styles.css?v=research-infrastructure-20260723">
 </head>
 <body>
   <canvas id="field" aria-hidden="true"></canvas>
-  <aside class="announcement-banner" aria-label="Announcement">
-    <p>Happy seeking.</p>
+  <aside class="announcement-banner" aria-label="Project status">
+    <p>Open-source infrastructure for research into the UAP record.</p>
   </aside>
   <header id="site-header" class="site-header" aria-label="Primary navigation">
     <a class="brand" href="#intro">
@@ -18,125 +18,223 @@
       <span>UFO Files</span>
     </a>
     <button id="menu-toggle" class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-navigation" aria-label="Open navigation" hidden>
-      <span class="menu-icon" aria-hidden="true">
-        <span></span>
-        <span></span>
-        <span></span>
-      </span>
+      <span class="menu-icon" aria-hidden="true"><span></span><span></span><span></span></span>
     </button>
     <nav id="site-navigation">
-      <a href="#about">About</a>
-      <a href="#relationship-graph">Graph</a>
-      <a href="#dog-whistle">Dog Whistle</a>
-      <a href="#meditation">Meditation</a>
-      <a href="#entrainment">Entrainment</a>
-      <a href="#contact">Contact</a>
+      <a href="#relationship-graph">Explore</a>
+      <a href="#methodology">Methodology</a>
+      <a href="#data-health">Data Health</a>
+      <a href="#contribute">Contribute</a>
+      <a href="https://github.com/ufo-files">GitHub</a>
     </nav>
   </header>
 
   <main>
     <section id="intro" class="section hero-section" aria-labelledby="intro-title">
-      <div class="hero-visual" aria-hidden="true"></div>
+      <div class="hero-visual" aria-hidden="true">
+        <img class="preview-image hero-graph-image" src="assets/relationship-graph-canvas.svg" alt="">
+      </div>
       <div class="section-inner hero-inner">
-        <h1 id="intro-title">UFO Files</h1>
-        <p class="lead">Search public UFO and UAP records, follow connections, and inspect the source documents.</p>
+        <p class="eyebrow">Public research infrastructure</p>
+        <h1 id="intro-title">An open research index of the UAP record</h1>
+        <p class="lead">Explore the documents, people, institutions, events, claims, and ideas that have shaped the UAP subject. Every result links back to its source.</p>
         <div class="hero-actions" aria-label="Primary links">
-          <a class="button-link hero-primary-button" href="https://ufo-files.github.io/relationship-graph/">Start Exploring</a>
-          <a class="text-link" href="https://github.com/ufo-files">View Data on GitHub</a>
+          <a class="button-link hero-primary-button" href="https://ufo-files.github.io/relationship-graph/">Explore Relationship Graph</a>
+          <a class="button-link" href="https://ufo-files.github.io/relationship-graph/?q=">Search Corpus</a>
+        </div>
+        <ul class="trust-list" aria-label="Project commitments">
+          <li>Open source</li>
+          <li>Evidence-linked</li>
+          <li>Public interest</li>
+          <li>No paywall</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="metrics" class="section compact-section" aria-labelledby="metrics-title">
+      <div class="section-inner">
+        <div class="section-heading-row">
+          <div>
+            <p class="eyebrow">Corpus metrics</p>
+            <h2 id="metrics-title">Generated from the graph metadata.</h2>
+          </div>
+          <p id="corpus-status" class="status-text" aria-live="polite">Loading generated corpus metadata.</p>
+        </div>
+        <dl class="metric-grid corpus-metrics">
+          <div><dt>Sources</dt><dd id="metric-sources">Loading</dd></div>
+          <div><dt>Entities</dt><dd id="metric-entities">Loading</dd></div>
+          <div><dt>Relationships</dt><dd id="metric-relationships">Loading</dd></div>
+          <div><dt>Mentions</dt><dd id="metric-mentions">Loading</dd></div>
+          <div><dt>Needs Review</dt><dd id="metric-needs-review">Loading</dd></div>
+          <div><dt>Last corpus build</dt><dd id="metric-last-build">Loading</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <section id="search" class="section compact-section" aria-labelledby="search-title">
+      <div class="section-inner search-inner">
+        <p class="eyebrow">Search</p>
+        <h2 id="search-title">Start with a source, person, institution, event, or term.</h2>
+        <form id="corpus-search-form" class="search-form" action="https://ufo-files.github.io/relationship-graph/" role="search">
+          <label class="visually-hidden" for="corpus-search">Search the UFO Files corpus</label>
+          <input id="corpus-search" name="q" type="search" autocomplete="off" placeholder="Search corpus" aria-describedby="search-suggestions">
+          <button class="button-link" type="submit">Search Corpus</button>
+        </form>
+        <div id="search-suggestions" class="suggested-searches" aria-label="Suggested searches">
+          <span>Suggested searches:</span>
+          <a href="https://ufo-files.github.io/relationship-graph/?q=Project%20Blue%20Book">Project Blue Book</a>
+          <a href="https://ufo-files.github.io/relationship-graph/?q=Roswell">Roswell</a>
+          <a href="https://ufo-files.github.io/relationship-graph/?q=Jacques%20Vall%C3%A9e">Jacques Vallée</a>
+          <a href="https://ufo-files.github.io/relationship-graph/?q=AATIP">AATIP</a>
+          <a href="https://ufo-files.github.io/relationship-graph/?q=FOIA">FOIA</a>
         </div>
       </div>
     </section>
 
-    <section id="about" class="section split-section" aria-label="Data archive">
-      <div class="section-inner about-inner">
-        <div class="metric-grid" aria-label="Project principles">
-          <div class="archive-metric" aria-live="polite">
-            <span class="archive-count-label">Files archived</span>
-            <strong id="archive-count" class="archive-count">Loading</strong>
-            <p id="archive-count-status" class="archive-count-status">Reading the live Data Archive index.</p>
-            <a class="button-link" href="https://github.com/ufo-files/data-archive">View Data Archive</a>
+    <section id="relationship-graph" class="section graph-section" aria-labelledby="graph-title">
+      <div class="app-preview graph-preview" aria-hidden="true">
+        <img class="preview-image graph-image" src="assets/relationship-graph-canvas.svg" alt="">
+      </div>
+      <div class="section-inner product-inner">
+        <div class="section-copy panel-copy">
+          <p class="eyebrow">Explore the record</p>
+          <h2 id="graph-title">The graph is a navigation layer, not an authority deciding what is true.</h2>
+          <p>Use major categories to move through source-linked entities and relationships. Findings should be treated as leads for inspection.</p>
+          <div class="category-grid" aria-label="Major graph categories">
+            <a href="https://ufo-files.github.io/relationship-graph/?category=people">People</a>
+            <a href="https://ufo-files.github.io/relationship-graph/?category=institutions">Institutions</a>
+            <a href="https://ufo-files.github.io/relationship-graph/?category=places">Places</a>
+            <a href="https://ufo-files.github.io/relationship-graph/?category=documents">Documents</a>
+            <a href="https://ufo-files.github.io/relationship-graph/?category=events">Events &amp; Claims</a>
+            <a href="https://ufo-files.github.io/relationship-graph/?category=technology">Technology</a>
+            <a href="https://ufo-files.github.io/relationship-graph/?category=media">Media</a>
+            <a href="https://ufo-files.github.io/relationship-graph/?category=terms">Key Terms</a>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="relationship-graph" class="section product-section graph-section" aria-labelledby="graph-title">
-      <div class="app-preview graph-preview">
-        <img class="preview-image graph-image" src="assets/relationship-graph-canvas.svg" alt="Relationship Graph canvas preview">
-      </div>
-      <div class="section-inner product-inner">
-        <div class="section-copy">
-          <p class="eyebrow">Relationship Graph</p>
-          <h2 id="graph-title">See how the names, places, programs, and events connect.</h2>
-          <p>Browse the archive as a network. Start with a person, document, program, place, or event, then follow its links across the record.</p>
-          <a class="button-link" href="https://ufo-files.github.io/relationship-graph/">Launch Graph</a>
+    <section id="paths" class="section compact-section" aria-labelledby="paths-title">
+      <div class="section-inner">
+        <p class="eyebrow">Research paths</p>
+        <h2 id="paths-title">Curated entry points into the public record.</h2>
+        <div class="card-grid">
+          <a class="research-card" href="https://ufo-files.github.io/relationship-graph/?q=Project%20Blue%20Book"><span>Institutional History</span><small>Programs, agencies, committees, and official records.</small></a>
+          <a class="research-card" href="https://ufo-files.github.io/relationship-graph/?q=FOIA"><span>The Public Record</span><small>Released files, source documents, and archival traces.</small></a>
+          <a class="research-card" href="https://ufo-files.github.io/relationship-graph/?q=information"><span>Information &amp; Myth</span><small>How narratives, claims, and media references move.</small></a>
+          <a class="research-card" href="https://ufo-files.github.io/relationship-graph/?q=Area%2051"><span>Area 51</span><small>Places, programs, people, and documents around the site.</small></a>
+          <a class="research-card" href="https://ufo-files.github.io/relationship-graph/?q=consciousness"><span>UFOs &amp; Consciousness</span><small>Sources that discuss perception, mind, and experience.</small></a>
+          <a class="research-card" href="https://ufo-files.github.io/relationship-graph/?q=Roswell"><span>Roswell</span><small>A frequently cited case across documents and accounts.</small></a>
         </div>
       </div>
     </section>
 
-    <section id="dog-whistle" class="section product-section" aria-labelledby="dog-title">
-      <div class="app-preview dog-preview">
-        <img class="preview-image dog-image" src="assets/dog-whistle-canvas.png" alt="Dog Whistle canvas preview">
-      </div>
-      <div class="section-inner product-inner reverse">
-        <div class="section-copy">
-          <p class="eyebrow">Dog Whistle</p>
-          <h2 id="dog-title">Send a signal and watch the sky answer.</h2>
-          <p>Dog Whistle generates precise layered tones for experiments with UAP activity. Choose a tone, run a session, and record what happens.</p>
-          <a class="button-link" href="https://ufo-files.github.io/dog-whistle/">Open Dog Whistle</a>
+    <section id="methodology" class="section compact-section" aria-labelledby="methodology-title">
+      <div class="section-inner two-column">
+        <div>
+          <p class="eyebrow">Relationship semantics</p>
+          <h2 id="methodology-title">Relationship labels describe source context.</h2>
+        </div>
+        <div class="prose">
+          <dl class="semantic-list">
+            <div><dt>Documented</dt><dd>A source records the relationship directly.</dd></div>
+            <div><dt>Attributed</dt><dd>A claim, quote, or position is attributed to a named source.</dd></div>
+            <div><dt>Alleged</dt><dd>A source presents an assertion that requires context.</dd></div>
+            <div><dt>Co-mentioned</dt><dd>Entities appear together in source evidence.</dd></div>
+            <div><dt>Curated</dt><dd>Editors added or reviewed a relationship for navigation.</dd></div>
+          </dl>
+          <p><strong>Frequency is not corroboration.</strong></p>
+          <p>Each relationship should be interpreted in the context of its underlying source.</p>
+          <a class="text-link primary-link" href="https://github.com/ufo-files/relationship-graph#classification-pipeline">Read methodology notes</a>
         </div>
       </div>
     </section>
 
-    <section id="meditation" class="section product-section dark-band" aria-labelledby="meditation-title">
-      <div class="app-preview meditation-preview">
-        <img class="preview-image meditation-image" src="assets/meditation-canvas.png" alt="Meditation canvas preview">
-      </div>
-      <div class="section-inner product-inner">
-        <div class="section-copy">
-          <p class="eyebrow">Meditation</p>
-          <h2 id="meditation-title">Breathing, sound, and a map of nearby stars.</h2>
-          <p>Set a breathing pace, mix the audio layers, and use the Gaia DR3 star field as a visual focus.</p>
-          <a class="button-link" href="https://ufo-files.github.io/meditation/">Open Meditation</a>
-        </div>
+    <section id="provenance" class="section compact-section" aria-labelledby="provenance-title">
+      <div class="section-inner">
+        <p class="eyebrow">Source provenance</p>
+        <h2 id="provenance-title">Every navigation path should lead back to evidence.</h2>
+        <ol class="provenance-chain" aria-label="Provenance chain">
+          <li>Entity</li><li>Relationship</li><li>Evidence excerpt</li><li>Original source</li>
+        </ol>
       </div>
     </section>
 
-    <section id="entrainment" class="section product-section" aria-labelledby="entrainment-title">
-      <div class="app-preview entrainment-preview">
-        <img class="preview-image entrainment-image" src="assets/entrainment-canvas.svg" alt="Entrainment reference signal playing with live PCM telemetry and a mid-side vectorscope">
-      </div>
-      <div class="section-inner product-inner">
-        <div class="section-copy">
-          <p class="eyebrow">Entrainment</p>
-          <h2 id="entrainment-title">Explore the space between sound and consciousness.</h2>
-          <p>Entrainment recreates the binaural stereo signal design described in <a href="https://patents.google.com/patent/US5213562A/en">US5213562A</a> and adds an app-defined HRTF spatial mode, without presenting claimed outcomes as established science. Configure carrier pairs or the spatial field, then inspect live PCM output and the mid-side vectorscope.</p>
-          <a class="button-link" href="https://ufo-files.github.io/entrainment/">Open Entrainment</a>
+    <section id="data-health" class="section compact-section" aria-labelledby="health-title">
+      <div class="section-inner">
+        <div class="section-heading-row">
+          <div>
+            <p class="eyebrow">Data health</p>
+            <h2 id="health-title">Quality metrics are part of the public record.</h2>
+          </div>
+          <a class="button-link" href="https://github.com/ufo-files/relationship-graph/blob/main/reports/classification-audit.md">Full Data Health report</a>
         </div>
+        <dl class="metric-grid health-metrics">
+          <div><dt>Reviewed entities</dt><dd id="health-reviewed">Loading</dd></div>
+          <div><dt>Accepted entities</dt><dd id="health-accepted">Loading</dd></div>
+          <div><dt>Needs review</dt><dd id="health-needs-review">Loading</dd></div>
+          <div><dt>Provenance coverage</dt><dd id="health-provenance">Loading</dd></div>
+          <div><dt>Invalid references</dt><dd id="health-invalid">Loading</dd></div>
+          <div><dt>Current limitations</dt><dd>Automated extraction can misclassify, duplicate, or miss context.</dd></div>
+        </dl>
       </div>
     </section>
 
-    <section id="contact" class="section contact-section" aria-labelledby="contact-title">
-      <div class="section-inner contact-inner">
-        <p class="eyebrow">Contact</p>
-        <h2 id="contact-title">Send documents, corrections, leads, or provenance notes.</h2>
-        <p>Anonymous tips are welcome. Corrections and source improvements can also be shared by email.</p>
-        <div class="hero-actions">
-          <a class="text-link primary-link" href="https://tips.hushline.app/to/ufo-files">Anonymous Tips</a>
-          <a class="text-link" href="mailto:contact@ufo-files.app">Email</a>
+    <section id="open-design" class="section compact-section dark-band" aria-labelledby="open-title">
+      <div class="section-inner two-column">
+        <div>
+          <p class="eyebrow">Open by design</p>
+          <h2 id="open-title">Inspectable, reproducible, and continuously improving.</h2>
+        </div>
+        <ul class="principle-list">
+          <li>The source corpus is open.</li>
+          <li>The methodology is documented.</li>
+          <li>The software is open source.</li>
+          <li>Corrections are public.</li>
+          <li>The work can be reproduced from the published inputs.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="contribute" class="section compact-section" aria-labelledby="contribute-title">
+      <div class="section-inner two-column">
+        <div>
+          <p class="eyebrow">Contribution</p>
+          <h2 id="contribute-title">Help improve the index.</h2>
+        </div>
+        <div class="prose">
+          <ul class="principle-list plain-list">
+            <li>Improve entity records.</li>
+            <li>Review source material.</li>
+            <li>Resolve ambiguities.</li>
+            <li>Contribute collections.</li>
+            <li>Improve tooling.</li>
+          </ul>
+          <div class="hero-actions">
+            <a class="text-link primary-link" href="https://github.com/ufo-files/relationship-graph/blob/main/CONTRIBUTING.md">Contributor Guide</a>
+            <a class="text-link" href="https://github.com/ufo-files/relationship-graph/issues">Open Issues</a>
+            <a class="text-link" href="https://ufo-files.github.io/relationship-graph/">Data Review</a>
+          </div>
         </div>
       </div>
     </section>
   </main>
 
   <footer class="site-footer">
-    <span>Fides Soli Veritati</span>
-    <span class="footer-item">
-      <span aria-hidden="true">|</span>
+    <p>Open-source infrastructure for research into the UAP record.</p>
+    <nav aria-label="Footer navigation">
+      <a href="https://ufo-files.github.io/relationship-graph/">Explore</a>
+      <a href="https://github.com/ufo-files/relationship-graph#classification-pipeline">Methodology</a>
+      <a href="https://github.com/ufo-files/relationship-graph/blob/main/reports/classification-audit.md">Data Health</a>
+      <a href="https://github.com/ufo-files/relationship-graph/tree/main/data">Downloads</a>
+      <a href="https://github.com/ufo-files/relationship-graph/blob/main/app-data.js">API</a>
+      <a href="mailto:contact@ufo-files.app">Corrections</a>
+      <a href="https://github.com/ufo-files/relationship-graph/blob/main/CONTRIBUTING.md#contribution-guardrails">Governance</a>
       <a href="https://github.com/ufo-files">GitHub</a>
-    </span>
+      <a href="mailto:contact@ufo-files.app">Contact</a>
+    </nav>
   </footer>
 
-  <script src="script.js?v=20260721-local-archive-time-v11"></script>
+  <script src="script.js?v=research-infrastructure-20260723"></script>
 </body>
 </html>

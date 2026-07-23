@@ -9,25 +9,18 @@ let fieldPoints = [];
 let pointer = { x: 0, y: 0, active: false };
 let animationFrame = 0;
 let screenshotSeed = 0;
-let archiveCountLoading = false;
-const archiveCountRefreshMs = 60 * 1000;
-const archiveCountUrl = "https://raw.githubusercontent.com/ufo-files/data-archive-2/archive-count/archive-count.json";
+let corpusMetricsLoading = false;
+const corpusMetricsRefreshMs = 60 * 1000;
+const graphDataBaseUrl = "https://ufo-files.github.io/relationship-graph/data";
 const menuToggle = document.getElementById("menu-toggle");
 const siteHeader = document.getElementById("site-header");
 const siteNavigation = document.getElementById("site-navigation");
 const mobileMenu = window.matchMedia("(max-width: 820px)");
 const announcement = document.querySelector(".announcement-banner p");
 const announcementMessages = [
-  "Happy seeking.",
-  "Enjoy your trip.",
-  "Explore freely.",
-  "Welcome to the rabbit hole.",
-  "Question everything.",
-  "Prepare to suspend disbelief.",
-  "Trust no one.",
-  "Open your eyes.",
-  "Free your mind.",
-  "Tune in.",
+  "Open-source infrastructure for research into the UAP record.",
+  "Evidence-linked public research infrastructure.",
+  "Source-centric, inspectable, and reproducible.",
 ];
 
 if (announcement) {
@@ -182,63 +175,113 @@ function draw() {
 }
 
 function formatNumber(value) {
+  if (!Number.isFinite(value)) return "Unavailable";
   return new Intl.NumberFormat("en-US").format(value);
 }
 
+function formatPercent(value) {
+  if (!Number.isFinite(value)) return "Unavailable";
+  return `${Math.round(value * 100)}%`;
+}
+
 function formatArchiveDate(value) {
-  if (!value) return "";
+  if (!value) return "Unavailable";
   const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return "";
+  if (Number.isNaN(date.getTime())) return "Unavailable";
   return new Intl.DateTimeFormat("en-US", {
     day: "numeric",
-    hour: "numeric",
-    minute: "2-digit",
-    month: "long",
-    timeZoneName: "short",
+    month: "short",
     year: "numeric",
   }).format(date);
 }
 
-async function loadPublishedArchiveCount() {
-  const response = await fetch(`${archiveCountUrl}?v=${Date.now()}`, {
-    cache: "no-store",
-  });
-  if (!response.ok) throw new Error(`archive count returned ${response.status}`);
-  const archive = await response.json();
-  if (!Number.isInteger(archive.count) || archive.count < 0) {
-    throw new Error("archive count was malformed");
-  }
-  return {
-    count: archive.count,
-    generatedDate: formatArchiveDate(archive.generated_utc),
-  };
+function setText(id, value) {
+  const element = document.getElementById(id);
+  if (element) element.textContent = value;
 }
 
-async function loadArchiveCount() {
-  const countElement = document.getElementById("archive-count");
-  const statusElement = document.getElementById("archive-count-status");
-  if (!countElement || !statusElement || archiveCountLoading) return;
+async function fetchJson(path) {
+  const response = await fetch(`${graphDataBaseUrl}/${path}?v=${Date.now()}`, {
+    cache: "no-store",
+  });
+  if (!response.ok) throw new Error(`${path} returned ${response.status}`);
+  return response.json();
+}
 
-  archiveCountLoading = true;
-  try {
-    const archive = await loadPublishedArchiveCount();
-    countElement.textContent = formatNumber(archive.count);
-    const updated = archive.generatedDate ? ` Updated ${archive.generatedDate}.` : "";
-    statusElement.textContent = `Live Data Archive index.${updated}`;
-  } catch (error) {
-    countElement.textContent = "Unavailable";
-    statusElement.textContent = "The live archive index is temporarily unavailable.";
-  } finally {
-    archiveCountLoading = false;
+function readCount(manifest, keys) {
+  for (const key of keys) {
+    const value = key.split(".").reduce((record, part) => record?.[part], manifest);
+    if (Number.isFinite(value)) return value;
   }
+  return 0;
+}
+
+function deriveMetrics(manifest, decisions = {}) {
+  const counts = manifest.counts || manifest;
+  const sources = readCount(counts, ["sources", "source_records", "sourceCount"]);
+  const entities = readCount(counts, ["entities", "entity_count", "entityCount"]);
+  const relationships = readCount(counts, ["relationships", "relationship_count", "relationshipCount"]);
+  const mentions = readCount(counts, ["mentions", "entity_mentions", "mentionCount"]);
+  const reviewed = readCount(decisions, ["summary.reviewed_entities", "reviewed_entities", "reviewed"]);
+  const accepted = readCount(decisions, ["summary.accepted_entities", "accepted_entities", "accepted"]);
+  const needsReview = readCount(counts, ["needs_review", "needsReview", "review_flags"])
+    || readCount(decisions, ["summary.needs_review", "needs_review", "flagged_review"]);
+  const invalidReferences = readCount(decisions, ["summary.invalid_references", "invalid_references"])
+    || readCount(manifest, ["invalid_references"]);
+  const provenanceCovered = readCount(counts, ["provenance_records", "relationships_with_evidence"])
+    || (relationships > 0 ? relationships - invalidReferences : 0);
+  const provenanceCoverage = relationships > 0 ? Math.max(0, Math.min(1, provenanceCovered / relationships)) : 0;
+  const generatedAt = manifest.generated_utc || manifest.generated_at || manifest.build_utc || manifest.created_utc;
+
+  return { sources, entities, relationships, mentions, reviewed, accepted, needsReview, invalidReferences, provenanceCoverage, generatedAt };
+}
+
+async function loadCorpusMetrics() {
+  if (corpusMetricsLoading) return;
+  corpusMetricsLoading = true;
+  try {
+    const [manifest, decisions] = await Promise.all([
+      fetchJson("manifest.json"),
+      fetchJson("classification-decisions.json").catch(() => ({})),
+    ]);
+    const metrics = deriveMetrics(manifest, decisions);
+    setText("metric-sources", formatNumber(metrics.sources));
+    setText("metric-entities", formatNumber(metrics.entities));
+    setText("metric-relationships", formatNumber(metrics.relationships));
+    setText("metric-mentions", formatNumber(metrics.mentions));
+    setText("metric-needs-review", formatNumber(metrics.needsReview));
+    setText("metric-last-build", formatArchiveDate(metrics.generatedAt));
+    setText("health-reviewed", formatNumber(metrics.reviewed));
+    setText("health-accepted", formatNumber(metrics.accepted));
+    setText("health-needs-review", formatNumber(metrics.needsReview));
+    setText("health-provenance", formatPercent(metrics.provenanceCoverage));
+    setText("health-invalid", formatNumber(metrics.invalidReferences));
+    setText("corpus-status", "Loaded from generated relationship graph metadata.");
+  } catch (error) {
+    ["metric-sources", "metric-entities", "metric-relationships", "metric-mentions", "metric-needs-review", "metric-last-build", "health-reviewed", "health-accepted", "health-needs-review", "health-provenance", "health-invalid"].forEach((id) => setText(id, "Unavailable"));
+    setText("corpus-status", "Generated corpus metadata is temporarily unavailable.");
+  } finally {
+    corpusMetricsLoading = false;
+  }
+}
+
+const searchForm = document.getElementById("corpus-search-form");
+if (searchForm) {
+  searchForm.addEventListener("submit", (event) => {
+    const input = document.getElementById("corpus-search");
+    if (!input || !input.value.trim()) return;
+    event.preventDefault();
+    const query = encodeURIComponent(input.value.trim());
+    window.location.href = `https://ufo-files.github.io/relationship-graph/?q=${query}`;
+  });
 }
 
 resize();
-loadArchiveCount();
+loadCorpusMetrics();
 if (!screenshotMode) {
-  window.setInterval(loadArchiveCount, archiveCountRefreshMs);
+  window.setInterval(loadCorpusMetrics, corpusMetricsRefreshMs);
   document.addEventListener("visibilitychange", () => {
-    if (!document.hidden) loadArchiveCount();
+    if (!document.hidden) loadCorpusMetrics();
   });
 }
 if (!prefersReducedMotion && !animationFrame) {
