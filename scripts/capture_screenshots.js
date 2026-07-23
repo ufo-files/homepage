@@ -5,8 +5,12 @@ const net = require("net");
 const path = require("path");
 
 const ROOT = path.resolve(__dirname, "..");
-const OUTPUT_DIR = path.join(ROOT, "assets");
-const VIEWPORT = { width: 1440, height: 1000 };
+const OUTPUT_DIR = path.join(ROOT, "docs", "pr-screenshots");
+const VIEWPORTS = [
+  { name: "homepage-redesign-desktop", width: 1440, height: 1000 },
+  { name: "homepage-redesign-tablet", width: 900, height: 1100 },
+  { name: "homepage-redesign-mobile", width: 390, height: 1200 },
+];
 
 function findOpenPort() {
   return new Promise((resolve, reject) => {
@@ -48,7 +52,7 @@ async function waitForServer(port) {
   throw new Error("Timed out waiting for screenshot server");
 }
 
-async function capture(page, name) {
+async function addScreenshotOutline(page) {
   await page.evaluate(() => {
     if (!document.getElementById("screenshot-outline-style")) {
       const style = document.createElement("style");
@@ -67,10 +71,17 @@ async function capture(page, name) {
     }
     document.documentElement.classList.add("screenshot-outline");
   });
-  await page.screenshot({
-    path: path.join(OUTPUT_DIR, `${name}.png`),
-    fullPage: false,
-  });
+}
+
+async function capture(page, viewport, baseUrl) {
+  await page.setViewportSize({ width: viewport.width, height: viewport.height });
+  await page.goto(baseUrl, { waitUntil: "networkidle" });
+  await page.waitForSelector("#intro-title", { timeout: 30000 });
+  await page.waitForTimeout(500);
+  await addScreenshotOutline(page);
+  const outputPath = path.join(OUTPUT_DIR, `${viewport.name}.png`);
+  await page.screenshot({ path: outputPath, fullPage: false });
+  console.log(`Wrote ${path.relative(ROOT, outputPath)}`);
 }
 
 async function main() {
@@ -82,11 +93,10 @@ async function main() {
   try {
     await waitForServer(port);
     const browser = await chromium.launch();
-    const page = await browser.newPage({ viewport: VIEWPORT, deviceScaleFactor: 1 });
-    await page.goto(baseUrl, { waitUntil: "networkidle" });
-    await page.waitForSelector("#intro-title", { timeout: 30000 });
-    await page.waitForTimeout(500);
-    await capture(page, "homepage-hero");
+    const page = await browser.newPage({ deviceScaleFactor: 1 });
+    for (const viewport of VIEWPORTS) {
+      await capture(page, viewport, baseUrl);
+    }
     await browser.close();
   } finally {
     server.kill("SIGTERM");
