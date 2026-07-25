@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>UFO Files</title>
   <meta name="description" content="Explore public UFO and UAP documents, transcripts, people, programs, places, and events.">
-  <link rel="stylesheet" href="styles.css?v=open-archive-intro-20260725">
+  <link rel="stylesheet" href="styles.css?v=uap-landscape-20260725">
 </head>
 <body>
   <canvas id="field" aria-hidden="true"></canvas>
@@ -27,6 +27,7 @@
     <nav id="site-navigation">
       <a href="#about">About</a>
       <a href="#relationship-graph">Graph</a>
+      <a href="#landscape">Landscape</a>
       <a href="#contact">Contact</a>
     </nav>
   </header>
@@ -68,6 +69,109 @@
           <p>Browse the archive as a network. Start with a person, document, program, place, or event, then follow its links across the record.</p>
           <a class="button-link" href="https://ufo-files.github.io/relationship-graph/">Launch Graph</a>
         </div>
+      </div>
+    </section>
+
+    <section id="landscape" class="comparison-section" aria-labelledby="comparison-title">
+      <div class="section-inner comparison-inner">
+        <p class="eyebrow">Open UAP Data Landscape</p>
+        <h2 id="comparison-title">One field. Very different kinds of infrastructure.</h2>
+        <p class="comparison-intro">UFO Files combines source documents, sightings, provenance, and relationship data in one downloadable research corpus. This table distinguishes archives, pipelines, standards, and sensor networks instead of treating every database as interchangeable.</p>
+        <div class="comparison-scroll" tabindex="0" role="region" aria-label="Scrollable comparison of UAP data projects">
+          <table class="comparison-table">
+            <caption>Publicly documented capabilities, verified July 2026. “Partial” includes limited scope, incomplete exports, or a capability still being expanded.</caption>
+            <thead>
+              <tr>
+                <th scope="col">Project</th>
+                <th scope="col">Open source</th>
+                <th scope="col">Downloadable data</th>
+                <th scope="col">Multiple sources</th>
+                <th scope="col">Relationships</th>
+                <th scope="col">Documents</th>
+                <th scope="col">Sightings</th>
+                <th scope="col">Sensors</th>
+                <th scope="col">Provenance</th>
+                <th scope="col">Main focus</th>
+                <th scope="col">Overlap with UFO Files</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="comparison-featured">
+                <th scope="row"><a href="https://github.com/ufo-files">UFO Files</a></th>
+                <td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td>
+                <td class="yes">✓</td><td class="yes">✓</td><td>Planned</td><td class="yes">✓</td>
+                <td>Unified research corpus and tooling</td><td>Reference</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://github.com/richgel999/ufo_data">Dataset of the Damned</a></th>
+                <td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="no">—</td>
+                <td>Partial</td><td class="yes">✓</td><td class="no">—</td><td>Partial</td>
+                <td>Historical event chronology</td><td aria-label="Four out of five">★★★★☆</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://uapledger.com/">UAP Ledger</a></th>
+                <td class="no">—</td><td>Partial</td><td class="yes">✓</td><td class="yes">✓</td>
+                <td class="yes">✓</td><td class="yes">✓</td><td class="no">—</td><td class="yes">✓</td>
+                <td>Evidence-backed intelligence index</td><td aria-label="Four out of five">★★★★☆</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://www.uaparchive.it/">UAP Archive</a></th>
+                <td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td>Limited</td>
+                <td class="yes">✓</td><td>Partial</td><td class="no">—</td><td class="yes">✓</td>
+                <td>Open document aggregation and API</td><td aria-label="Four out of five">★★★★☆</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://os.disclosure.org/">DisclosureOS</a></th>
+                <td class="yes">✓</td><td class="yes">✓</td><td>N/A</td><td class="yes">✓</td>
+                <td>Schema</td><td>Schema</td><td>Schema</td><td class="yes">✓</td>
+                <td>Interoperable UAP data standard</td><td aria-label="Three out of five">★★★☆☆</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://ufosearch.org/">UFO Search / PURSUE Archive</a></th>
+                <td class="no">—</td><td>Partial</td><td class="yes">✓</td><td class="no">—</td>
+                <td class="yes">✓</td><td>Limited</td><td class="no">—</td><td class="yes">✓</td>
+                <td>Searchable government releases</td><td aria-label="Three out of five">★★★☆☆</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://github.com/timothyrenner/nuforc_sightings_data">NUFORC data pipelines</a></th>
+                <td class="yes">✓</td><td>Restricted</td><td class="no">—</td><td class="no">—</td>
+                <td class="no">—</td><td class="yes">✓</td><td class="no">—</td><td>Moderate</td>
+                <td>Cleaning, normalization, and geocoding</td><td aria-label="Two out of five">★★☆☆☆</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://www.war.gov/UFO/">PURSUE government releases</a></th>
+                <td>N/A</td><td class="yes">✓</td><td class="yes">✓</td><td class="no">—</td>
+                <td class="yes">✓</td><td>Limited</td><td>Included</td><td class="yes">✓</td>
+                <td>Authoritative primary-source releases</td><td aria-label="Two out of five">★★☆☆☆</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://github.com/DenisSergeevitch/UFO-USA">UFO-USA Markdown Archive</a></th>
+                <td class="yes">✓</td><td class="yes">✓</td><td class="no">—</td><td class="no">—</td>
+                <td class="yes">✓</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td>
+                <td>Page-level document conversion</td><td aria-label="One out of five">★☆☆☆☆</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://projects.iq.harvard.edu/galileo">Galileo Project</a></th>
+                <td>Partial</td><td>Research releases</td><td class="no">—</td><td class="no">—</td>
+                <td class="yes">✓</td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td>
+                <td>Calibrated multimodal observatories</td><td>Different domain</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://github.com/Sky360-Repository">Sky360</a></th>
+                <td class="yes">✓</td><td>Planned</td><td>Planned</td><td class="no">—</td>
+                <td class="no">—</td><td>Generated</td><td class="yes">✓</td><td>Planned</td>
+                <td>Distributed citizen sensor network</td><td>Different domain</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://www.enigmalabs.io/">Enigma Labs</a></th>
+                <td class="no">—</td><td class="no">—</td><td class="yes">✓</td><td>Internal</td>
+                <td>Partial</td><td class="yes">✓</td><td>User media</td><td>Partial</td>
+                <td>Commercial reporting and discovery app</td><td aria-label="Two out of five">★★☆☆☆</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="comparison-note">The closest projects solve complementary pieces of the problem. Ratings indicate product overlap—not scientific quality, corpus size, or institutional authority. Corrections are welcome.</p>
       </div>
     </section>
 
