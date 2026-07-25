@@ -4,7 +4,7 @@
 
 Static homepage for [The Open Archive for UFO Research](https://ufo-files.app), the public entry point for the project and its related research tools.
 
-![UFO homepage hero](assets/homepage-hero.png)
+![UFO Files homepage hero](assets/homepage-hero.png)
 
 ## Live Site
 
