@@ -591,16 +591,10 @@ h2 {
 .comparison-table {
   width: 100%;
   min-width: 1320px;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
   font-size: 12px;
   line-height: 1.35;
-}
-
-.comparison-table caption {
-  padding: 12px 14px;
-  border-bottom: 1px solid var(--line);
-  color: var(--muted);
-  text-align: left;
 }
 
 .comparison-table th,
@@ -643,6 +637,11 @@ h2 {
 .comparison-table th:last-child,
 .comparison-table td:last-child {
   border-right: 0;
+}
+
+.comparison-table th:nth-child(2),
+.comparison-table td:nth-child(2) {
+  border-left: 0;
 }
 
 .comparison-table tbody tr:hover td,
