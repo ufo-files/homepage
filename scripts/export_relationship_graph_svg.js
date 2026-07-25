@@ -59,7 +59,7 @@ async function main() {
       background.setAttribute("fill", getComputedStyle(graph).backgroundColor || "#f6f5ef");
 
       const title = document.createElementNS("http://www.w3.org/2000/svg", "title");
-      title.textContent = "UFO Files relationship graph";
+      title.textContent = "UFO relationship graph";
 
       clone.removeAttribute("id");
       clone.removeAttribute("class");
