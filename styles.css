@@ -620,6 +620,7 @@ h2 {
   min-width: 190px;
   max-width: 190px;
   background: var(--bg);
+  box-shadow: 1px 0 0 var(--line);
   text-align: left;
 }
 
