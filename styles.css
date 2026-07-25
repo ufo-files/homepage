@@ -256,7 +256,7 @@ img {
 }
 
 .hero-inner {
-  padding-bottom: 14vh;
+  padding-bottom: calc(14vh + env(safe-area-inset-bottom, 0px));
 }
 
 .eyebrow {
@@ -627,7 +627,7 @@ h2 {
   }
 
   .hero-inner {
-    padding-bottom: 12vh;
+    padding-bottom: calc(12vh + env(safe-area-inset-bottom, 0px));
   }
 
   .split-inner,
