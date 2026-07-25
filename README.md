@@ -1,10 +1,10 @@
-# UFO Files Homepage
+# UFO: The Open Archive for UAP Research
 
 [![pages-build-deployment](https://github.com/ufo-files/homepage/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/ufo-files/homepage/actions/workflows/pages/pages-build-deployment)
 
-Static homepage for [UFO Files](https://ufo-files.app), the public entry point for the project and its related research tools.
+Static homepage for [UFO: The Open Archive for UAP Research](https://ufo-files.app), the public entry point for the project and its related research tools.
 
-![UFO Files homepage hero](assets/homepage-hero.png)
+![UFO homepage hero](assets/homepage-hero.png)
 
 ## Live Site
 
