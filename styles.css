@@ -591,7 +591,8 @@ h2 {
 .comparison-table {
   width: 100%;
   min-width: 1320px;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
   font-size: 12px;
   line-height: 1.35;
 }
@@ -619,9 +620,7 @@ h2 {
   z-index: 2;
   min-width: 190px;
   max-width: 190px;
-  border-right: 0;
   background: var(--bg);
-  box-shadow: inset -1px 0 0 var(--line);
   text-align: left;
 }
 
