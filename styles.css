@@ -196,9 +196,11 @@ img {
 }
 
 .hero-section {
+  display: grid;
+  place-items: center;
   min-height: 100vh;
   min-height: 100svh;
-  align-items: center;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
 .preview-label {
@@ -257,8 +259,8 @@ img {
 }
 
 .hero-inner {
-  padding-top: 96px;
-  padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px));
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 .eyebrow {
@@ -626,11 +628,6 @@ h2 {
   .section-inner {
     width: min(100% - 36px, 1180px);
     padding: 84px 0;
-  }
-
-  .hero-inner {
-    padding-top: 84px;
-    padding-bottom: calc(84px + env(safe-area-inset-bottom, 0px));
   }
 
   .split-inner,
