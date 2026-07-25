@@ -197,7 +197,7 @@ img {
 
 .hero-section {
   min-height: 108vh;
-  align-items: flex-end;
+  align-items: center;
 }
 
 .preview-label {
@@ -256,7 +256,8 @@ img {
 }
 
 .hero-inner {
-  padding-bottom: calc(14vh + env(safe-area-inset-bottom, 0px));
+  padding-top: calc(96px + env(safe-area-inset-top, 0px));
+  padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px));
 }
 
 .eyebrow {
@@ -627,7 +628,8 @@ h2 {
   }
 
   .hero-inner {
-    padding-bottom: calc(12vh + env(safe-area-inset-bottom, 0px));
+    padding-top: calc(84px + env(safe-area-inset-top, 0px));
+    padding-bottom: calc(84px + env(safe-area-inset-bottom, 0px));
   }
 
   .split-inner,
