@@ -1,0 +1,200 @@
+{
+  "generatedAt": "2026-07-25T07:40:42.471611+00:00",
+  "ranking": [
+    "distinct source coverage",
+    "relationship degree",
+    "mentions",
+    "name"
+  ],
+  "categories": [
+    {
+      "id": "people",
+      "label": "People",
+      "leaders": [
+        {
+          "id": "people:steven-m-greer",
+          "name": "Steven M. Greer",
+          "sources": 576
+        },
+        {
+          "id": "people:j-allen-hynek",
+          "name": "J. Allen Hynek",
+          "sources": 204
+        },
+        {
+          "id": "people:john-greenewald",
+          "name": "John Greenewald",
+          "sources": 163
+        }
+      ]
+    },
+    {
+      "id": "news_media",
+      "label": "News Media",
+      "leaders": [
+        {
+          "id": "newsrooms:new-york-times",
+          "name": "New York Times",
+          "sources": 286
+        },
+        {
+          "id": "newsrooms:bbc",
+          "name": "BBC",
+          "sources": 235
+        },
+        {
+          "id": "newsrooms:washington-post",
+          "name": "Washington Post",
+          "sources": 167
+        }
+      ]
+    },
+    {
+      "id": "institutions_programs",
+      "label": "Institutions & Programs",
+      "leaders": [
+        {
+          "id": "government_agencies:u-s-air-force",
+          "name": "U.S. Air Force",
+          "sources": 1399
+        },
+        {
+          "id": "government_agencies:central-intelligence-agency",
+          "name": "Central Intelligence Agency",
+          "sources": 1351
+        },
+        {
+          "id": "government_agencies:department-of-defense",
+          "name": "Department of Defense",
+          "sources": 1095
+        }
+      ]
+    },
+    {
+      "id": "places",
+      "label": "Places",
+      "leaders": [
+        {
+          "id": "locations:washington",
+          "name": "WashinGton",
+          "sources": 1651
+        },
+        {
+          "id": "locations:california",
+          "name": "California",
+          "sources": 917
+        },
+        {
+          "id": "locations:russia",
+          "name": "RusSia",
+          "sources": 707
+        }
+      ]
+    },
+    {
+      "id": "documents_media",
+      "label": "Documents & Media",
+      "leaders": [
+        {
+          "id": "document_names:freedom-of-information-act",
+          "name": "Freedom Of Information Act",
+          "sources": 543
+        },
+        {
+          "id": "document_names:executive-order",
+          "name": "Executive Order",
+          "sources": 207
+        },
+        {
+          "id": "movies:close-encounters-of-the-third-kind",
+          "name": "Close Encounters of the Third Kind",
+          "sources": 155
+        }
+      ]
+    },
+    {
+      "id": "events_claims",
+      "label": "Events & Claims",
+      "leaders": [
+        {
+          "id": "events:world-war",
+          "name": "World War",
+          "sources": 379
+        },
+        {
+          "id": "events:cold-war",
+          "name": "Cold War",
+          "sources": 213
+        },
+        {
+          "id": "events:world-war-ii",
+          "name": "World War II",
+          "sources": 152
+        }
+      ]
+    },
+    {
+      "id": "science_technology",
+      "label": "Science & Technology",
+      "leaders": [
+        {
+          "id": "chemical_elements:iron",
+          "name": "Iron",
+          "sources": 726
+        },
+        {
+          "id": "planets:mars",
+          "name": "Mars",
+          "sources": 582
+        },
+        {
+          "id": "alien_species:greys",
+          "name": "Greys",
+          "sources": 477
+        }
+      ]
+    },
+    {
+      "id": "signals",
+      "label": "Signals",
+      "leaders": [
+        {
+          "id": "frequencies:60-hz",
+          "name": "60 Hz",
+          "sources": 23
+        },
+        {
+          "id": "frequencies:243-mhz",
+          "name": "243 MHz",
+          "sources": 21
+        },
+        {
+          "id": "frequencies:300-mhz",
+          "name": "300 MHz",
+          "sources": 20
+        }
+      ]
+    },
+    {
+      "id": "terms_references",
+      "label": "Terms & References",
+      "leaders": [
+        {
+          "id": "key_terms:flying-saucers",
+          "name": "Flying Saucers",
+          "sources": 985
+        },
+        {
+          "id": "websites:theblackvault-com",
+          "name": "theblackvault.com",
+          "sources": 466
+        },
+        {
+          "id": "key_terms:consciousness",
+          "name": "Consciousness",
+          "sources": 423
+        }
+      ]
+    }
+  ]
+}

@@ -29,6 +29,38 @@ const announcementMessages = [
   "Free your mind.",
   "Tune in.",
 ];
+const corpusLeadersElement = document.getElementById("corpus-leaders");
+
+function renderCorpusLeaders(payload) {
+  if (!corpusLeadersElement || !Array.isArray(payload?.categories)) return;
+  corpusLeadersElement.replaceChildren(...payload.categories.map((category) => {
+    const article = document.createElement("article");
+    const heading = document.createElement("h4");
+    heading.textContent = category.label;
+    const list = document.createElement("ol");
+    for (const entity of category.leaders || []) {
+      const item = document.createElement("li");
+      const link = document.createElement("a");
+      link.href = `https://ufo-files.github.io/relationship-graph/?node=${encodeURIComponent(entity.id)}`;
+      link.textContent = entity.name;
+      item.append(link);
+      list.append(item);
+    }
+    article.append(heading, list);
+    return article;
+  }));
+}
+
+async function loadCorpusLeaders() {
+  if (!corpusLeadersElement) return;
+  try {
+    const response = await fetch(`data/corpus-leaders.json?v=${Date.now()}`, { cache: "no-store" });
+    if (!response.ok) throw new Error(`corpus leaders returned ${response.status}`);
+    renderCorpusLeaders(await response.json());
+  } catch (error) {
+    corpusLeadersElement.dataset.dynamicLoad = "failed";
+  }
+}
 
 if (announcement) {
   const messageIndex = screenshotMode ? 0 : Math.floor(Math.random() * announcementMessages.length);
@@ -235,6 +267,7 @@ async function loadArchiveCount() {
 
 resize();
 loadArchiveCount();
+loadCorpusLeaders();
 if (!screenshotMode) {
   window.setInterval(loadArchiveCount, archiveCountRefreshMs);
   document.addEventListener("visibilitychange", () => {
