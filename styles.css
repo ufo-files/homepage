@@ -292,7 +292,7 @@ h1 {
 .hero-inner h1 {
   max-width: none;
   margin-left: -.055em;
-  margin-bottom: 0;
+  margin-bottom: 18px;
   text-transform: none;
 }
 
