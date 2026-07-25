@@ -555,6 +555,122 @@ h2 {
   max-width: 620px;
 }
 
+.comparison-section {
+  position: relative;
+  overflow: hidden;
+  border-top: 1px solid var(--line);
+}
+
+.comparison-inner {
+  width: min(1440px, calc(100% - 32px));
+}
+
+.comparison-inner h2 {
+  max-width: 1050px;
+}
+
+.comparison-intro {
+  max-width: 900px;
+  margin: 28px 0 42px;
+  color: #2f2f2b;
+  font-size: clamp(15px, 1.5vw, 19px);
+}
+
+.comparison-scroll {
+  overflow-x: auto;
+  border: 1px solid var(--ink);
+  background: rgba(246, 245, 239, .88);
+  -webkit-overflow-scrolling: touch;
+}
+
+.comparison-scroll:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 4px;
+}
+
+.comparison-table {
+  width: 100%;
+  min-width: 1320px;
+  border-collapse: collapse;
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.comparison-table caption {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--line);
+  color: var(--muted);
+  text-align: left;
+}
+
+.comparison-table th,
+.comparison-table td {
+  min-width: 92px;
+  padding: 13px 12px;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  text-align: center;
+  vertical-align: middle;
+}
+
+.comparison-table th:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  min-width: 190px;
+  max-width: 190px;
+  background: var(--bg);
+  text-align: left;
+}
+
+.comparison-table thead th {
+  background: var(--ink);
+  color: var(--bg);
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+.comparison-table thead th:first-child {
+  z-index: 3;
+  background: var(--ink);
+}
+
+.comparison-table tbody tr:last-child th,
+.comparison-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.comparison-table th:last-child,
+.comparison-table td:last-child {
+  border-right: 0;
+}
+
+.comparison-table tbody tr:hover td,
+.comparison-table tbody tr:hover th {
+  background: #fffef8;
+}
+
+.comparison-table .comparison-featured td,
+.comparison-table .comparison-featured th {
+  background: rgba(17, 17, 17, .08);
+  font-weight: 600;
+}
+
+.comparison-table .yes {
+  font-size: 16px;
+}
+
+.comparison-table .no {
+  color: var(--muted);
+}
+
+.comparison-note {
+  max-width: 920px;
+  margin: 18px 0 0;
+  color: var(--muted);
+  font-size: 11px;
+}
+
 .contact-section {
   min-height: 86vh;
   border-top: 0;
@@ -638,6 +754,24 @@ h2 {
   .section-inner {
     width: min(100% - 36px, 1180px);
     padding: 84px 0;
+  }
+
+  .comparison-inner {
+    width: calc(100% - 20px);
+  }
+
+  .comparison-intro {
+    margin-bottom: 28px;
+  }
+
+  .comparison-table th,
+  .comparison-table td {
+    padding: 11px 10px;
+  }
+
+  .comparison-table th:first-child {
+    min-width: 164px;
+    max-width: 164px;
   }
 
   .split-inner,
