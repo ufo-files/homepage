@@ -2,6 +2,7 @@ const fieldCanvas = document.getElementById("field");
 const fieldCtx = fieldCanvas.getContext("2d");
 const screenshotMode = new URLSearchParams(window.location.search).has("screenshot");
 const prefersReducedMotion = screenshotMode || window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
 
 let viewportWidth = 0;
 let viewportHeight = 0;
@@ -140,8 +141,8 @@ function buildFieldPoints() {
 
 function drawField() {
   fieldCtx.clearRect(0, 0, viewportWidth, viewportHeight);
-  fieldCtx.fillStyle = "rgba(17, 17, 17, .24)";
-  fieldCtx.strokeStyle = "rgba(17, 17, 17, .045)";
+  fieldCtx.fillStyle = prefersDark.matches ? "rgba(242, 240, 232, .22)" : "rgba(17, 17, 17, .24)";
+  fieldCtx.strokeStyle = prefersDark.matches ? "rgba(242, 240, 232, .055)" : "rgba(17, 17, 17, .045)";
   fieldCtx.lineWidth = 1;
 
   fieldPoints.forEach((point) => {
@@ -191,7 +192,7 @@ function drawField() {
   }
 
   if (pointer.active && !prefersReducedMotion) {
-    fieldCtx.strokeStyle = "rgba(17, 17, 17, .07)";
+    fieldCtx.strokeStyle = prefersDark.matches ? "rgba(242, 240, 232, .09)" : "rgba(17, 17, 17, .07)";
     fieldCtx.lineWidth = 1;
     fieldPoints.forEach((point) => {
       const distance = Math.hypot(point.rx - pointer.x, point.ry - pointer.y);
@@ -205,6 +206,8 @@ function drawField() {
   }
   fieldCtx.globalAlpha = 1;
 }
+
+prefersDark.addEventListener?.("change", () => drawField());
 
 function draw() {
   drawField();

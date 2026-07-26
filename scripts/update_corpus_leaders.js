@@ -23,7 +23,8 @@ const outputPath = path.resolve(__dirname, "../data/corpus-leaders.json");
           id: categoryId,
           label: DATA.topCategoryLabels[categoryId],
           leaders: DATA.entities.filter((entity) => entity.topCategory === categoryId).slice().sort((left, right) =>
-            (right.navigationScore || 0) - (left.navigationScore || 0) ||
+            (right.navigationScore || 0) * (right.category === "locations" ? 0.42 : 1) -
+              (left.navigationScore || 0) * (left.category === "locations" ? 0.42 : 1) ||
             (right.transcriptCount || right.transcripts?.length || 0) - (left.transcriptCount || left.transcripts?.length || 0) ||
             (relationshipsByEntity.get(right.id)?.length || 0) - (relationshipsByEntity.get(left.id)?.length || 0) ||
             (right.count || 0) - (left.count || 0) ||

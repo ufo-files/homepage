@@ -11,4 +11,15 @@ assert.equal(
   "John Greenewald is not promoted by source-hosting volume",
 );
 
+const places = leaders.categories.find((category) => category.id === "places");
+assert.deepEqual(
+  places.leaders.map((entity) => entity.id),
+  [
+    "military_bases:wright-patterson-air-force-base",
+    "military_bases:white-sands-proving-grounds",
+    "military_bases:s-4",
+  ],
+  "Place leaders favor specific research sites over broad geographic references",
+);
+
 console.log("Homepage corpus leaders use research relevance");
