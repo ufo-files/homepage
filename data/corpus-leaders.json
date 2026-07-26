@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-25T21:55:09.905810+00:00",
+  "generatedAt": "2026-07-26T14:25:01.617358+00:00",
   "ranking": [
     "distinct source coverage",
     "relationship degree",
@@ -14,17 +14,17 @@
         {
           "id": "people:steven-m-greer",
           "name": "Steven M. Greer",
-          "sources": 576
+          "sources": 577
         },
         {
           "id": "people:j-allen-hynek",
           "name": "J. Allen Hynek",
-          "sources": 204
+          "sources": 206
         },
         {
           "id": "people:john-greenewald",
           "name": "John Greenewald",
-          "sources": 163
+          "sources": 164
         }
       ]
     },
@@ -35,12 +35,12 @@
         {
           "id": "newsrooms:new-york-times",
           "name": "New York Times",
-          "sources": 286
+          "sources": 288
         },
         {
           "id": "newsrooms:bbc",
           "name": "BBC",
-          "sources": 235
+          "sources": 236
         },
         {
           "id": "newsrooms:washington-post",
@@ -56,17 +56,17 @@
         {
           "id": "government_agencies:u-s-air-force",
           "name": "U.S. Air Force",
-          "sources": 1399
+          "sources": 1401
         },
         {
           "id": "government_agencies:central-intelligence-agency",
           "name": "Central Intelligence Agency",
-          "sources": 1351
+          "sources": 1353
         },
         {
           "id": "government_agencies:department-of-defense",
           "name": "Department of Defense",
-          "sources": 1095
+          "sources": 1097
         }
       ]
     },
@@ -77,17 +77,17 @@
         {
           "id": "locations:washington",
           "name": "WashinGton",
-          "sources": 1651
+          "sources": 1653
         },
         {
           "id": "locations:california",
           "name": "California",
-          "sources": 917
+          "sources": 919
         },
         {
           "id": "locations:russia",
           "name": "RusSia",
-          "sources": 707
+          "sources": 709
         }
       ]
     },
@@ -98,7 +98,7 @@
         {
           "id": "document_names:freedom-of-information-act",
           "name": "Freedom Of Information Act",
-          "sources": 543
+          "sources": 544
         },
         {
           "id": "document_names:executive-order",
@@ -119,17 +119,17 @@
         {
           "id": "events:world-war",
           "name": "World War",
-          "sources": 379
+          "sources": 381
         },
         {
           "id": "events:cold-war",
           "name": "Cold War",
-          "sources": 213
+          "sources": 215
         },
         {
           "id": "events:world-war-ii",
           "name": "World War II",
-          "sources": 152
+          "sources": 154
         }
       ]
     },
@@ -140,7 +140,7 @@
         {
           "id": "chemical_elements:iron",
           "name": "Iron",
-          "sources": 726
+          "sources": 728
         },
         {
           "id": "planets:mars",
@@ -150,7 +150,7 @@
         {
           "id": "alien_species:greys",
           "name": "Greys",
-          "sources": 477
+          "sources": 478
         }
       ]
     },
@@ -182,7 +182,7 @@
         {
           "id": "key_terms:flying-saucers",
           "name": "Flying Saucers",
-          "sources": 985
+          "sources": 987
         },
         {
           "id": "websites:theblackvault-com",
@@ -192,7 +192,7 @@
         {
           "id": "key_terms:consciousness",
           "name": "Consciousness",
-          "sources": 423
+          "sources": 425
         }
       ]
     }
