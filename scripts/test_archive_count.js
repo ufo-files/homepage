@@ -5,7 +5,7 @@ const vm = require("node:vm");
 const source = fs.readFileSync(new URL("../script.js", `file://${__filename}`), "utf8");
 const html = fs.readFileSync(new URL("../index.html", `file://${__filename}`), "utf8");
 assert.match(source, /ufo-files\/data-archive-2\/archive-count\/archive-count\.json/);
-assert.match(html, /script\.js\?v=20260721-local-archive-time-v11/);
+assert.match(html, /script\.js\?v=system-theme-20260726/);
 
 function response(status, payload) {
   return {

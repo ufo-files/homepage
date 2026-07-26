@@ -863,3 +863,43 @@ h2 {
     transition: none;
   }
 }
+
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --bg: #101214;
+    --ink: #f2f0e8;
+    --muted: #b6b5ae;
+    --soft: rgba(16, 18, 20, .84);
+    --line: rgba(242, 240, 232, .28);
+    --dark: #050607;
+    --paper: #181a1d;
+  }
+
+  .briefing-section { background: rgba(16, 18, 20, .92); }
+  .announcement-banner { color: #f2f0e8; }
+  .leader-grid article { background: rgba(24, 26, 29, .56); }
+  .site-header, .menu-toggle { background: rgba(16, 18, 20, .88); }
+  .site-header.menu-open { background: rgba(16, 18, 20, .96); }
+  .brand-logo { filter: invert(1) brightness(.94); }
+  .preview-label { color: rgba(242, 240, 232, .82); background: rgba(16, 18, 20, .78); }
+  .graph-image, .dog-image, .entrainment-image { filter: invert(.9) hue-rotate(180deg); background: var(--bg); }
+  .hero-actions .hero-primary-button:hover,
+  .hero-actions .hero-primary-button:focus-visible,
+  .button-link { background: rgba(16, 18, 20, .72); }
+  .section-copy p:not(.eyebrow),
+  .comparison-intro,
+  .contact-inner p:not(.eyebrow) { color: #d0cfc8; }
+  .product-section::after {
+    background:
+      linear-gradient(to right, rgba(16, 18, 20, .88), rgba(16, 18, 20, .52) 36%, rgba(16, 18, 20, .1) 62%, rgba(16, 18, 20, 0)),
+      linear-gradient(to bottom, rgba(16, 18, 20, .12), rgba(16, 18, 20, 0) 52%, rgba(16, 18, 20, .16));
+  }
+  .comparison-scroll { background: rgba(16, 18, 20, .9); }
+  .comparison-table tbody tr:hover td,
+  .comparison-table tbody tr:hover th { background: #202327; }
+  .comparison-table .comparison-featured td,
+  .comparison-table .comparison-featured th { background: rgba(242, 240, 232, .1); }
+  .comparison-table .comparison-featured th:first-child { background: #2a2d31; }
+}
