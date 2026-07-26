@@ -16,13 +16,14 @@ const outputPath = path.resolve(__dirname, "../data/corpus-leaders.json");
     );
     const payload = await page.evaluate(() => ({
       generatedAt: DATA.manifest.generated_at || new Date().toISOString(),
-      ranking: ["distinct source coverage", "relationship degree", "mentions", "name"],
+      ranking: ["research relevance", "distinct source coverage", "relationship degree", "mentions", "name"],
       categories: Object.keys(DATA.topCategoryLabels)
         .filter((categoryId) => DATA.entities.some((entity) => entity.topCategory === categoryId))
         .map((categoryId) => ({
           id: categoryId,
           label: DATA.topCategoryLabels[categoryId],
           leaders: DATA.entities.filter((entity) => entity.topCategory === categoryId).slice().sort((left, right) =>
+            (right.navigationScore || 0) - (left.navigationScore || 0) ||
             (right.transcriptCount || right.transcripts?.length || 0) - (left.transcriptCount || left.transcripts?.length || 0) ||
             (relationshipsByEntity.get(right.id)?.length || 0) - (relationshipsByEntity.get(left.id)?.length || 0) ||
             (right.count || 0) - (left.count || 0) ||

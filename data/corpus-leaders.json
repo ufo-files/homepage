@@ -1,6 +1,7 @@
 {
   "generatedAt": "2026-07-26T18:37:35.365798+00:00",
   "ranking": [
+    "research relevance",
     "distinct source coverage",
     "relationship degree",
     "mentions",
@@ -12,19 +13,19 @@
       "label": "People",
       "leaders": [
         {
-          "id": "people:steven-m-greer",
-          "name": "Steven M. Greer",
-          "sources": 577
+          "id": "whistleblowers:bob-lazar",
+          "name": "Bob Lazar",
+          "sources": 81
         },
         {
-          "id": "people:j-allen-hynek",
-          "name": "J. Allen Hynek",
-          "sources": 206
+          "id": "politicians:senator-harry-reid",
+          "name": "Senator Harry Reid",
+          "sources": 63
         },
         {
-          "id": "people:john-greenewald",
-          "name": "John Greenewald",
-          "sources": 164
+          "id": "people:thomas-townsend-brown",
+          "name": "Thomas Townsend Brown",
+          "sources": 96
         }
       ]
     },
@@ -38,14 +39,14 @@
           "sources": 288
         },
         {
-          "id": "newsrooms:bbc",
-          "name": "BBC",
-          "sources": 236
-        },
-        {
           "id": "newsrooms:washington-post",
           "name": "Washington Post",
           "sources": 167
+        },
+        {
+          "id": "newsrooms:associated-press",
+          "name": "Associated Press",
+          "sources": 155
         }
       ]
     },
@@ -54,19 +55,19 @@
       "label": "Institutions & Programs",
       "leaders": [
         {
-          "id": "government_agencies:u-s-air-force",
-          "name": "U.S. Air Force",
-          "sources": 1401
-        },
-        {
-          "id": "government_agencies:central-intelligence-agency",
-          "name": "Central Intelligence Agency",
-          "sources": 1353
-        },
-        {
           "id": "government_agencies:department-of-defense",
           "name": "Department of Defense",
           "sources": 1097
+        },
+        {
+          "id": "government_agencies:dia",
+          "name": "DIA",
+          "sources": 810
+        },
+        {
+          "id": "government_agencies:pentagon",
+          "name": "Pentagon",
+          "sources": 737
         }
       ]
     },
@@ -75,19 +76,19 @@
       "label": "Places",
       "leaders": [
         {
-          "id": "locations:washington",
-          "name": "WashinGton",
-          "sources": 1653
-        },
-        {
-          "id": "locations:california",
-          "name": "California",
-          "sources": 919
-        },
-        {
           "id": "locations:russia",
           "name": "RusSia",
           "sources": 709
+        },
+        {
+          "id": "locations:los-angeles",
+          "name": "Los Angeles",
+          "sources": 424
+        },
+        {
+          "id": "military_bases:wright-patterson-air-force-base",
+          "name": "Wright-Patterson Air Force Base",
+          "sources": 365
         }
       ]
     },
@@ -101,14 +102,14 @@
           "sources": 544
         },
         {
-          "id": "document_names:executive-order",
-          "name": "Executive Order",
-          "sources": 207
+          "id": "document_names:condon-report",
+          "name": "Condon Report",
+          "sources": 126
         },
         {
-          "id": "movies:close-encounters-of-the-third-kind",
-          "name": "Close Encounters of the Third Kind",
-          "sources": 155
+          "id": "document_names:majestic-12",
+          "name": "Majestic 12",
+          "sources": 152
         }
       ]
     },
@@ -127,9 +128,9 @@
           "sources": 215
         },
         {
-          "id": "events:world-war-ii",
-          "name": "World War II",
-          "sources": 154
+          "id": "theories:extraterrestrial-hypothesis",
+          "name": "Extraterrestrial Hypothesis",
+          "sources": 78
         }
       ]
     },
@@ -138,19 +139,19 @@
       "label": "Science & Technology",
       "leaders": [
         {
-          "id": "chemical_elements:iron",
-          "name": "Iron",
-          "sources": 728
-        },
-        {
-          "id": "planets:mars",
-          "name": "Mars",
-          "sources": 582
-        },
-        {
           "id": "alien_species:greys",
           "name": "Greys",
           "sources": 478
+        },
+        {
+          "id": "technology:anti-gravity",
+          "name": "Anti-Gravity",
+          "sources": 276
+        },
+        {
+          "id": "stars:sirius",
+          "name": "Sirius",
+          "sources": 151
         }
       ]
     },
@@ -159,9 +160,9 @@
       "label": "Signals",
       "leaders": [
         {
-          "id": "frequencies:60-hz",
-          "name": "60 Hz",
-          "sources": 23
+          "id": "frequencies:121-5-mhz",
+          "name": "121.5 MHz",
+          "sources": 15
         },
         {
           "id": "frequencies:243-mhz",
@@ -169,9 +170,9 @@
           "sources": 21
         },
         {
-          "id": "frequencies:300-mhz",
-          "name": "300 MHz",
-          "sources": 20
+          "id": "frequencies:60-hz",
+          "name": "60 Hz",
+          "sources": 23
         }
       ]
     },
@@ -180,19 +181,19 @@
       "label": "Terms & References",
       "leaders": [
         {
+          "id": "key_terms:consciousness",
+          "name": "Consciousness",
+          "sources": 425
+        },
+        {
           "id": "key_terms:flying-saucers",
           "name": "Flying Saucers",
           "sources": 987
         },
         {
-          "id": "websites:theblackvault-com",
-          "name": "theblackvault.com",
-          "sources": 466
-        },
-        {
-          "id": "key_terms:consciousness",
-          "name": "Consciousness",
-          "sources": 425
+          "id": "key_terms:unidentified-aerial-phenomena",
+          "name": "Unidentified Aerial Phenomena",
+          "sources": 194
         }
       ]
     }
