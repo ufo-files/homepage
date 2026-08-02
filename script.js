@@ -13,6 +13,7 @@ let screenshotSeed = 0;
 let archiveCountLoading = false;
 const archiveCountRefreshMs = 60 * 1000;
 const archiveCountUrl = "https://raw.githubusercontent.com/ufo-files/data-archive-2/archive-count/archive-count.json";
+const graphBuilderUrl = "https://ufo-files.github.io/relationship-graph-builder/";
 const menuToggle = document.getElementById("menu-toggle");
 const siteHeader = document.getElementById("site-header");
 const siteNavigation = document.getElementById("site-navigation");
@@ -42,7 +43,7 @@ function renderCorpusLeaders(payload) {
     for (const entity of category.leaders || []) {
       const item = document.createElement("li");
       const link = document.createElement("a");
-      link.href = `https://ufo-files.github.io/relationship-graph/?node=${encodeURIComponent(entity.id)}`;
+      link.href = graphBuilderUrl;
       link.textContent = entity.name;
       item.append(link);
       list.append(item);

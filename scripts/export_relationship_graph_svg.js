@@ -4,7 +4,9 @@ const path = require("path");
 
 const ROOT = path.resolve(__dirname, "..");
 const OUTPUT_PATH = path.join(ROOT, "assets", "relationship-graph-canvas.svg");
-const GRAPH_URL = process.env.RELATIONSHIP_GRAPH_URL || "https://ufo-files.github.io/relationship-graph/?view=network";
+const networkConfig = Buffer.from(JSON.stringify({ type: "network", title: "People and institutions" }), "utf8").toString("base64");
+const GRAPH_URL = process.env.GRAPH_BUILDER_URL ||
+  `https://ufo-files.github.io/relationship-graph-builder/#config=${encodeURIComponent(networkConfig)}`;
 const VIEWPORT = { width: 1440, height: 1000 };
 
 async function main() {
@@ -12,11 +14,14 @@ async function main() {
   try {
     const page = await browser.newPage({ viewport: VIEWPORT, deviceScaleFactor: 1 });
     await page.goto(GRAPH_URL, { waitUntil: "networkidle" });
-    await page.waitForSelector("#graph .graph-node", { timeout: 30000 });
-    await page.waitForFunction(() => document.querySelector("#graph-loading")?.hidden, { timeout: 30000 });
+    await page.waitForSelector("#chart .mark", { timeout: 30000 });
+    await page.waitForFunction(
+      () => !document.querySelector("#resultSummary")?.textContent.includes("Preparing"),
+      { timeout: 30000 },
+    );
     await page.waitForTimeout(700);
 
-    const svg = await page.locator("#graph").evaluate((graph, viewport) => {
+    const svg = await page.locator("#chart").evaluate((graph, viewport) => {
       const clone = graph.cloneNode(true);
       const sourceElements = [graph, ...graph.querySelectorAll("*")];
       const clonedElements = [clone, ...clone.querySelectorAll("*")];
@@ -59,7 +64,7 @@ async function main() {
       background.setAttribute("fill", getComputedStyle(graph).backgroundColor || "#f6f5ef");
 
       const title = document.createElementNS("http://www.w3.org/2000/svg", "title");
-      title.textContent = "UFO Files relationship graph";
+      title.textContent = "UFO Files Graph Builder network";
 
       clone.removeAttribute("id");
       clone.removeAttribute("class");
@@ -75,10 +80,10 @@ async function main() {
     }, VIEWPORT);
 
     if (/<image\b/i.test(svg)) {
-      throw new Error("Relationship graph SVG export unexpectedly contains raster image elements.");
+      throw new Error("Graph Builder SVG export unexpectedly contains raster image elements.");
     }
     if (!/<(?:circle|path|line)\b/i.test(svg)) {
-      throw new Error("Relationship graph SVG export contains no graph geometry.");
+      throw new Error("Graph Builder SVG export contains no graph geometry.");
     }
 
     fs.writeFileSync(OUTPUT_PATH, svg);
