@@ -1,199 +1,156 @@
 {
-  "generatedAt": "2026-07-29T15:03:31.961322+00:00",
+  "generatedAt": "2026-08-02T15:06:51Z",
   "ranking": [
-    "research relevance",
-    "distinct source coverage",
-    "relationship degree",
     "mentions",
+    "distinct source coverage",
+    "document coverage",
     "name"
   ],
   "categories": [
     {
-      "id": "people",
+      "id": "person",
       "label": "People",
       "leaders": [
         {
-          "id": "whistleblowers:bob-lazar",
+          "id": "ent-a1f0a47dcaf8",
+          "name": "John Greenewald",
+          "sources": 1
+        },
+        {
+          "id": "ent-d393ab7a82eb",
+          "name": "President Eisenhower",
+          "sources": 6
+        },
+        {
+          "id": "ent-2d0df3cd0ee9",
           "name": "Bob Lazar",
-          "sources": 81
-        },
-        {
-          "id": "politicians:senator-harry-reid",
-          "name": "Senator Harry Reid",
-          "sources": 63
-        },
-        {
-          "id": "people:thomas-townsend-brown",
-          "name": "Thomas Townsend Brown",
-          "sources": 96
+          "sources": 3
         }
       ]
     },
     {
-      "id": "news_media",
-      "label": "News Media",
+      "id": "government_agency",
+      "label": "Government Agencies",
       "leaders": [
         {
-          "id": "newsrooms:new-york-times",
-          "name": "New York Times",
-          "sources": 288
+          "id": "ent-b728f2245440",
+          "name": "NASA",
+          "sources": 9
         },
         {
-          "id": "newsrooms:washington-post",
-          "name": "Washington Post",
-          "sources": 167
+          "id": "ent-80fd2e7065aa",
+          "name": "Federal Bureau of Investigation",
+          "sources": 10
         },
         {
-          "id": "newsrooms:associated-press",
-          "name": "Associated Press",
-          "sources": 155
+          "id": "ent-a3ccf315f44d",
+          "name": "Central Intelligence Agency",
+          "sources": 8
         }
       ]
     },
     {
-      "id": "institutions_programs",
-      "label": "Institutions & Programs",
+      "id": "organization",
+      "label": "Organizations",
       "leaders": [
         {
-          "id": "government_agencies:department-of-defense",
-          "name": "Department of Defense",
-          "sources": 1097
+          "id": "ent-4f33683d0d76",
+          "name": "University of Colorado",
+          "sources": 6
         },
         {
-          "id": "government_agencies:dia",
-          "name": "DIA",
-          "sources": 810
+          "id": "ent-eb1acfbf7ae5",
+          "name": "Directorate of Intelligence",
+          "sources": 3
         },
         {
-          "id": "government_agencies:pentagon",
-          "name": "Pentagon",
-          "sources": 737
+          "id": "ent-cff54f202a66",
+          "name": "United Nations",
+          "sources": 5
         }
       ]
     },
     {
-      "id": "places",
+      "id": "location",
       "label": "Places",
       "leaders": [
         {
-          "id": "military_bases:wright-patterson-air-force-base",
-          "name": "Wright-Patterson Air Force Base",
-          "sources": 365
+          "id": "ent-83ea3eb2beb7",
+          "name": "Roswell",
+          "sources": 8
         },
         {
-          "id": "military_bases:white-sands-proving-grounds",
-          "name": "White Sands Proving Grounds",
-          "sources": 211
+          "id": "ent-2bcbbfd82d0f",
+          "name": "New Mexico",
+          "sources": 8
         },
         {
-          "id": "military_bases:s-4",
-          "name": "S-4",
-          "sources": 179
+          "id": "ent-1ffccf182f36",
+          "name": "New York",
+          "sources": 8
         }
       ]
     },
     {
-      "id": "documents_media",
-      "label": "Documents & Media",
+      "id": "program",
+      "label": "Programs",
       "leaders": [
         {
-          "id": "document_names:freedom-of-information-act",
-          "name": "Freedom Of Information Act",
-          "sources": 544
+          "id": "ent-576318b7542d",
+          "name": "Project Blue Book",
+          "sources": 8
         },
         {
-          "id": "document_names:condon-report",
-          "name": "Condon Report",
-          "sources": 126
+          "id": "ent-6f00716f0cfb",
+          "name": "KONA BLUE",
+          "sources": 2
         },
         {
-          "id": "document_names:majestic-12",
+          "id": "ent-8afa219bc3bf",
           "name": "Majestic 12",
-          "sources": 152
+          "sources": 6
         }
       ]
     },
     {
-      "id": "events_claims",
-      "label": "Events & Claims",
+      "id": "subject",
+      "label": "Terms",
       "leaders": [
         {
-          "id": "events:world-war",
-          "name": "World War",
-          "sources": 381
+          "id": "ent-30e1c4e4870b",
+          "name": "UFO",
+          "sources": 8
         },
         {
-          "id": "events:cold-war",
-          "name": "Cold War",
-          "sources": 215
+          "id": "ent-f5fd0a26ec7a",
+          "name": "UAP",
+          "sources": 7
         },
         {
-          "id": "theories:extraterrestrial-hypothesis",
-          "name": "Extraterrestrial Hypothesis",
-          "sources": 78
+          "id": "ent-2c1f0513bfba",
+          "name": "FOIA",
+          "sources": 8
         }
       ]
     },
     {
-      "id": "science_technology",
-      "label": "Science & Technology",
+      "id": "date",
+      "label": "Dates",
       "leaders": [
         {
-          "id": "alien_species:greys",
-          "name": "Greys",
-          "sources": 478
+          "id": "ent-2ffe5545244b",
+          "name": "May 29, 2019",
+          "sources": 1
         },
         {
-          "id": "technology:anti-gravity",
-          "name": "Anti-Gravity",
-          "sources": 276
+          "id": "ent-a68b70085e3d",
+          "name": "May 3, 2019",
+          "sources": 1
         },
         {
-          "id": "stars:sirius",
-          "name": "Sirius",
-          "sources": 151
-        }
-      ]
-    },
-    {
-      "id": "signals",
-      "label": "Signals",
-      "leaders": [
-        {
-          "id": "frequencies:121-5-mhz",
-          "name": "121.5 MHz",
-          "sources": 15
-        },
-        {
-          "id": "frequencies:243-mhz",
-          "name": "243 MHz",
-          "sources": 21
-        },
-        {
-          "id": "frequencies:60-hz",
-          "name": "60 Hz",
-          "sources": 23
-        }
-      ]
-    },
-    {
-      "id": "terms_references",
-      "label": "Terms & References",
-      "leaders": [
-        {
-          "id": "key_terms:consciousness",
-          "name": "Consciousness",
-          "sources": 425
-        },
-        {
-          "id": "key_terms:flying-saucers",
-          "name": "Flying Saucers",
-          "sources": 987
-        },
-        {
-          "id": "key_terms:unidentified-aerial-phenomena",
-          "name": "Unidentified Aerial Phenomena",
-          "sources": 194
+          "id": "ent-f53a6d64e2bf",
+          "name": "August 5, 2021",
+          "sources": 1
         }
       ]
     }

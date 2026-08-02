@@ -28,7 +28,7 @@
     <nav id="site-navigation">
       <a href="#about">About</a>
       <a href="#briefing">Briefing</a>
-      <a href="#relationship-graph">Graph</a>
+      <a href="#relationship-graph">Builder</a>
       <a href="#landscape">Landscape</a>
       <a href="#contact">Contact</a>
     </nav>
@@ -41,7 +41,7 @@
         <h1 id="intro-title">Big Data for UFO Files Research</h1>
         <p class="lead">Search public UFO and UAP records, follow connections, and inspect the source documents.</p>
         <div class="hero-actions" aria-label="Primary links">
-          <a class="button-link hero-primary-button" href="https://ufo-files.github.io/relationship-graph/">Start Exploring</a>
+          <a class="button-link hero-primary-button" href="https://ufo-files.github.io/relationship-graph-builder/">Start Exploring</a>
           <a class="text-link" href="https://github.com/ufo-files">View Data on GitHub</a>
         </div>
       </div>
@@ -66,31 +66,21 @@
           <p class="eyebrow">Executive Briefing</p>
           <h2 id="briefing-title">What to know before entering the archive.</h2>
         </header>
-        <div class="briefing-heading"><h3>Corpus Leaders</h3><p>Top three entities per domain, ranked by research relevance.</p></div>
-        <div id="corpus-leaders" class="leader-grid" aria-live="polite">
-          <article><h4>People</h4><ol><li><a href="https://ufo-files.github.io/relationship-graph/?node=people%3Asteven-m-greer">Steven M. Greer</a></li><li><a href="https://ufo-files.github.io/relationship-graph/?node=people%3Aj-allen-hynek">J. Allen Hynek</a></li><li><a href="https://ufo-files.github.io/relationship-graph/?node=people%3Ajohn-greenewald">John Greenewald</a></li></ol></article>
-          <article><h4>News Media</h4><ol><li><a href="https://ufo-files.github.io/relationship-graph/?node=newsrooms%3Anew-york-times">New York Times</a></li><li><a href="https://ufo-files.github.io/relationship-graph/?node=newsrooms%3Abbc">BBC</a></li><li><a href="https://ufo-files.github.io/relationship-graph/?node=newsrooms%3Awashington-post">Washington Post</a></li></ol></article>
-          <article><h4>Institutions &amp; Programs</h4><ol><li><a href="https://ufo-files.github.io/relationship-graph/?node=government_agencies%3Au-s-air-force">U.S. Air Force</a></li><li><a href="https://ufo-files.github.io/relationship-graph/?node=government_agencies%3Acentral-intelligence-agency">Central Intelligence Agency</a></li><li><a href="https://ufo-files.github.io/relationship-graph/?node=government_agencies%3Adepartment-of-defense">Department of Defense</a></li></ol></article>
-          <article><h4>Places</h4><ol><li><a href="https://ufo-files.github.io/relationship-graph/?node=locations%3Awashington">Washington</a></li><li><a href="https://ufo-files.github.io/relationship-graph/?node=locations%3Acalifornia">California</a></li><li><a href="https://ufo-files.github.io/relationship-graph/?node=locations%3Arussia">Russia</a></li></ol></article>
-          <article><h4>Documents &amp; Media</h4><ol><li><a href="https://ufo-files.github.io/relationship-graph/?node=document_names%3Afreedom-of-information-act">Freedom of Information Act</a></li><li><a href="https://ufo-files.github.io/relationship-graph/?node=document_names%3Aexecutive-order">Executive Order</a></li><li><a href="https://ufo-files.github.io/relationship-graph/?node=movies%3Aclose-encounters-of-the-third-kind">Close Encounters of the Third Kind</a></li></ol></article>
-          <article><h4>Events &amp; Claims</h4><ol><li><a href="https://ufo-files.github.io/relationship-graph/?node=events%3Aworld-war-i">World War I</a></li><li><a href="https://ufo-files.github.io/relationship-graph/?node=events%3Acold-war">Cold War</a></li><li><a href="https://ufo-files.github.io/relationship-graph/?node=events%3Aworld-war-ii">World War II</a></li></ol></article>
-          <article><h4>Science &amp; Technology</h4><ol><li><a href="https://ufo-files.github.io/relationship-graph/?node=chemical_elements%3Airon">Iron</a></li><li><a href="https://ufo-files.github.io/relationship-graph/?node=planets%3Amars">Mars</a></li><li><a href="https://ufo-files.github.io/relationship-graph/?node=alien_species%3Agreys">Greys</a></li></ol></article>
-          <article><h4>Signals</h4><ol><li><a href="https://ufo-files.github.io/relationship-graph/?node=frequencies%3A60-hz">60 Hz</a></li><li><a href="https://ufo-files.github.io/relationship-graph/?node=frequencies%3A243-mhz">243 MHz</a></li><li><a href="https://ufo-files.github.io/relationship-graph/?node=frequencies%3A300-mhz">300 MHz</a></li></ol></article>
-          <article><h4>Terms &amp; References</h4><ol><li><a href="https://ufo-files.github.io/relationship-graph/?node=key_terms%3Aflying-saucers">Flying Saucers</a></li><li><a href="https://ufo-files.github.io/relationship-graph/?node=websites%3Atheblackvault-com">theblackvault.com</a></li><li><a href="https://ufo-files.github.io/relationship-graph/?node=key_terms%3Aconsciousness">Consciousness</a></li></ol></article>
-        </div>
+        <div class="briefing-heading"><h3>Corpus Leaders</h3><p>Top three entities per type, ranked by mentions in the current graph data.</p></div>
+        <div id="corpus-leaders" class="leader-grid" aria-live="polite">Loading current graph data…</div>
       </div>
     </section>
 
     <section id="relationship-graph" class="section product-section graph-section" aria-labelledby="graph-title">
       <div class="app-preview graph-preview">
-        <img class="preview-image graph-image" src="assets/relationship-graph-canvas.svg" alt="Relationship Graph canvas preview">
+        <img class="preview-image graph-image" src="assets/relationship-graph-canvas.svg" alt="Graph Builder canvas preview">
       </div>
       <div class="section-inner product-inner">
         <div class="section-copy">
-          <p class="eyebrow">Relationship Graph</p>
-          <h2 id="graph-title">See how the names, places, programs, and events connect.</h2>
-          <p>Browse the archive as a network. Start with a person, document, program, place, or event, then follow its links across the record.</p>
-          <a class="button-link" href="https://ufo-files.github.io/relationship-graph/">Launch Graph</a>
+          <p class="eyebrow">Graph Builder</p>
+          <h2 id="graph-title">Build a view of the people, places, programs, and terms in the archive.</h2>
+          <p>Start from a research preset or configure a scatter chart, network, timeline, matrix, table, or bar chart from the latest machine data.</p>
+          <a class="button-link" href="https://ufo-files.github.io/relationship-graph-builder/">Launch Builder</a>
         </div>
       </div>
     </section>

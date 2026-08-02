@@ -18,7 +18,7 @@ The page is a single static document with sections for:
 
 - Intro hero
 - About the project
-- Relationship Graph
+- Graph Builder
 - Dog Whistle
 - Meditation
 - Entrainment
@@ -45,7 +45,7 @@ http://127.0.0.1:8124
 - `index.html`: page structure and links
 - `styles.css`: layout, typography, section styling, responsive behavior
 - `script.js`: ambient background field and pointer interaction
-- `assets/`: generated app previews and README screenshot. Relationship Graph
+- `assets/`: generated app previews and README screenshot. Graph Builder
   and Entrainment previews are SVGs rebuilt by `npm run screenshots`; the
   Entrainment preview depicts the active Reference playback state from
   deterministic carrier, contour, filtered pink-noise, and stereo-pan samples.
