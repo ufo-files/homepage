@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-02T15:06:51Z",
+  "generatedAt": "2026-08-02T19:23:11Z",
   "ranking": [
     "mentions",
     "distinct source coverage",
@@ -17,14 +17,14 @@
           "sources": 1
         },
         {
-          "id": "ent-d393ab7a82eb",
-          "name": "President Eisenhower",
-          "sources": 6
-        },
-        {
           "id": "ent-2d0df3cd0ee9",
           "name": "Bob Lazar",
           "sources": 3
+        },
+        {
+          "id": "ent-d393ab7a82eb",
+          "name": "President Eisenhower",
+          "sources": 6
         }
       ]
     },
@@ -101,14 +101,14 @@
           "sources": 8
         },
         {
-          "id": "ent-6f00716f0cfb",
-          "name": "KONA BLUE",
-          "sources": 2
-        },
-        {
           "id": "ent-8afa219bc3bf",
           "name": "Majestic 12",
           "sources": 6
+        },
+        {
+          "id": "ent-6f00716f0cfb",
+          "name": "KONA BLUE",
+          "sources": 2
         }
       ]
     },
