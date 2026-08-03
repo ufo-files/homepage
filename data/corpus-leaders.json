@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-03T03:35:41Z",
+  "generatedAt": "2026-08-03T09:50:56Z",
   "ranking": [
     "mentions",
     "distinct source coverage",
@@ -80,14 +80,14 @@
           "sources": 9
         },
         {
-          "id": "ent-2bcbbfd82d0f",
-          "name": "New Mexico",
-          "sources": 8
-        },
-        {
           "id": "ent-1ffccf182f36",
           "name": "New York",
           "sources": 9
+        },
+        {
+          "id": "ent-2bcbbfd82d0f",
+          "name": "New Mexico",
+          "sources": 8
         }
       ]
     },
@@ -103,7 +103,7 @@
         {
           "id": "ent-8afa219bc3bf",
           "name": "Majestic 12",
-          "sources": 6
+          "sources": 7
         },
         {
           "id": "ent-6f00716f0cfb",
