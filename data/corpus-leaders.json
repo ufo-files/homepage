@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-03T15:06:44Z",
+  "generatedAt": "2026-08-03T19:54:15Z",
   "ranking": [
     "mentions",
     "distinct source coverage",
@@ -14,7 +14,7 @@
         {
           "id": "ent-a1f0a47dcaf8",
           "name": "John Greenewald",
-          "sources": 1
+          "sources": 2
         },
         {
           "id": "ent-2d0df3cd0ee9",
@@ -22,8 +22,8 @@
           "sources": 3
         },
         {
-          "id": "ent-d393ab7a82eb",
-          "name": "President Eisenhower",
+          "id": "ent-c05349f25ba2",
+          "name": "Dwight D. Eisenhower",
           "sources": 6
         }
       ]
@@ -66,7 +66,7 @@
         {
           "id": "ent-cff54f202a66",
           "name": "United Nations",
-          "sources": 5
+          "sources": 6
         }
       ]
     },
@@ -103,7 +103,7 @@
         {
           "id": "ent-8afa219bc3bf",
           "name": "Majestic 12",
-          "sources": 7
+          "sources": 8
         },
         {
           "id": "ent-6f00716f0cfb",
@@ -124,12 +124,12 @@
         {
           "id": "ent-f5fd0a26ec7a",
           "name": "UAP",
-          "sources": 7
+          "sources": 9
         },
         {
           "id": "ent-2c1f0513bfba",
           "name": "FOIA",
-          "sources": 8
+          "sources": 9
         }
       ]
     },
@@ -148,9 +148,9 @@
           "sources": 1
         },
         {
-          "id": "ent-52c57e53fa89",
-          "name": "November 18, 1986",
-          "sources": 2
+          "id": "ent-d3e697d94cc0",
+          "name": "November 17, 1986",
+          "sources": 3
         }
       ]
     }
