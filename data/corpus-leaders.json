@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-04T14:34:38Z",
+  "generatedAt": "2026-08-04T19:53:47Z",
   "ranking": [
     "mentions",
     "distinct source coverage",
@@ -108,7 +108,7 @@
         {
           "id": "ent-6f00716f0cfb",
           "name": "KONA BLUE",
-          "sources": 2
+          "sources": 3
         }
       ]
     },
