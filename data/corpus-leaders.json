@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-04T08:47:41Z",
+  "generatedAt": "2026-08-04T14:34:38Z",
   "ranking": [
     "mentions",
     "distinct source coverage",
@@ -19,12 +19,12 @@
         {
           "id": "ent-2d0df3cd0ee9",
           "name": "Bob Lazar",
-          "sources": 3
+          "sources": 4
         },
         {
-          "id": "ent-c05349f25ba2",
-          "name": "Dwight D. Eisenhower",
-          "sources": 8
+          "id": "ent-ac1a579989c1",
+          "name": "Harry Reid",
+          "sources": 5
         }
       ]
     },
@@ -85,9 +85,9 @@
           "sources": 10
         },
         {
-          "id": "ent-83ea3eb2beb7",
-          "name": "Roswell",
-          "sources": 10
+          "id": "ent-9c0f43bfe060",
+          "name": "Russia",
+          "sources": 12
         }
       ]
     },
