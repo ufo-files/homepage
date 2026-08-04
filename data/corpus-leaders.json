@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-04T03:32:59Z",
+  "generatedAt": "2026-08-04T08:47:41Z",
   "ranking": [
     "mentions",
     "distinct source coverage",
@@ -35,7 +35,7 @@
         {
           "id": "ent-b728f2245440",
           "name": "NASA",
-          "sources": 10
+          "sources": 11
         },
         {
           "id": "ent-80fd2e7065aa",
@@ -54,19 +54,19 @@
       "label": "Organizations",
       "leaders": [
         {
+          "id": "ent-9f661c30c1b9",
+          "name": "National Academy of Sciences",
+          "sources": 10
+        },
+        {
           "id": "ent-4f33683d0d76",
           "name": "University of Colorado",
           "sources": 8
         },
         {
-          "id": "ent-eb1acfbf7ae5",
-          "name": "Directorate of Intelligence",
-          "sources": 3
-        },
-        {
           "id": "ent-cff54f202a66",
           "name": "United Nations",
-          "sources": 7
+          "sources": 9
         }
       ]
     },
@@ -75,19 +75,19 @@
       "label": "Places",
       "leaders": [
         {
+          "id": "ent-fa74f8432817",
+          "name": "China",
+          "sources": 11
+        },
+        {
+          "id": "ent-e9a6f769a8ac",
+          "name": "Australia",
+          "sources": 10
+        },
+        {
           "id": "ent-83ea3eb2beb7",
           "name": "Roswell",
-          "sources": 9
-        },
-        {
-          "id": "ent-1ffccf182f36",
-          "name": "New York",
-          "sources": 9
-        },
-        {
-          "id": "ent-2bcbbfd82d0f",
-          "name": "New Mexico",
-          "sources": 9
+          "sources": 10
         }
       ]
     },
@@ -98,7 +98,7 @@
         {
           "id": "ent-576318b7542d",
           "name": "Project Blue Book",
-          "sources": 9
+          "sources": 10
         },
         {
           "id": "ent-8afa219bc3bf",
@@ -119,7 +119,7 @@
         {
           "id": "ent-30e1c4e4870b",
           "name": "UFO",
-          "sources": 9
+          "sources": 10
         },
         {
           "id": "ent-f5fd0a26ec7a",
