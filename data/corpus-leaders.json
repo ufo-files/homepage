@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-03T19:54:15Z",
+  "generatedAt": "2026-08-04T03:32:59Z",
   "ranking": [
     "mentions",
     "distinct source coverage",
@@ -24,7 +24,7 @@
         {
           "id": "ent-c05349f25ba2",
           "name": "Dwight D. Eisenhower",
-          "sources": 6
+          "sources": 8
         }
       ]
     },
@@ -40,7 +40,7 @@
         {
           "id": "ent-80fd2e7065aa",
           "name": "Federal Bureau of Investigation",
-          "sources": 10
+          "sources": 11
         },
         {
           "id": "ent-a3ccf315f44d",
@@ -56,7 +56,7 @@
         {
           "id": "ent-4f33683d0d76",
           "name": "University of Colorado",
-          "sources": 6
+          "sources": 8
         },
         {
           "id": "ent-eb1acfbf7ae5",
@@ -66,7 +66,7 @@
         {
           "id": "ent-cff54f202a66",
           "name": "United Nations",
-          "sources": 6
+          "sources": 7
         }
       ]
     },
@@ -87,7 +87,7 @@
         {
           "id": "ent-2bcbbfd82d0f",
           "name": "New Mexico",
-          "sources": 8
+          "sources": 9
         }
       ]
     },
@@ -98,7 +98,7 @@
         {
           "id": "ent-576318b7542d",
           "name": "Project Blue Book",
-          "sources": 8
+          "sources": 9
         },
         {
           "id": "ent-8afa219bc3bf",
@@ -143,14 +143,14 @@
           "sources": 1
         },
         {
+          "id": "ent-52c57e53fa89",
+          "name": "November 18, 1986",
+          "sources": 3
+        },
+        {
           "id": "ent-2ffe5545244b",
           "name": "May 29, 2019",
           "sources": 1
-        },
-        {
-          "id": "ent-d3e697d94cc0",
-          "name": "November 17, 1986",
-          "sources": 3
         }
       ]
     }
