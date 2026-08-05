@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-05T03:27:04Z",
+  "generatedAt": "2026-08-05T08:43:11Z",
   "ranking": [
     "mentions",
     "distinct source coverage",
@@ -85,9 +85,9 @@
           "sources": 11
         },
         {
-          "id": "ent-9c0f43bfe060",
-          "name": "Russia",
-          "sources": 12
+          "id": "ent-83ea3eb2beb7",
+          "name": "Roswell",
+          "sources": 10
         }
       ]
     },
@@ -108,7 +108,7 @@
         {
           "id": "ent-6f00716f0cfb",
           "name": "KONA BLUE",
-          "sources": 3
+          "sources": 4
         }
       ]
     },
