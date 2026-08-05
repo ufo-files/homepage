@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-04T19:53:47Z",
+  "generatedAt": "2026-08-05T03:27:04Z",
   "ranking": [
     "mentions",
     "distinct source coverage",
@@ -22,9 +22,9 @@
           "sources": 4
         },
         {
-          "id": "ent-ac1a579989c1",
-          "name": "Harry Reid",
-          "sources": 5
+          "id": "ent-b708e2c5a60b",
+          "name": "Ronald Reagan",
+          "sources": 8
         }
       ]
     },
@@ -75,14 +75,14 @@
       "label": "Places",
       "leaders": [
         {
+          "id": "ent-7a5290a5b72b",
+          "name": "Moon",
+          "sources": 10
+        },
+        {
           "id": "ent-fa74f8432817",
           "name": "China",
           "sources": 11
-        },
-        {
-          "id": "ent-e9a6f769a8ac",
-          "name": "Australia",
-          "sources": 10
         },
         {
           "id": "ent-9c0f43bfe060",
