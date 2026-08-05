@@ -1,56 +1,35 @@
-# The Open Archive for UFO Research
+# UFO Files Homepage
 
 [![pages-build-deployment](https://github.com/ufo-files/homepage/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/ufo-files/homepage/actions/workflows/pages/pages-build-deployment)
 
-Static homepage for [The Open Archive for UFO Research](https://ufo-files.app), the public entry point for the project and its related research tools.
+The static public entry point for [UFO Files](https://ufo-files.app).
 
-![UFO Files homepage hero](assets/homepage-hero.png)
+![UFO Files archival homepage](assets/homepage-hero.png)
 
-## Live Site
+## Design
 
-- Production: <https://ufo-files.app>
-- GitHub Pages source: `main` branch, repository root
-- Custom domain: configured through `CNAME`
+The homepage is one responsive, non-scrolling viewport composed as a public
+government case file. Its folder, envelope, stamps, labels, and routing-slip
+language is based on lead pages in public Department of War releases, while
+all visual material is recreated as HTML, CSS, and SVG rather than scans. The
+interface remains semantic HTML: the physical-looking controls are ordinary
+links with keyboard focus states and readable labels.
 
-## Sections
-
-The page is a single static document with sections for:
-
-- Intro hero
-- About the project
-- Graph Builder
-- Dog Whistle
-- Meditation
-- Entrainment
-- Contact
-
-The Team section is intentionally removed until the real team content is ready.
-
-## Local Preview
-
-This site has no build step. You can open `index.html` directly, or serve the repo root:
+## Local preview
 
 ```sh
 python3 -m http.server 8124
 ```
 
-Then visit:
+Then open <http://127.0.0.1:8124>.
 
-```txt
-http://127.0.0.1:8124
+## Validation
+
+```sh
+npm ci
+npm test
+npm run screenshots
 ```
 
-## Files
-
-- `index.html`: page structure and links
-- `styles.css`: layout, typography, section styling, responsive behavior
-- `script.js`: ambient background field and pointer interaction
-- `assets/`: generated app previews and README screenshot. Graph Builder
-  and Entrainment previews are SVGs rebuilt by `npm run screenshots`; the
-  Entrainment preview depicts the active Reference playback state from
-  deterministic carrier, contour, filtered pink-noise, and stereo-pan samples.
-- `CNAME`: GitHub Pages custom domain
-
-## Deployment
-
-Push changes to `main`. GitHub Pages publishes the static files at the custom domain after the Pages build completes.
+GitHub Pages publishes the repository root from `main` to the custom domain in
+`CNAME`.

@@ -3,12 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "export:graph-svg": "node scripts/export_relationship_graph_svg.js",
-    "export:entrainment-svg": "node scripts/export_entrainment_svg.js",
-    "export:previews": "npm run export:graph-svg && npm run export:entrainment-svg",
-    "update:leaders": "node scripts/update_corpus_leaders.js",
-    "screenshots": "npm run export:previews && node scripts/capture_screenshots.js",
-    "test": "node scripts/test_archive_count.js && node scripts/test_corpus_leaders.js && node scripts/test_graph_links.js"
+    "screenshots": "node scripts/capture_screenshots.js",
+    "test": "node scripts/test_homepage.js"
   },
   "devDependencies": {
     "@playwright/test": "^1.53.0"
