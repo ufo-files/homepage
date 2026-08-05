@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-05T08:43:11Z",
+  "generatedAt": "2026-08-05T14:22:08Z",
   "ranking": [
     "mentions",
     "distinct source coverage",
@@ -22,9 +22,9 @@
           "sources": 4
         },
         {
-          "id": "ent-b708e2c5a60b",
-          "name": "Ronald Reagan",
-          "sources": 8
+          "id": "ent-ac1a579989c1",
+          "name": "Harry Reid",
+          "sources": 5
         }
       ]
     },
