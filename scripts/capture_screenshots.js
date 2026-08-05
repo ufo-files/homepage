@@ -77,14 +77,14 @@ async function main() {
   fs.mkdirSync(OUTPUT_DIR, { recursive: true });
   const port = await findOpenPort();
   const server = startServer(port);
-  const baseUrl = `http://127.0.0.1:${port}/?screenshot=1`;
+  const baseUrl = `http://127.0.0.1:${port}/`;
 
   try {
     await waitForServer(port);
     const browser = await chromium.launch();
     const page = await browser.newPage({ viewport: VIEWPORT, deviceScaleFactor: 1 });
     await page.goto(baseUrl, { waitUntil: "networkidle" });
-    await page.waitForSelector("#intro-title", { timeout: 30000 });
+    await page.waitForSelector("#site-title", { timeout: 30000 });
     await page.waitForTimeout(500);
     await capture(page, "homepage-hero");
     await browser.close();
