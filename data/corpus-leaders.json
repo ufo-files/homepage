@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-05T14:22:08Z",
+  "generatedAt": "2026-08-05T19:42:26Z",
   "ranking": [
     "mentions",
     "distinct source coverage",
@@ -19,12 +19,12 @@
         {
           "id": "ent-2d0df3cd0ee9",
           "name": "Bob Lazar",
-          "sources": 4
+          "sources": 5
         },
         {
           "id": "ent-ac1a579989c1",
           "name": "Harry Reid",
-          "sources": 5
+          "sources": 6
         }
       ]
     },
@@ -38,14 +38,14 @@
           "sources": 11
         },
         {
-          "id": "ent-80fd2e7065aa",
-          "name": "Federal Bureau of Investigation",
-          "sources": 11
-        },
-        {
           "id": "ent-a3ccf315f44d",
           "name": "Central Intelligence Agency",
           "sources": 9
+        },
+        {
+          "id": "ent-80fd2e7065aa",
+          "name": "Federal Bureau of Investigation",
+          "sources": 11
         }
       ]
     },
@@ -80,14 +80,14 @@
           "sources": 10
         },
         {
-          "id": "ent-fa74f8432817",
-          "name": "China",
-          "sources": 11
-        },
-        {
           "id": "ent-83ea3eb2beb7",
           "name": "Roswell",
           "sources": 10
+        },
+        {
+          "id": "ent-fa74f8432817",
+          "name": "China",
+          "sources": 11
         }
       ]
     },
@@ -106,9 +106,9 @@
           "sources": 8
         },
         {
-          "id": "ent-6f00716f0cfb",
-          "name": "KONA BLUE",
-          "sources": 4
+          "id": "ent-5194e49dc4fe",
+          "name": "Project GRUDGE",
+          "sources": 8
         }
       ]
     },
