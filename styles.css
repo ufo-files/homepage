@@ -9,6 +9,22 @@
   --mono: "Courier New", Courier, ui-monospace, monospace;
 }
 
+@font-face {
+  font-family: "Architects Daughter";
+  src: url("assets/architects-daughter.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Reenie Beanie";
+  src: url("assets/reenie-beanie.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
 * { box-sizing: border-box; }
 
 html,
@@ -71,6 +87,34 @@ a { color: inherit; }
     radial-gradient(circle at 74% 77%, transparent 0 16%, rgba(74,43,10,.06) 30%, transparent 45%);
   mix-blend-mode: multiply;
 }
+
+.concept-sketches {
+  position: absolute;
+  z-index: -1;
+  top: 28%;
+  right: 2.8%;
+  width: min(45%, 660px);
+  height: auto;
+  opacity: .3;
+  mix-blend-mode: multiply;
+  transform: rotate(.7deg);
+  pointer-events: none;
+}
+
+.concept-sketches img { display: block; width: 100%; height: auto; }
+
+.sketch-label {
+  position: absolute;
+  color: #30291f;
+  font: 400 clamp(15px, 1.55vw, 23px)/.9 "Reenie Beanie", sans-serif;
+  white-space: nowrap;
+}
+
+.graph-label { top: 5%; left: 3%; transform: rotate(-2deg); }
+.timeline-label { top: 5%; left: 49%; transform: rotate(1deg); }
+.chart-label { top: 36%; left: 54%; transform: rotate(-2deg); }
+.map-label { top: 57%; left: 5%; transform: rotate(2deg); }
+.flow-label { right: 2%; bottom: 1%; transform: rotate(1deg); }
 
 .file-heading {
   position: absolute;
@@ -226,7 +270,7 @@ h1 span { color: var(--red); }
   width: min(34%, 430px);
   padding: clamp(16px, 2.3vw, 30px);
   background:
-    linear-gradient(rgba(238,231,211,.94), rgba(238,231,211,.94)),
+    linear-gradient(var(--paper), var(--paper)),
     repeating-linear-gradient(0deg, transparent 0 25px, rgba(54,71,81,.16) 26px);
   box-shadow: 0 5px 14px rgba(46,29,8,.28);
   font-family: "Architects Daughter", cursive;
@@ -306,6 +350,7 @@ a:focus-visible { outline: 3px solid #111; outline-offset: 4px; }
   .desk { padding: 8px; }
   .case-file { height: calc(100svh - 16px); transform: none; }
   .folder-scan { object-position: 62% center; opacity: .55; }
+  .concept-sketches { top: 51%; right: 0; width: 42%; opacity: .2; }
   .file-heading { top: 3%; left: 5%; }
   .classification-stamps { top: 15.5%; left: 5%; width: 52%; gap: 3px; transform: rotate(-4deg); }
   .cancelled-stamp { border-width: 1px; font-size: clamp(7px, 2.25vw, 10px); }
