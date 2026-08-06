@@ -8,6 +8,7 @@ const css = fs.readFileSync(path.join(root, "styles.css"), "utf8");
 
 assert.match(html, /id="site-title"/);
 assert.match(html, /assets\/archive-folder\.svg/);
+assert.match(html, /assets\/data-concept-sketches\.svg/);
 assert.match(html, /TOP SECRET \/\/ NOFORN/);
 assert.match(html, /SPECIAL ACCESS REQUIRED/);
 assert.match(html, /https:\/\/ufo-files\.github\.io\/relationship-graph-builder\//);
@@ -23,7 +24,7 @@ assert.match(css, /prefers-reduced-motion/);
 assert.match(css, /\.routing-slip\s*\{[^}]*font-family:\s*"Architects Daughter"/s);
 assert.match(css, /\.routing-copy\s*\{[^}]*font-size:\s*1rem/s);
 
-for (const asset of ["archive-folder.svg"]) {
+for (const asset of ["archive-folder.svg", "data-concept-sketches.svg", "architects-daughter.ttf", "reenie-beanie.ttf"]) {
   assert.ok(fs.statSync(path.join(root, "assets", asset)).size > 0, `${asset} is present`);
 }
 
