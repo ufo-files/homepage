@@ -20,6 +20,8 @@ assert.match(css, /height:\s*100svh/);
 assert.match(css, /overflow:\s*hidden/);
 assert.match(css, /@media \(max-width: 820px\)/);
 assert.match(css, /prefers-reduced-motion/);
+assert.match(css, /\.routing-slip\s*\{[^}]*font-family:\s*"Architects Daughter"/s);
+assert.match(css, /\.routing-copy\s*\{[^}]*font-size:\s*1rem/s);
 
 for (const asset of ["archive-folder.svg"]) {
   assert.ok(fs.statSync(path.join(root, "assets", asset)).size > 0, `${asset} is present`);
