@@ -1,0 +1,158 @@
+{
+  "generatedAt": "2026-08-05T19:42:26Z",
+  "ranking": [
+    "mentions",
+    "distinct source coverage",
+    "document coverage",
+    "name"
+  ],
+  "categories": [
+    {
+      "id": "person",
+      "label": "People",
+      "leaders": [
+        {
+          "id": "ent-a1f0a47dcaf8",
+          "name": "John Greenewald",
+          "sources": 2
+        },
+        {
+          "id": "ent-2d0df3cd0ee9",
+          "name": "Bob Lazar",
+          "sources": 5
+        },
+        {
+          "id": "ent-ac1a579989c1",
+          "name": "Harry Reid",
+          "sources": 6
+        }
+      ]
+    },
+    {
+      "id": "government_agency",
+      "label": "Government Agencies",
+      "leaders": [
+        {
+          "id": "ent-b728f2245440",
+          "name": "NASA",
+          "sources": 11
+        },
+        {
+          "id": "ent-a3ccf315f44d",
+          "name": "Central Intelligence Agency",
+          "sources": 9
+        },
+        {
+          "id": "ent-80fd2e7065aa",
+          "name": "Federal Bureau of Investigation",
+          "sources": 11
+        }
+      ]
+    },
+    {
+      "id": "organization",
+      "label": "Organizations",
+      "leaders": [
+        {
+          "id": "ent-9f661c30c1b9",
+          "name": "National Academy of Sciences",
+          "sources": 10
+        },
+        {
+          "id": "ent-4f33683d0d76",
+          "name": "University of Colorado",
+          "sources": 8
+        },
+        {
+          "id": "ent-cff54f202a66",
+          "name": "United Nations",
+          "sources": 9
+        }
+      ]
+    },
+    {
+      "id": "location",
+      "label": "Places",
+      "leaders": [
+        {
+          "id": "ent-7a5290a5b72b",
+          "name": "Moon",
+          "sources": 10
+        },
+        {
+          "id": "ent-83ea3eb2beb7",
+          "name": "Roswell",
+          "sources": 10
+        },
+        {
+          "id": "ent-fa74f8432817",
+          "name": "China",
+          "sources": 11
+        }
+      ]
+    },
+    {
+      "id": "program",
+      "label": "Programs",
+      "leaders": [
+        {
+          "id": "ent-576318b7542d",
+          "name": "Project Blue Book",
+          "sources": 10
+        },
+        {
+          "id": "ent-8afa219bc3bf",
+          "name": "Majestic 12",
+          "sources": 8
+        },
+        {
+          "id": "ent-5194e49dc4fe",
+          "name": "Project GRUDGE",
+          "sources": 8
+        }
+      ]
+    },
+    {
+      "id": "subject",
+      "label": "Terms",
+      "leaders": [
+        {
+          "id": "ent-30e1c4e4870b",
+          "name": "UFO",
+          "sources": 10
+        },
+        {
+          "id": "ent-f5fd0a26ec7a",
+          "name": "UAP",
+          "sources": 9
+        },
+        {
+          "id": "ent-2c1f0513bfba",
+          "name": "FOIA",
+          "sources": 9
+        }
+      ]
+    },
+    {
+      "id": "date",
+      "label": "Dates",
+      "leaders": [
+        {
+          "id": "ent-f53a6d64e2bf",
+          "name": "August 5, 2021",
+          "sources": 1
+        },
+        {
+          "id": "ent-52c57e53fa89",
+          "name": "November 18, 1986",
+          "sources": 3
+        },
+        {
+          "id": "ent-2ffe5545244b",
+          "name": "May 29, 2019",
+          "sources": 1
+        }
+      ]
+    }
+  ]
+}

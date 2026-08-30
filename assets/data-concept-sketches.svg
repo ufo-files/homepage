@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 430" aria-hidden="true">
+  <defs>
+    <filter id="pencil" x="-8%" y="-8%" width="116%" height="116%"><feTurbulence type="fractalNoise" baseFrequency=".018" numOctaves="2" seed="17" result="noise"/><feDisplacementMap in="SourceGraphic" in2="noise" scale="1.8"/></filter>
+    <style>.ink{fill:none;stroke:#30291f;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}.faint{fill:none;stroke:#30291f;stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round;opacity:.65}.dash{stroke-dasharray:5 7}.note{display:none}</style>
+  </defs>
+  <g filter="url(#pencil)">
+    <g transform="translate(18 24) rotate(-2 145 90)">
+      <text class="note" x="3" y="12">people / programs / records?</text>
+      <path class="faint" d="M50 61 119 39l57 49 67-44 38 72-65 42-76-18-69 25-21-104Zm69-22 21 101m36-52 40 70M50 61l126 27m67-44-27 114"/>
+      <g class="ink"><circle cx="50" cy="61" r="10"/><circle cx="119" cy="39" r="15"/><circle cx="176" cy="88" r="9"/><circle cx="243" cy="44" r="13"/><circle cx="281" cy="116" r="10"/><circle cx="216" cy="158" r="16"/><circle cx="140" cy="140" r="8"/><circle cx="71" cy="165" r="12"/></g>
+      <path class="faint" d="m106 185 72 2m-65 6 53 1"/><text class="note small" x="183" y="194">weighted links</text>
+    </g>
+    <g transform="translate(350 25) rotate(1 165 50)">
+      <text class="note" x="0" y="13">event sequence</text><path class="ink" d="M4 65c62-3 119 4 181 0s103 4 163-1"/><path class="faint" d="M35 49v33m67-45v57m79-42v33m71-48v58m67-44v32"/>
+      <circle class="ink" cx="35" cy="65" r="5"/><circle class="ink" cx="102" cy="65" r="7"/><circle class="ink" cx="181" cy="65" r="5"/><circle class="ink" cx="252" cy="65" r="8"/><circle class="ink" cx="319" cy="65" r="5"/><text class="note small" x="20" y="103">1947</text><text class="note small" x="235" y="112">hearings</text>
+    </g>
+    <g transform="translate(387 143) rotate(-2 135 95)">
+      <text class="note" x="0" y="13">reports by year / source</text><path class="ink" d="M17 34v142h280"/><path class="faint" d="M18 142h278M18 108h278M18 72h278" opacity=".45"/><path class="ink" d="M39 176v-26h23v26m16 0v-48h23v48m16 0V89h23v87m16 0V62h23v114m16 0v-73h23v73m16 0v-42h23v42m16 0V79h23v97"/><path class="faint" d="m32 118 58-27 39 9 39-52 44 34 48-19"/><text class="note small" x="202" y="197">compare collections</text>
+    </g>
+    <g transform="translate(38 243) rotate(2 145 80)">
+      <text class="note" x="0" y="13">where do reports cluster?</text><path class="ink" d="M41 54c16-25 45-38 76-31 17-14 51-11 62 5 34-4 63 14 68 42 28 19 18 51-8 63-17 29-54 34-79 16-27 18-63 9-73-18-32-4-50-38-34-61-15-2-23-6-12-16Z"/>
+      <g class="faint"><circle cx="93" cy="67" r="5"/><circle cx="115" cy="81" r="11"/><circle cx="139" cy="73" r="4"/><circle cx="174" cy="107" r="8"/><circle cx="195" cy="93" r="4"/><circle cx="207" cy="120" r="12"/><circle cx="150" cy="129" r="5"/><circle cx="81" cy="111" r="8"/></g><path class="faint dash" d="M115 81c38 6 56 10 92 39M81 111l69 18"/><text class="note small" x="55" y="180">map + density?</text>
+    </g>
+    <g transform="translate(352 338) rotate(1 170 40)">
+      <path class="ink" d="M6 4h70l20 20v68H6Zm70 0v21h20M112 48h56m-12-10 14 10-14 10"/><circle class="ink" cx="205" cy="27" r="16"/><rect class="ink" x="187" y="63" width="39" height="24" rx="3"/><path class="faint" d="M169 48h87m-12-10 14 10-14 10"/><circle class="ink" cx="288" cy="28" r="12"/><circle class="ink" cx="317" cy="65" r="15"/><circle class="ink" cx="274" cy="82" r="9"/><path class="faint" d="m288 40 29 25m-43 17 14-42m-14 42 43-17"/><text class="note small" x="5" y="113">document → entities → relationships</text>
+    </g>
+  </g>
+</svg>
