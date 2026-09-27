@@ -2,45 +2,97 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Big Data for UFO Files Research</title>
-  <meta name="description" content="Explore patterns, connections, and hidden information across more than 117,000 global UFO files.">
-  <meta name="color-scheme" content="light dark">
-  <link rel="stylesheet" href="styles.css?v=research-home-20260825g">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#333333">
+  <title>UFO Files — Big Data for UFO Files Research</title>
+  <meta name="description" content="Explore patterns and connections across public UFO records with open-source research tools.">
+  <meta property="og:title" content="UFO Files">
+  <meta property="og:description" content="A big data approach to public UFO files research.">
+  <meta property="og:url" content="https://ufo-files.app/">
+  <meta property="og:image" content="https://ufo-files.app/assets/relationship-graph-main.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="src/css/reset.css">
+  <link rel="stylesheet" href="src/css/style.css">
+  <link rel="stylesheet" href="styles.css">
 </head>
-<body>
-  <canvas id="field" aria-hidden="true"></canvas>
-  <aside class="announcement-banner" aria-label="Announcement">
-    <p>Independent · open source · evidence linked</p>
-  </aside>
-  <header id="site-header" class="site-header" aria-label="Primary navigation">
-    <a class="brand" href="#intro">
-      <img class="brand-logo" src="assets/logo.svg" alt="" aria-hidden="true">
-      <span>UFO Files</span>
-    </a>
-    <nav id="site-navigation">
-      <a href="https://ufo-files.github.io/relationship-graph-builder/">Explore</a>
-      <a href="https://tips.hushline.app/to/ufo-files" rel="me">Contact</a>
+<body class="landing">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="banner"><p>Independent · Open source · Evidence linked</p></div>
+  <header class="island site-header">
+    <a class="brand" href="#intro"><img src="assets/logo.svg" width="32" height="32" alt="">UFO Files</a>
+    <nav aria-label="Main navigation">
+      <button class="menu-toggle btn" type="button" aria-expanded="false" aria-controls="site-navigation" hidden>Menu</button>
+      <ul id="site-navigation">
+        <li><a href="#research">Research</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="https://github.com/ufo-files/homepage">Code</a></li>
+        <li><a href="https://tips.hushline.app/to/ufo-files" rel="me">Contact</a></li>
+      </ul>
+      <a class="btn primaryBtn" href="https://ufo-files.github.io/relationship-graph-builder/">Explore data</a>
     </nav>
   </header>
-
-  <main>
-    <section id="intro" class="section hero-section" aria-labelledby="intro-title">
-      <div class="hero-visual" aria-hidden="true"></div>
-      <div class="section-inner hero-inner">
-        <div class="research-hero">
-          <div class="hero-copy">
-            <h1 id="intro-title">Big Data for UFO Files Research</h1>
-            <p class="hero-deck">Explore patterns, connections, and hidden information in the largest open-source collection of over 117,000 global UFO files.</p>
-            <div class="hero-actions">
-              <a class="button-link hero-primary-button" href="https://ufo-files.github.io/relationship-graph-builder/">Start exploring the data</a>
-            </div>
+  <main id="main" class="landing" tabindex="-1">
+    <section id="intro" class="intro" aria-labelledby="intro-title">
+      <div class="wrapper">
+        <div class="hero-copy">
+          <p class="badge">Public records. Open research.</p>
+          <h1 id="intro-title">Big Data for<br>UFO Files Research</h1>
+          <p>Explore patterns and connections across public UFO files. Follow the people, places, and events in the records—and trace what you find back to the source.</p>
+          <a class="btn btnLrg primaryBtn" href="https://ufo-files.github.io/relationship-graph-builder/">Start exploring the data</a>
+        </div>
+        <a class="hero-preview" href="https://ufo-files.github.io/relationship-graph-builder/" aria-label="Open the UFO Files relationship graph">
+          <img src="assets/relationship-graph-main.png" width="1440" height="1000" alt="Relationship graph connecting people, institutions, places, events, and documents in UFO Files.">
+        </a>
+      </div>
+    </section>
+    <section class="statement" aria-label="Our approach">
+      <div class="wrapper">
+        <p>Public records are only the beginning. <span class="highlight">Making them easier to explore</span> helps more people ask questions, follow connections, and examine the evidence.</p>
+        <p>UFO Files brings those records together with open-source tools for independent research.</p>
+      </div>
+    </section>
+    <section id="research" class="why" aria-labelledby="research-title">
+      <h2 id="research-title" class="wrapper">Follow the connections.</h2>
+      <div class="feature">
+        <div class="wrapper">
+          <div class="description">
+            <h3>A different view of the records</h3>
+            <p>Explore the people, institutions, and programs mentioned across the collection. Use the relationship graph to find connections and the records behind them.</p>
+            <a class="btn" href="https://ufo-files.github.io/relationship-graph-builder/">Open the relationship graph</a>
           </div>
+          <img src="assets/relationship-graph-institutions.png" loading="lazy" width="1440" height="1000" alt="The UFO Files graph showing connections between institutions and programs.">
         </div>
       </div>
     </section>
+    <section id="faq" aria-labelledby="faq-title">
+      <div class="wrapper faq-wrapper">
+        <h2 id="faq-title">Frequently asked questions</h2>
+        <details>
+          <summary>What is UFO Files?</summary>
+          <p>UFO Files is an independent project that makes public UFO records easier to explore through open-source research tools.</p>
+        </details>
+        <details>
+          <summary>Does a connection prove a claim?</summary>
+          <p>No. A connection is a starting point for research. Check the underlying records, their context, and the quality of the evidence before drawing a conclusion.</p>
+        </details>
+        <details>
+          <summary>Where can I find the code and data?</summary>
+          <p>Visit the <a href="https://github.com/ufo-files/relationship-graph-builder">relationship graph repository</a> for the research tool and the <a href="https://github.com/ufo-files/machine-data">machine data repository</a> for transcripts and derived data.</p>
+        </details>
+        <details>
+          <summary>How can I get in touch?</summary>
+          <p>Send a message through <a href="https://tips.hushline.app/to/ufo-files">our Hush Line</a> to share feedback or contact the project.</p>
+        </details>
+      </div>
+    </section>
   </main>
-
-  <script src="script.js?v=research-home-20260825g"></script>
+  <footer>
+    <div class="wrapper footer-inner">
+      <p>UFO Files · Independent research, open to everyone.</p>
+      <p>Built with <a href="https://github.com/glenn-sorrentino/design-system">The Design System</a>.</p>
+    </div>
+  </footer>
+  <script src="script.js"></script>
 </body>
 </html>
