@@ -56,3 +56,21 @@ test('source summary handles partial headers and punctuation in source names', (
   catalog.sources[0].words = -1;
   assert.throws(() => parseCatalogSummary(JSON.stringify(catalog)), /directory/);
 });
+
+test('relocated journal joins Whitepapers without changing totals or UPDB-MUFON', () => {
+  const { currentSourceCollections } = require('../record-count.js');
+  const catalog = { generatedAt: '2026-09-27T18:21:20Z', sources: [
+    { name: 'MUFON', documents: 1, words: 15434 },
+    { name: 'Whitepapers', documents: 6, words: 106865 },
+    { name: 'UPDB-MUFON', documents: 94762, words: 20531346 },
+  ] };
+  const grouped = currentSourceCollections(catalog);
+  assert.equal(grouped.length, 2);
+  assert.equal(grouped[0].documents, 7);
+  assert.equal(grouped[0].words, 122299);
+  assert.deepEqual(grouped[0].researchSources, ['Whitepapers', 'MUFON']);
+  assert.equal(grouped[1].documents, 94762);
+  assert.equal(catalog.sources[1].documents, 6, 'Raw catalog stays unchanged');
+  catalog.generatedAt = '2026-09-28T00:00:00Z';
+  assert.equal(currentSourceCollections(catalog).length, 3, 'Future MUFON records are not regrouped');
+});

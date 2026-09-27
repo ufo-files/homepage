@@ -76,14 +76,31 @@ function fetchRecordCount(fetcher = fetch) {
   return fetchCatalogHeader(parseRecordCount, fetcher);
 }
 
+// The February 2008 journal moved on 2026-09-27. Group older catalog
+// snapshots under its current collection until the next rebuild catches up.
+function currentSourceCollections(catalog) {
+  const sources = catalog.sources.map(source => ({ ...source }));
+  if (Date.parse(catalog.generatedAt) >= Date.parse('2026-09-27T19:25:08Z')) return sources;
+  const journal = sources.find(source => source.name === 'MUFON');
+  const whitepapers = sources.find(source => source.name === 'Whitepapers');
+  if (journal?.documents === 1 && journal.words === 15434 && whitepapers) {
+    whitepapers.documents += journal.documents;
+    whitepapers.words += journal.words;
+    whitepapers.researchSources = ['Whitepapers', 'MUFON'];
+    return sources.filter(source => source !== journal);
+  }
+  return sources;
+}
+
 function renderSources(catalog) {
   const body = document.getElementById('sources-body');
   if (!body) return;
   const format = new Intl.NumberFormat('en-US');
+  const sources = currentSourceCollections(catalog);
   const signature = JSON.stringify(catalog);
   if (body.dataset.catalog !== signature) {
     const focusedUrl = body.contains(document.activeElement) ? document.activeElement.href : null;
-    const rows = [...catalog.sources].sort((a, b) => a.name.localeCompare(b.name)).map(source => {
+    const rows = sources.sort((a, b) => a.name.localeCompare(b.name)).map(source => {
       const row = document.createElement('tr');
       const name = document.createElement('th');
       name.scope = 'row';
@@ -102,7 +119,7 @@ function renderSources(catalog) {
       }
       const research = document.createElement('td');
       const explore = document.createElement('a');
-      const config = JSON.stringify({ type: 'document', allSources: false, sources: [source.name], titleMode: 'auto' });
+      const config = JSON.stringify({ type: 'document', allSources: false, sources: source.researchSources || [source.name], titleMode: 'auto' });
       const encoded = btoa(Array.from(new TextEncoder().encode(config), byte => String.fromCharCode(byte)).join(''));
       explore.href = `https://ufo-files.github.io/relationship-graph-builder/#config=${encodeURIComponent(encoded)}`;
       explore.textContent = 'Explore';
@@ -115,7 +132,7 @@ function renderSources(catalog) {
     body.dataset.catalog = signature;
     if (focusedUrl) [...body.querySelectorAll('a')].find(link => link.href === focusedUrl)?.focus({ preventScroll: true });
   }
-  document.getElementById('sources-caption').textContent = `${catalog.sources.length} sources · ${format.format(catalog.count)} records · Catalog published ${new Date(catalog.generatedAt).toLocaleString('en-US', { timeZone: 'UTC', timeZoneName: 'short' })}`;
+  document.getElementById('sources-caption').textContent = `${sources.length} sources · ${format.format(catalog.count)} records · Catalog published ${new Date(catalog.generatedAt).toLocaleString('en-US', { timeZone: 'UTC', timeZoneName: 'short' })}`;
   document.getElementById('sources-status').textContent = 'Showing the latest published catalog. Updates automatically.';
 }
 
@@ -151,7 +168,7 @@ function startRecordCount() {
 }
 
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { parseRecordCount, fetchRecordCount, parseCatalogSummary, fetchCatalogHeader };
+  module.exports = { parseRecordCount, fetchRecordCount, parseCatalogSummary, fetchCatalogHeader, currentSourceCollections };
 } else {
   startRecordCount();
 }

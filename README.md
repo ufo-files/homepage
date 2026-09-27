@@ -28,7 +28,11 @@ the count and source directory are found, and refreshes each minute while the pa
 Failures show “Record count unavailable” and retry automatically. The sources
 table shares this request, showing record counts, word counts, collection shares,
 and source/research links. Its saved HTML snapshot remains usable offline or
-without JavaScript. The intro graph drifts slowly and respects reduced motion.
+without JavaScript. The February 2008 MUFON journal was moved into Whitepapers
+on 2026-09-27; older catalog snapshots group that one known record under its
+new collection, with research links covering both names until the rebuild.
+The UPDB-MUFON collection is separate. The intro graph drifts slowly and
+respects reduced motion.
 
 ## Local preview
 
