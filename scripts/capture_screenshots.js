@@ -74,6 +74,11 @@ async function capture(page, name) {
 }
 
 async function captureFullPage(page, name) {
+  await page.evaluate(async () => {
+    const images = [...document.images];
+    images.forEach(image => { image.loading = "eager"; });
+    await Promise.all(images.map(image => image.decode()));
+  });
   await page.screenshot({
     path: path.join(OUTPUT_DIR, `${name}.png`),
     fullPage: true,
@@ -89,9 +94,10 @@ async function main() {
   try {
     await waitForServer(port);
     const browser = await chromium.launch();
-    const page = await browser.newPage({ viewport: VIEWPORT, deviceScaleFactor: 1 });
+    const page = await browser.newPage({ viewport: VIEWPORT, deviceScaleFactor: 1, reducedMotion: "reduce" });
     await page.goto(baseUrl, { waitUntil: "networkidle" });
     await page.waitForSelector("#intro-title", { timeout: 30000 });
+    await page.waitForFunction(() => document.querySelector("#record-count").dataset.state !== "loading", { timeout: 15000 });
     await page.waitForTimeout(500);
     await captureFullPage(page, "homepage-full-page");
     await capture(page, "homepage-hero");
@@ -107,6 +113,7 @@ async function main() {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto(baseUrl, { waitUntil: "networkidle" });
     await page.waitForSelector("#intro-title", { timeout: 30000 });
+    await page.waitForFunction(() => document.querySelector("#record-count").dataset.state !== "loading", { timeout: 15000 });
     await page.waitForTimeout(250);
     await capture(page, "homepage-mobile");
     await browser.close();

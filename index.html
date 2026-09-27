@@ -2,45 +2,207 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Big Data for UFO Files Research</title>
-  <meta name="description" content="Explore patterns, connections, and hidden information across more than 117,000 global UFO files.">
-  <meta name="color-scheme" content="light dark">
-  <link rel="stylesheet" href="styles.css?v=research-home-20260825g">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f5ef">
+  <title>UFO Files — Big Data for UFO Files Research</title>
+  <meta name="description" content="Explore patterns and connections across public UFO records with open-source research tools.">
+  <meta property="og:title" content="UFO Files">
+  <meta property="og:description" content="A big data approach to public UFO files research.">
+  <meta property="og:url" content="https://ufo-files.app/">
+  <meta property="og:image" content="https://ufo-files.app/assets/relationship-graph-main.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="src/css/reset.css">
+  <link rel="stylesheet" href="src/css/style.css">
+  <link rel="stylesheet" href="styles.css">
 </head>
-<body>
-  <canvas id="field" aria-hidden="true"></canvas>
-  <aside class="announcement-banner" aria-label="Announcement">
-    <p>Independent · open source · evidence linked</p>
-  </aside>
-  <header id="site-header" class="site-header" aria-label="Primary navigation">
-    <a class="brand" href="#intro">
-      <img class="brand-logo" src="assets/logo.svg" alt="" aria-hidden="true">
-      <span>UFO Files</span>
-    </a>
-    <nav id="site-navigation">
-      <a href="https://ufo-files.github.io/relationship-graph-builder/">Explore</a>
-      <a href="https://tips.hushline.app/to/ufo-files" rel="me">Contact</a>
+<body class="landing">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="banner"><p>Independent · Open source · Evidence linked</p></div>
+  <header class="island site-header">
+    <a class="brand" href="#intro"><img src="assets/logo.svg" width="32" height="32" alt="">UFO Files</a>
+    <nav aria-label="Main navigation">
+      <button class="menu-toggle btn" type="button" aria-expanded="false" aria-controls="site-navigation" hidden>Menu</button>
+      <ul id="site-navigation">
+        <li><a href="#research">Research</a></li>
+        <li><a href="#sources">Sources</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="https://github.com/ufo-files/homepage">Code</a></li>
+        <li><a href="https://tips.hushline.app/to/ufo-files" rel="me">Contact</a></li>
+      </ul>
+      <a class="btn primaryBtn" href="https://ufo-files.github.io/relationship-graph-builder/">Explore data</a>
     </nav>
   </header>
-
-  <main>
-    <section id="intro" class="section hero-section" aria-labelledby="intro-title">
-      <div class="hero-visual" aria-hidden="true"></div>
-      <div class="section-inner hero-inner">
-        <div class="research-hero">
-          <div class="hero-copy">
-            <h1 id="intro-title">Big Data for UFO Files Research</h1>
-            <p class="hero-deck">Explore patterns, connections, and hidden information in the largest open-source collection of over 117,000 global UFO files.</p>
-            <div class="hero-actions">
-              <a class="button-link hero-primary-button" href="https://ufo-files.github.io/relationship-graph-builder/">Start exploring the data</a>
-            </div>
+  <main id="main" class="landing" tabindex="-1">
+    <section id="intro" class="intro" aria-labelledby="intro-title">
+      <div class="wrapper">
+        <div class="hero-copy">
+          <p class="badge" id="record-count" role="status" aria-live="polite" aria-atomic="true">Record count unavailable</p>
+          <h1 id="intro-title">Big Data for<br>UFO Files Research</h1>
+          <p>Explore patterns and connections across public UFO files. Follow the people, places, and events in the records—and trace what you find back to the source.</p>
+          <a class="btn btnLrg primaryBtn" href="https://ufo-files.github.io/relationship-graph-builder/">Start exploring the data</a>
+        </div>
+      </div>
+    </section>
+    <section class="statement" aria-label="Our approach">
+      <div class="wrapper">
+        <p>There's a lot of talk about disclosure, but why are research groups withholding information or making you sign non-disclosure agreements “signing your life away” just to participate?</p>
+        <p>That's not disclosure, it's <span class="highlight">corporate, social, and unethical control.</span></p>
+        <p>UFO Files is a project that collects and processes public data about the phenomenon to make it machine readable, allowing anyone to run experiments on the world's largest collection of open-source data.</p>
+      </div>
+    </section>
+    <section id="research" class="why" aria-labelledby="research-title">
+      <h2 id="research-title" class="wrapper">Follow the connections.</h2>
+      <div class="feature" id="feature-timeline">
+        <div class="wrapper">
+          <div class="description">
+            <h3>Timeline</h3>
+            <p>Explore events across time. Follow the chronology of reported encounters and the records connected to them.</p>
+            <a class="btn" href="https://ufo-files.github.io/relationship-graph-builder/#config=eyJ0eXBlIjoidGltZWxpbmUiLCJ0aXRsZU1vZGUiOiJhdXRvIiwidGltZWxpbmVSb2xlIjoiZXZlbnQiLCJ0aW1lbGluZUdyb3VwaW5nIjp0cnVlLCJ0aW1lbGluZUdyb3VwUGVyaW9kIjoibW9udGgiLCJ4Ijoic3RhcnREYXRlIiwieSI6Im1lbnRpb25SYW5rIiwic2l6ZSI6ImV2ZW50Q291bnQiLCJjb2xvciI6ImV2ZW50VHlwZSIsImNhdGVnb3JpZXMiOlsiZGF0ZSJdLCJsaW1pdCI6NTAwfQ%3D%3D">Explore timeline</a>
           </div>
+          <img src="assets/feature-timeline.png" loading="lazy" width="970" height="732" alt="A timeline of events and reports in the UFO Files collection.">
+        </div>
+      </div>
+      <div class="feature" id="feature-map">
+        <div class="wrapper">
+          <div class="description flip">
+            <h3>Map</h3>
+            <p>Explore the geography of the records. Find locations mentioned in the collection and investigate the reports associated with them.</p>
+            <a class="btn" href="https://ufo-files.github.io/relationship-graph-builder/#config=eyJ0eXBlIjoibWFwIiwidGl0bGVNb2RlIjoiYXV0byIsImNhdGVnb3JpZXMiOlsibG9jYXRpb24iXSwic2l6ZSI6ImVwaXN0ZW1pY0FkanVzdGVkTWVudGlvbnMiLCJjb2xvciI6ImludGVuc2l0eSIsImxpbWl0Ijo1MH0%3D">Explore map</a>
+          </div>
+          <img src="assets/feature-map.png" loading="lazy" width="970" height="732" alt="A globe showing locations mentioned in UFO Files records.">
+        </div>
+      </div>
+      <div class="feature" id="feature-solar">
+        <div class="wrapper">
+          <div class="description">
+            <h3>Galactic Entities</h3>
+            <p>Explore stars, planets, and other astronomical objects referenced in the records. Put their positions and distances in context.</p>
+            <a class="btn" href="https://ufo-files.github.io/relationship-graph-builder/#config=eyJ0eXBlIjoic29sYXIiLCJ0aXRsZU1vZGUiOiJhdXRvIiwic29sYXJTY2FsZSI6ImxvY2FsIiwic29sYXJDYXNlIjoiaGlsbF9maXNoIiwibGFiZWxzIjoiYWxsIn0%3D">Explore galactic entities</a>
+          </div>
+          <img src="assets/feature-solar.png" loading="lazy" width="970" height="732" alt="The Galactic Entities view showing astronomical objects and their spatial relationships.">
+        </div>
+      </div>
+      <div class="feature" id="feature-species">
+        <div class="wrapper">
+          <div class="description flip">
+            <h3>Species</h3>
+            <p>Compare reported beings and species profiles across the collection. Explore their descriptions and the sources behind those accounts.</p>
+            <a class="btn" href="https://ufo-files.github.io/relationship-graph-builder/#config=eyJ0eXBlIjoic3BlY2llcyIsInRpdGxlTW9kZSI6ImF1dG8iLCJzcGVjaWVzTGF5b3V0IjoibGluZXVwIiwic3BlY2llc1kiOiJwaHlzaWNhbEhlaWdodCIsInNwZWNpZXNTaXplIjoiZG9jdW1lbnRDb3VudCIsIm1pbkNvbmZpZGVuY2UiOjAuNX0%3D">Explore species</a>
+          </div>
+          <img src="assets/feature-species.png" loading="lazy" width="970" height="732" alt="A lineup comparing reported beings and species profiles.">
+        </div>
+      </div>
+      <div class="feature" id="feature-signals">
+        <div class="wrapper">
+          <div class="description">
+            <h3>Signals</h3>
+            <p>Explore radio frequencies mentioned in the records. Compare their distribution across the spectrum and follow the source references.</p>
+            <a class="btn" href="https://ufo-files.github.io/relationship-graph-builder/#config=eyJ0eXBlIjoic2lnbmFscyIsInRpdGxlTW9kZSI6ImF1dG8ifQ%3D%3D">Explore signals</a>
+          </div>
+          <img src="assets/feature-signals.png" loading="lazy" width="970" height="732" alt="Radio frequencies plotted across the spectrum by mentions in the collection.">
+        </div>
+      </div>
+      <div class="feature" id="feature-programs">
+        <div class="wrapper">
+          <div class="description flip">
+            <h3>Programs</h3>
+            <p>Explore government programs and operations connected to UFO research. Follow their timelines and the records that document them.</p>
+            <a class="btn" href="https://ufo-files.github.io/relationship-graph-builder/#config=eyJ0eXBlIjoicHJvZ3JhbXMiLCJ0aXRsZU1vZGUiOiJhdXRvIn0%3D">Explore programs</a>
+          </div>
+          <img src="assets/feature-programs.png" loading="lazy" width="970" height="732" alt="A timeline of government programs and operations related to UFO research.">
+        </div>
+      </div>
+    </section>
+    <section id="sources" aria-labelledby="sources-title">
+      <div class="wrapper">
+        <h2 id="sources-title">Our sources</h2>
+        <p>Browse every source collection in the published research catalog. Open a source to view its machine-readable data, or explore its records in the research app.</p>
+        <p class="sources-note">Record and word counts describe the processed collection. They do not represent each source’s entire archive.</p>
+        <p id="sources-status" class="sources-note" role="status">Saved catalog snapshot. Live updates require JavaScript.</p>
+        <div class="sources-table-scroll" role="region" aria-label="Source collections" tabindex="0">
+          <table class="sources-table">
+            <caption id="sources-caption">35 sources · 149,622 records · Catalog published 2026-09-27T18:21:20Z</caption>
+            <thead><tr><th scope="col">Source</th><th scope="col" class="numeric">Records</th><th scope="col" class="numeric">Words</th><th scope="col" class="numeric">Share of records</th><th scope="col">Research</th></tr></thead>
+            <tbody id="sources-body">
+              <tr><th scope="row"><a href="https://github.com/ufo-files/machine-data/tree/main/AARO-UAP-Records">AARO UAP Records</a></th><td class="numeric">11</td><td class="numeric">32,093</td><td class="numeric">&lt;0.1%</td><td><a href="https://ufo-files.github.io/relationship-graph-builder/#config=eyJ0eXBlIjoiZG9jdW1lbnQiLCJhbGxTb3VyY2VzIjpmYWxzZSwic291cmNlcyI6WyJBQVJPLVVBUC1SZWNvcmRzIl0sInRpdGxlTW9kZSI6ImF1dG8ifQ%3D%3D" aria-label="Explore AARO UAP Records">Explore</a></td></tr>
+              <tr><th scope="row"><a href="https://github.com/ufo-files/machine-data/tree/main/American-Alchemy">American Alchemy</a></th><td class="numeric">141</td><td class="numeric">2,788,461</td><td class="numeric">&lt;0.1%</td><td><a href="https://ufo-files.github.io/relationship-graph-builder/#config=eyJ0eXBlIjoiZG9jdW1lbnQiLCJhbGxTb3VyY2VzIjpmYWxzZSwic291cmNlcyI6WyJBbWVyaWNhbi1BbGNoZW15Il0sInRpdGxlTW9kZSI6ImF1dG8ifQ%3D%3D" aria-label="Explore American Alchemy">Explore</a></td></tr>
+              <tr><th scope="row"><a href="https://github.com/ufo-files/machine-data/tree/main/Archives-for-the-Unexplained">Archives for the Unexplained</a></th><td class="numeric">27,922</td><td class="numeric">103,705,590</td><td class="numeric">18.7%</td><td><a href="https://ufo-files.github.io/relationship-graph-builder/#config=eyJ0eXBlIjoiZG9jdW1lbnQiLCJhbGxTb3VyY2VzIjpmYWxzZSwic291cmNlcyI6WyJBcmNoaXZlcy1mb3ItdGhlLVVuZXhwbGFpbmVkIl0sInRpdGxlTW9kZSI6ImF1dG8ifQ%3D%3D" aria-label="Explore Archives for the Unexplained">Explore</a></td></tr>
+              <tr><th scope="row"><a href="https://github.com/ufo-files/machine-data/tree/main/Area52-Investigations">Area52 Investigations</a></th><td class="numeric">122</td><td class="numeric">1,931,083</td><td class="numeric">&lt;0.1%</td><td><a href="https://ufo-files.github.io/relationship-graph-builder/#config=eyJ0eXBlIjoiZG9jdW1lbnQiLCJhbGxTb3VyY2VzIjpmYWxzZSwic291cmNlcyI6WyJBcmVhNTItSW52ZXN0aWdhdGlvbnMiXSwidGl0bGVNb2RlIjoiYXV0byJ9" aria-label="Explore Area52 Investigations">Explore</a></td></tr>
+              <tr><th scope="row"><a href="https://github.com/ufo-files/machine-data/tree/main/Argentina-CIAE-CEFAE">Argentina CIAE CEFAE</a></th><td class="numeric">2</td><td class="numeric">814</td><td class="numeric">&lt;0.1%</td><td><a href="https://ufo-files.github.io/relationship-graph-builder/#config=eyJ0eXBlIjoiZG9jdW1lbnQiLCJhbGxTb3VyY2VzIjpmYWxzZSwic291cmNlcyI6WyJBcmdlbnRpbmEtQ0lBRS1DRUZBRSJdLCJ0aXRsZU1vZGUiOiJhdXRvIn0%3D" aria-label="Explore Argentina CIAE CEFAE">Explore</a></td></tr>
+              <tr><th scope="row"><a href="https://github.com/ufo-files/machine-data/tree/main/Black-Vault-UFO">Black Vault UFO</a></th><td class="numeric">2,364</td><td class="numeric">12,153,798</td><td class="numeric">1.6%</td><td><a href="https://ufo-files.github.io/relationship-graph-builder/#config=eyJ0eXBlIjoiZG9jdW1lbnQiLCJhbGxTb3VyY2VzIjpmYWxzZSwic291cmNlcyI6WyJCbGFjay1WYXVsdC1VRk8iXSwidGl0bGVNb2RlIjoiYXV0byJ9" aria-label="Explore Black Vault UFO">Explore</a></td></tr>
+              <tr><th scope="row"><a href="https://github.com/ufo-files/machine-data/tree/main/Brazil-Government-UAP">Brazil Government UAP</a></th><td class="numeric">278</td><td class="numeric">1,381,961</td><td class="numeric">0.2%</td><td><a href="https://ufo-files.github.io/relationship-graph-builder/#config=eyJ0eXBlIjoiZG9jdW1lbnQiLCJhbGxTb3VyY2VzIjpmYWxzZSwic291cmNlcyI6WyJCcmF6aWwtR292ZXJubWVudC1VQVAiXSwidGl0bGVNb2RlIjoiYXV0byJ9" aria-label="Explore Brazil Government UAP">Explore</a></td></tr>
+              <tr><th scope="row"><a href="https://github.com/ufo-files/machine-data/tree/main/Canada-Library-and-Archives-UFO">Canada Library and Archives UFO</a></th><td class="numeric">205</td><td class="numeric">21,155</td><td class="numeric">0.1%</td><td><a href="https://ufo-files.github.io/relationship-graph-builder/#config=eyJ0eXBlIjoiZG9jdW1lbnQiLCJhbGxTb3VyY2VzIjpmYWxzZSwic291cmNlcyI6WyJDYW5hZGEtTGlicmFyeS1hbmQtQXJjaGl2ZXMtVUZPIl0sInRpdGxlTW9kZSI6ImF1dG8ifQ%3D%3D" aria-label="Explore Canada Library and Archives UFO">Explore</a></td></tr>
+              <tr><th scope="row"><a href="https://github.com/ufo-files/machine-data/tree/main/Chile-SEFAA">Chile SEFAA</a></th><td class="numeric">785</td><td class="numeric">333,439</td><td class="numeric">0.5%</td><td><a href="https://ufo-files.github.io/relationship-graph-builder/#config=eyJ0eXBlIjoiZG9jdW1lbnQiLCJhbGxTb3VyY2VzIjpmYWxzZSwic291cmNlcyI6WyJDaGlsZS1TRUZBQSJdLCJ0aXRsZU1vZGUiOiJhdXRvIn0%3D" aria-label="Explore Chile SEFAA">Explore</a></td></tr>
+              <tr><th scope="row"><a href="https://github.com/ufo-files/machine-data/tree/main/DOE-NNSA-UAP-UFO">DOE NNSA UAP UFO</a></th><td class="numeric">2</td><td class="numeric">2,884</td><td class="numeric">&lt;0.1%</td><td><a href="https://ufo-files.github.io/relationship-graph-builder/#config=eyJ0eXBlIjoiZG9jdW1lbnQiLCJhbGxTb3VyY2VzIjpmYWxzZSwic291cmNlcyI6WyJET0UtTk5TQS1VQVAtVUZPIl0sInRpdGxlTW9kZSI6ImF1dG8ifQ%3D%3D" aria-label="Explore DOE NNSA UAP UFO">Explore</a></td></tr>
+              <tr><th scope="row"><a href="https://github.com/ufo-files/machine-data/tree/main/DPIArchive">DPIArchive</a></th><td class="numeric">3,004</td><td class="numeric">5,755,572</td><td class="numeric">2.0%</td><td><a href="https://ufo-files.github.io/relationship-graph-builder/#config=eyJ0eXBlIjoiZG9jdW1lbnQiLCJhbGxTb3VyY2VzIjpmYWxzZSwic291cmNlcyI6WyJEUElBcmNoaXZlIl0sInRpdGxlTW9kZSI6ImF1dG8ifQ%3D%3D" aria-label="Explore DPIArchive">Explore</a></td></tr>
+              <tr><th scope="row"><a href="https://github.com/ufo-files/machine-data/tree/main/FBI-Vault-UFO">FBI Vault UFO</a></th><td class="numeric">16</td><td class="numeric">294,528</td><td class="numeric">&lt;0.1%</td><td><a href="https://ufo-files.github.io/relationship-graph-builder/#config=eyJ0eXBlIjoiZG9jdW1lbnQiLCJhbGxTb3VyY2VzIjpmYWxzZSwic291cmNlcyI6WyJGQkktVmF1bHQtVUZPIl0sInRpdGxlTW9kZSI6ImF1dG8ifQ%3D%3D" aria-label="Explore FBI Vault UFO">Explore</a></td></tr>
+              <tr><th scope="row"><a href="https://github.com/ufo-files/machine-data/tree/main/France-GEIPAN">France GEIPAN</a></th><td class="numeric">2,543</td><td class="numeric">534,759</td><td class="numeric">1.7%</td><td><a href="https://ufo-files.github.io/relationship-graph-builder/#config=eyJ0eXBlIjoiZG9jdW1lbnQiLCJhbGxTb3VyY2VzIjpmYWxzZSwic291cmNlcyI6WyJGcmFuY2UtR0VJUEFOIl0sInRpdGxlTW9kZSI6ImF1dG8ifQ%3D%3D" aria-label="Explore France GEIPAN">Explore</a></td></tr>
+              <tr><th scope="row"><a href="https://github.com/ufo-files/machine-data/tree/main/Italy-Aeronautica-Militare-OVNI">Italy Aeronautica Militare OVNI</a></th><td class="numeric">1</td><td class="numeric">949</td><td class="numeric">&lt;0.1%</td><td><a href="https://ufo-files.github.io/relationship-graph-builder/#config=eyJ0eXBlIjoiZG9jdW1lbnQiLCJhbGxTb3VyY2VzIjpmYWxzZSwic291cmNlcyI6WyJJdGFseS1BZXJvbmF1dGljYS1NaWxpdGFyZS1PVk5JIl0sInRpdGxlTW9kZSI6ImF1dG8ifQ%3D%3D" aria-label="Explore Italy Aeronautica Militare OVNI">Explore</a></td></tr>
+              <tr><th scope="row"><a href="https://github.com/ufo-files/machine-data/tree/main/National-Archives-of-Australia-UFO">National Archives of Australia UFO</a></th><td class="numeric">603</td><td class="numeric">90,227</td><td class="numeric">0.4%</td><td><a href="https://ufo-files.github.io/relationship-graph-builder/#config=eyJ0eXBlIjoiZG9jdW1lbnQiLCJhbGxTb3VyY2VzIjpmYWxzZSwic291cmNlcyI6WyJOYXRpb25hbC1BcmNoaXZlcy1vZi1BdXN0cmFsaWEtVUZPIl0sInRpdGxlTW9kZSI6ImF1dG8ifQ%3D%3D" aria-label="Explore National Archives of Australia UFO">Explore</a></td></tr>
+              <tr><th scope="row"><a href="https://github.com/ufo-files/machine-data/tree/main/National-Archives-UAP-Bulk">National Archives UAP Bulk</a></th><td class="numeric">3,289</td><td class="numeric">1,539,933</td><td class="numeric">2.2%</td><td><a href="https://ufo-files.github.io/relationship-graph-builder/#config=eyJ0eXBlIjoiZG9jdW1lbnQiLCJhbGxTb3VyY2VzIjpmYWxzZSwic291cmNlcyI6WyJOYXRpb25hbC1BcmNoaXZlcy1VQVAtQnVsayJdLCJ0aXRsZU1vZGUiOiJhdXRvIn0%3D" aria-label="Explore National Archives UAP Bulk">Explore</a></td></tr>
+              <tr><th scope="row"><a href="https://github.com/ufo-files/machine-data/tree/main/NSA-UFO-FOIA">NSA UFO FOIA</a></th><td class="numeric">50</td><td class="numeric">77,019</td><td class="numeric">&lt;0.1%</td><td><a href="https://ufo-files.github.io/relationship-graph-builder/#config=eyJ0eXBlIjoiZG9jdW1lbnQiLCJhbGxTb3VyY2VzIjpmYWxzZSwic291cmNlcyI6WyJOU0EtVUZPLUZPSUEiXSwidGl0bGVNb2RlIjoiYXV0byJ9" aria-label="Explore NSA UFO FOIA">Explore</a></td></tr>
+              <tr><th scope="row"><a href="https://github.com/ufo-files/machine-data/tree/main/Rice-Archive-of-the-Impossible">Rice Archive of the Impossible</a></th><td class="numeric">58</td><td class="numeric">433,862</td><td class="numeric">&lt;0.1%</td><td><a href="https://ufo-files.github.io/relationship-graph-builder/#config=eyJ0eXBlIjoiZG9jdW1lbnQiLCJhbGxTb3VyY2VzIjpmYWxzZSwic291cmNlcyI6WyJSaWNlLUFyY2hpdmUtb2YtdGhlLUltcG9zc2libGUiXSwidGl0bGVNb2RlIjoiYXV0byJ9" aria-label="Explore Rice Archive of the Impossible">Explore</a></td></tr>
+              <tr><th scope="row"><a href="https://github.com/ufo-files/machine-data/tree/main/Skywatcher-HQ">Skywatcher HQ</a></th><td class="numeric">8</td><td class="numeric">9,777</td><td class="numeric">&lt;0.1%</td><td><a href="https://ufo-files.github.io/relationship-graph-builder/#config=eyJ0eXBlIjoiZG9jdW1lbnQiLCJhbGxTb3VyY2VzIjpmYWxzZSwic291cmNlcyI6WyJTa3l3YXRjaGVyLUhRIl0sInRpdGxlTW9kZSI6ImF1dG8ifQ%3D%3D" aria-label="Explore Skywatcher HQ">Explore</a></td></tr>
+              <tr><th scope="row"><a href="https://github.com/ufo-files/machine-data/tree/main/Steven-Greer-Document-Library">Steven Greer Document Library</a></th><td class="numeric">129</td><td class="numeric">493,792</td><td class="numeric">&lt;0.1%</td><td><a href="https://ufo-files.github.io/relationship-graph-builder/#config=eyJ0eXBlIjoiZG9jdW1lbnQiLCJhbGxTb3VyY2VzIjpmYWxzZSwic291cmNlcyI6WyJTdGV2ZW4tR3JlZXItRG9jdW1lbnQtTGlicmFyeSJdLCJ0aXRsZU1vZGUiOiJhdXRvIn0%3D" aria-label="Explore Steven Greer Document Library">Explore</a></td></tr>
+              <tr><th scope="row"><a href="https://github.com/ufo-files/machine-data/tree/main/Tridactyls">Tridactyls</a></th><td class="numeric">20</td><td class="numeric">76,319</td><td class="numeric">&lt;0.1%</td><td><a href="https://ufo-files.github.io/relationship-graph-builder/#config=eyJ0eXBlIjoiZG9jdW1lbnQiLCJhbGxTb3VyY2VzIjpmYWxzZSwic291cmNlcyI6WyJUcmlkYWN0eWxzIl0sInRpdGxlTW9kZSI6ImF1dG8ifQ%3D%3D" aria-label="Explore Tridactyls">Explore</a></td></tr>
+              <tr><th scope="row"><a href="https://github.com/ufo-files/machine-data/tree/main/UAP-Gerb">UAP Gerb</a></th><td class="numeric">69</td><td class="numeric">994,173</td><td class="numeric">&lt;0.1%</td><td><a href="https://ufo-files.github.io/relationship-graph-builder/#config=eyJ0eXBlIjoiZG9jdW1lbnQiLCJhbGxTb3VyY2VzIjpmYWxzZSwic291cmNlcyI6WyJVQVAtR2VyYiJdLCJ0aXRsZU1vZGUiOiJhdXRvIn0%3D" aria-label="Explore UAP Gerb">Explore</a></td></tr>
+              <tr><th scope="row"><a href="https://github.com/ufo-files/machine-data/tree/main/UPDB-BAASS">UPDB BAASS</a></th><td class="numeric">44</td><td class="numeric">9,407</td><td class="numeric">&lt;0.1%</td><td><a href="https://ufo-files.github.io/relationship-graph-builder/#config=eyJ0eXBlIjoiZG9jdW1lbnQiLCJhbGxTb3VyY2VzIjpmYWxzZSwic291cmNlcyI6WyJVUERCLUJBQVNTIl0sInRpdGxlTW9kZSI6ImF1dG8ifQ%3D%3D" aria-label="Explore UPDB BAASS">Explore</a></td></tr>
+              <tr><th scope="row"><a href="https://github.com/ufo-files/machine-data/tree/main/UPDB-Brazil-Government">UPDB Brazil Government</a></th><td class="numeric">696</td><td class="numeric">10,718</td><td class="numeric">0.5%</td><td><a href="https://ufo-files.github.io/relationship-graph-builder/#config=eyJ0eXBlIjoiZG9jdW1lbnQiLCJhbGxTb3VyY2VzIjpmYWxzZSwic291cmNlcyI6WyJVUERCLUJyYXppbC1Hb3Zlcm5tZW50Il0sInRpdGxlTW9kZSI6ImF1dG8ifQ%3D%3D" aria-label="Explore UPDB Brazil Government">Explore</a></td></tr>
+              <tr><th scope="row"><a href="https://github.com/ufo-files/machine-data/tree/main/UPDB-Canada-Government">UPDB Canada Government</a></th><td class="numeric">756</td><td class="numeric">20,062</td><td class="numeric">0.5%</td><td><a href="https://ufo-files.github.io/relationship-graph-builder/#config=eyJ0eXBlIjoiZG9jdW1lbnQiLCJhbGxTb3VyY2VzIjpmYWxzZSwic291cmNlcyI6WyJVUERCLUNhbmFkYS1Hb3Zlcm5tZW50Il0sInRpdGxlTW9kZSI6ImF1dG8ifQ%3D%3D" aria-label="Explore UPDB Canada Government">Explore</a></td></tr>
+              <tr><th scope="row"><a href="https://github.com/ufo-files/machine-data/tree/main/UPDB-MUFON">UPDB MUFON</a></th><td class="numeric">94,762</td><td class="numeric">20,531,346</td><td class="numeric">63.3%</td><td><a href="https://ufo-files.github.io/relationship-graph-builder/#config=eyJ0eXBlIjoiZG9jdW1lbnQiLCJhbGxTb3VyY2VzIjpmYWxzZSwic291cmNlcyI6WyJVUERCLU1VRk9OIl0sInRpdGxlTW9kZSI6ImF1dG8ifQ%3D%3D" aria-label="Explore UPDB MUFON">Explore</a></td></tr>
+              <tr><th scope="row"><a href="https://github.com/ufo-files/machine-data/tree/main/UPDB-NICAP">UPDB NICAP</a></th><td class="numeric">5,841</td><td class="numeric">392,599</td><td class="numeric">3.9%</td><td><a href="https://ufo-files.github.io/relationship-graph-builder/#config=eyJ0eXBlIjoiZG9jdW1lbnQiLCJhbGxTb3VyY2VzIjpmYWxzZSwic291cmNlcyI6WyJVUERCLU5JQ0FQIl0sInRpdGxlTW9kZSI6ImF1dG8ifQ%3D%3D" aria-label="Explore UPDB NICAP">Explore</a></td></tr>
+              <tr><th scope="row"><a href="https://github.com/ufo-files/machine-data/tree/main/UPDB-NIDS">UPDB NIDS</a></th><td class="numeric">1,472</td><td class="numeric">124,387</td><td class="numeric">1.0%</td><td><a href="https://ufo-files.github.io/relationship-graph-builder/#config=eyJ0eXBlIjoiZG9jdW1lbnQiLCJhbGxTb3VyY2VzIjpmYWxzZSwic291cmNlcyI6WyJVUERCLU5JRFMiXSwidGl0bGVNb2RlIjoiYXV0byJ9" aria-label="Explore UPDB NIDS">Explore</a></td></tr>
+              <tr><th scope="row"><a href="https://github.com/ufo-files/machine-data/tree/main/UPDB-Pilots">UPDB Pilots</a></th><td class="numeric">481</td><td class="numeric">23,030</td><td class="numeric">0.3%</td><td><a href="https://ufo-files.github.io/relationship-graph-builder/#config=eyJ0eXBlIjoiZG9jdW1lbnQiLCJhbGxTb3VyY2VzIjpmYWxzZSwic291cmNlcyI6WyJVUERCLVBpbG90cyJdLCJ0aXRsZU1vZGUiOiJhdXRvIn0%3D" aria-label="Explore UPDB Pilots">Explore</a></td></tr>
+              <tr><th scope="row"><a href="https://github.com/ufo-files/machine-data/tree/main/UPDB-Skinwalker">UPDB Skinwalker</a></th><td class="numeric">585</td><td class="numeric">28,336</td><td class="numeric">0.4%</td><td><a href="https://ufo-files.github.io/relationship-graph-builder/#config=eyJ0eXBlIjoiZG9jdW1lbnQiLCJhbGxTb3VyY2VzIjpmYWxzZSwic291cmNlcyI6WyJVUERCLVNraW53YWxrZXIiXSwidGl0bGVNb2RlIjoiYXV0byJ9" aria-label="Explore UPDB Skinwalker">Explore</a></td></tr>
+              <tr><th scope="row"><a href="https://github.com/ufo-files/machine-data/tree/main/UPDB-UKTNA">UPDB UKTNA</a></th><td class="numeric">2,837</td><td class="numeric">50,603</td><td class="numeric">1.9%</td><td><a href="https://ufo-files.github.io/relationship-graph-builder/#config=eyJ0eXBlIjoiZG9jdW1lbnQiLCJhbGxTb3VyY2VzIjpmYWxzZSwic291cmNlcyI6WyJVUERCLVVLVE5BIl0sInRpdGxlTW9kZSI6ImF1dG8ifQ%3D%3D" aria-label="Explore UPDB UKTNA">Explore</a></td></tr>
+              <tr><th scope="row"><a href="https://github.com/ufo-files/machine-data/tree/main/War-Gov-PURSUE">War Gov PURSUE</a></th><td class="numeric">367</td><td class="numeric">1,423,607</td><td class="numeric">0.2%</td><td><a href="https://ufo-files.github.io/relationship-graph-builder/#config=eyJ0eXBlIjoiZG9jdW1lbnQiLCJhbGxTb3VyY2VzIjpmYWxzZSwic291cmNlcyI6WyJXYXItR292LVBVUlNVRSJdLCJ0aXRsZU1vZGUiOiJhdXRvIn0%3D" aria-label="Explore War Gov PURSUE">Explore</a></td></tr>
+              <tr><th scope="row"><a href="https://github.com/ufo-files/machine-data/tree/main/Weaponized-Podcast">Weaponized Podcast</a></th><td class="numeric">139</td><td class="numeric">1,125,015</td><td class="numeric">&lt;0.1%</td><td><a href="https://ufo-files.github.io/relationship-graph-builder/#config=eyJ0eXBlIjoiZG9jdW1lbnQiLCJhbGxTb3VyY2VzIjpmYWxzZSwic291cmNlcyI6WyJXZWFwb25pemVkLVBvZGNhc3QiXSwidGl0bGVNb2RlIjoiYXV0byJ9" aria-label="Explore Weaponized Podcast">Explore</a></td></tr>
+              <tr><th scope="row"><a href="https://github.com/ufo-files/machine-data/tree/main/Whitepapers">Whitepapers</a></th><td class="numeric">7</td><td class="numeric">122,299</td><td class="numeric">&lt;0.1%</td><td><a href="https://ufo-files.github.io/relationship-graph-builder/#config=eyJ0eXBlIjoiZG9jdW1lbnQiLCJhbGxTb3VyY2VzIjpmYWxzZSwic291cmNlcyI6WyJXaGl0ZXBhcGVycyIsIk1VRk9OIl0sInRpdGxlTW9kZSI6ImF1dG8ifQ%3D%3D" aria-label="Explore Whitepapers">Explore</a></td></tr>
+              <tr><th scope="row"><a href="https://github.com/ufo-files/machine-data/tree/main/WikiLeaks-UFO">WikiLeaks UFO</a></th><td class="numeric">13</td><td class="numeric">5,096</td><td class="numeric">&lt;0.1%</td><td><a href="https://ufo-files.github.io/relationship-graph-builder/#config=eyJ0eXBlIjoiZG9jdW1lbnQiLCJhbGxTb3VyY2VzIjpmYWxzZSwic291cmNlcyI6WyJXaWtpTGVha3MtVUZPIl0sInRpdGxlTW9kZSI6ImF1dG8ifQ%3D%3D" aria-label="Explore WikiLeaks UFO">Explore</a></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section id="faq" aria-labelledby="faq-title">
+      <div class="wrapper">
+        <h2 id="faq-title">Frequently asked questions</h2>
+        <div class="faq-list">
+        <details name="faq">
+          <summary class="faq-question"><img class="arrow" src="src/img/icon-chevron.svg" alt=""><h3>What is UFO Files?</h3></summary>
+          <div class="faq-answer">
+          <p>UFO Files is an independent project that makes public UFO records easier to explore through open-source research tools.</p>
+          </div>
+        </details>
+        <details name="faq">
+          <summary class="faq-question"><img class="arrow" src="src/img/icon-chevron.svg" alt=""><h3>Does a connection prove a claim?</h3></summary>
+          <div class="faq-answer">
+          <p>No. A connection is a starting point for research. Check the underlying records, their context, and the quality of the evidence before drawing a conclusion.</p>
+          </div>
+        </details>
+        <details name="faq">
+          <summary class="faq-question"><img class="arrow" src="src/img/icon-chevron.svg" alt=""><h3>Where can I find the code and data?</h3></summary>
+          <div class="faq-answer">
+          <p>Visit the <a href="https://github.com/ufo-files/relationship-graph-builder">relationship graph repository</a> for the research tool and the <a href="https://github.com/ufo-files/machine-data">machine data repository</a> for transcripts and derived data.</p>
+          </div>
+        </details>
+        <details name="faq">
+          <summary class="faq-question"><img class="arrow" src="src/img/icon-chevron.svg" alt=""><h3>How can I get in touch?</h3></summary>
+          <div class="faq-answer">
+          <p>Send a message through <a href="https://tips.hushline.app/to/ufo-files">our Hush Line</a> to share feedback or contact the project.</p>
+          </div>
+        </details>
         </div>
       </div>
     </section>
   </main>
-
-  <script src="script.js?v=research-home-20260825g"></script>
+  <footer>
+    <div class="wrapper footer-inner">
+      <p>UFO Files · Independent research, open to everyone.</p>
+    </div>
+  </footer>
+  <script src="script.js"></script>
+  <script src="record-count.js?v=20260927-mufon2"></script>
 </body>
 </html>
