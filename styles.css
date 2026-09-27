@@ -68,17 +68,18 @@ header.island { max-width: calc(100% - 2rem); }
 .brand img { object-fit: contain; }
 header nav .primaryBtn { margin-left: 1.25rem; }
 .intro { min-height: 850px; min-height: min(100svh, 1000px); padding: 11rem 0 7rem; }
-.intro::before {
+.intro::before, .intro-graph {
   content: "";
   position: absolute;
   inset: 0;
   background: url("assets/intro-graph.svg") 75% center / auto 120% no-repeat;
   opacity: .55;
-  transform-origin: 70% center;
-  animation: intro-graph-drift 24s ease-in-out infinite alternate;
   mask-image: linear-gradient(to right, transparent 20%, #000 75%);
   pointer-events: none;
 }
+.intro-graph { background: none; }
+.intro-graph svg { position: absolute; height: 120%; width: auto; max-width: none; top: -10%; left: 75%; transform: translateX(-75%); }
+.intro.graph-ready::before { display: none; }
 .intro .wrapper { position: relative; margin-top: 0; }
 .hero-copy { width: 51%; }
 .intro h1 { font-size: var(--font-size-1); color: var(--color-brand-dark); letter-spacing: -.025em; }
@@ -127,12 +128,13 @@ footer p { font-size: var(--font-size-small); }
   header nav ul.menu-open { display: flex; position: absolute; left: 0; right: 0; top: calc(100% + .5rem); padding: 1rem; background: var(--paper); border: var(--border); border-radius: .25rem; box-shadow: var(--shadow); }
   header nav ul.menu-open a { display: block; padding: .75rem .5rem; }
   .intro { min-height: 100svh; padding: 11rem 0 5rem; }
-  .intro::before {
+  .intro::before, .intro-graph {
     background-position: 60% center;
     background-size: auto 100%;
     opacity: .16;
     mask-image: linear-gradient(to bottom, transparent, #000 45%, #000);
   }
+  .intro-graph svg { height: 100%; top: 0; left: 60%; transform: translateX(-60%); }
   .intro .wrapper { margin: 0; text-align: left; align-items: stretch; }
   .hero-copy { width: 100%; }
   .intro h1 { font-size: 2rem; }
@@ -160,11 +162,3 @@ footer p { font-size: var(--font-size-small); }
 .sources-table tbody tr:hover { background: var(--mint); }
 .sources-table .numeric { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .sources-table a { text-underline-offset: .2em; }
-
-@keyframes intro-graph-drift {
-  from { transform: translate3d(-1%, 1%, 0) scale(1.02); }
-  to { transform: translate3d(1%, -1%, 0) scale(1.06); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .intro::before { animation: none; transform: none; }
-}
