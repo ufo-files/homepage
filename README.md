@@ -22,6 +22,11 @@ each button opens its corresponding view. Navigation is progressively enhanced f
 controls keep the FAQ usable without JavaScript. Research and contact links
 continue to open the existing tools.
 
+The intro badge reads the live `counts.documents` total from the graph app’s
+published catalog. It requests only the first 16 KiB, cancels the stream once
+the count is found, and refreshes each minute while the page is visible.
+Failures show “Record count unavailable” and retry automatically.
+
 ## Local preview
 
 ```sh

@@ -97,6 +97,7 @@ async function main() {
     const page = await browser.newPage({ viewport: VIEWPORT, deviceScaleFactor: 1 });
     await page.goto(baseUrl, { waitUntil: "networkidle" });
     await page.waitForSelector("#intro-title", { timeout: 30000 });
+    await page.waitForFunction(() => document.querySelector("#record-count").dataset.state !== "loading", { timeout: 15000 });
     await page.waitForTimeout(500);
     await captureFullPage(page, "homepage-full-page");
     await capture(page, "homepage-hero");
@@ -112,6 +113,7 @@ async function main() {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto(baseUrl, { waitUntil: "networkidle" });
     await page.waitForSelector("#intro-title", { timeout: 30000 });
+    await page.waitForFunction(() => document.querySelector("#record-count").dataset.state !== "loading", { timeout: 15000 });
     await page.waitForTimeout(250);
     await capture(page, "homepage-mobile");
     await browser.close();
