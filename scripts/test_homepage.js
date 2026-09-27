@@ -15,8 +15,8 @@ for (const [, attribute, value] of html.matchAll(/\b(href|src)="([^"]+)"/g)) {
     assert.ok(fs.statSync(path.join(root, value)).size > 0, `Missing ${attribute}: ${value}`);
   }
 }
-for (const name of ['style.css', 'reset.css']) {
-  const stylesheet = path.join(root, 'src/css', name);
+for (const name of ['src/css/style.css', 'src/css/reset.css', 'styles.css']) {
+  const stylesheet = path.join(root, name);
   const css = fs.readFileSync(stylesheet, 'utf8');
   for (const [, resource] of css.matchAll(/url\(['"]?([^)'"\s]+)['"]?\)/g)) {
     assert.ok(fs.existsSync(path.resolve(path.dirname(stylesheet), resource)), `Missing CSS resource: ${resource}`);

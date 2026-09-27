@@ -11,14 +11,21 @@ header.island { max-width: calc(100% - 2rem); }
 .brand img { object-fit: contain; }
 header nav .primaryBtn { margin-left: 1.25rem; }
 .intro { min-height: 850px; min-height: min(100svh, 1000px); padding: 11rem 0 7rem; }
+.intro::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("assets/intro-graph.svg") 75% center / auto 120% no-repeat;
+  opacity: .55;
+  mask-image: linear-gradient(to right, transparent 20%, #000 75%);
+  pointer-events: none;
+}
 .intro .wrapper { position: relative; margin-top: 0; }
 .hero-copy { width: 51%; }
 .intro h1 { font-size: var(--font-size-1); color: var(--color-brand-dark); letter-spacing: -.025em; }
 .intro p { max-width: 100%; }
 .intro .hero-copy > p:not(.badge) { max-width: 34rem; margin: 1.25rem 0 1.5rem; }
 .intro .badge { margin-bottom: 1.5rem; }
-.hero-preview { display: block; position: absolute; left: 58%; top: 50%; transform: translateY(-50%); width: 850px; border-radius: .5rem; overflow: hidden; border: var(--border); box-shadow: var(--shadow); }
-.intro .hero-preview img { display: block; position: static; width: 100%; max-width: none; height: auto; transform: none; margin: 0; }
 .feature { width: 100%; }
 .feature .wrapper { margin-inline: auto; }
 .feature img { height: auto; border: var(--border); border-radius: .5rem; box-shadow: var(--shadow); }
@@ -45,7 +52,6 @@ footer p { font-size: var(--font-size-small); }
 @media (max-width: 768px) {
   .intro h1 { font-size: 2.75rem; }
   .hero-copy { width: 56%; }
-  .hero-preview { left: 64%; width: 720px; }
   .feature img { width: 100%; }
 }
 @media (max-width: 640px) {
@@ -61,11 +67,16 @@ footer p { font-size: var(--font-size-small); }
   header nav:has(.menu-toggle[hidden]) { flex-basis: 100%; justify-content: space-between; }
   header nav ul.menu-open { display: flex; position: absolute; left: 0; right: 0; top: calc(100% + .5rem); padding: 1rem; background: white; border: var(--border); border-radius: .25rem; box-shadow: var(--shadow); }
   header nav ul.menu-open a { display: block; padding: .75rem .5rem; }
-  .intro { min-height: auto; padding: 11rem 0 4rem; }
+  .intro { min-height: 100svh; padding: 11rem 0 5rem; }
+  .intro::before {
+    background-position: 60% center;
+    background-size: auto 100%;
+    opacity: .16;
+    mask-image: linear-gradient(to bottom, transparent, #000 45%, #000);
+  }
   .intro .wrapper { margin: 0; text-align: left; align-items: stretch; }
   .hero-copy { width: 100%; }
   .intro h1 { font-size: 2.5rem; }
-  .hero-preview { position: static; transform: none; width: 100%; margin-top: 2.5rem; }
   section:not(.intro) { padding: 4rem 0; }
   .footer-inner { flex-direction: column; }
 }

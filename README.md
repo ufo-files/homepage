@@ -11,7 +11,9 @@ revision `f89ec1a5b233fb94fa4779aa426d928d3f59bfc9`. The original reset,
 stylesheet, and locally served Atkinson Hyperlegible / IBM Plex Mono fonts are
 in `src/`. UFO Files adaptations live in `styles.css`.
 
-The page uses the template’s island header, intro, statement, feature, and FAQ
+The intro background uses node and edge geometry from the existing graph SVG,
+with labels removed for a decorative background. The page uses the template’s
+island header, intro, statement, feature, and FAQ
 structure, with features for Timeline, Map, Galactic Entities, Species, Signals,
 and Programs. Feature images come from the research app’s screenshot gallery;
 each button opens its corresponding view. Navigation is progressively enhanced for mobile; native disclosure
