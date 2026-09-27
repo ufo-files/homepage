@@ -12,7 +12,7 @@ for (const [, attribute, value] of html.matchAll(/\b(href|src)="([^"]+)"/g)) {
   if (value.startsWith('#')) {
     assert.ok(ids.includes(value.slice(1)), `Missing target: ${value}`);
   } else {
-    assert.ok(fs.statSync(path.join(root, value)).size > 0, `Missing ${attribute}: ${value}`);
+    assert.ok(fs.statSync(path.join(root, value.split(/[?#]/)[0])).size > 0, `Missing ${attribute}: ${value}`);
   }
 }
 for (const name of ['src/css/style.css', 'src/css/reset.css', 'styles.css']) {

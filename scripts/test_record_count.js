@@ -72,5 +72,7 @@ test('relocated journal joins Whitepapers without changing totals or UPDB-MUFON'
   assert.equal(grouped[1].documents, 94762);
   assert.equal(catalog.sources[1].documents, 6, 'Raw catalog stays unchanged');
   catalog.generatedAt = '2026-09-28T00:00:00Z';
-  assert.equal(currentSourceCollections(catalog).length, 3, 'Future MUFON records are not regrouped');
+  assert.equal(currentSourceCollections(catalog).length, 2, 'Later builds can still use pre-move data');
+  catalog.sources[0].words = 2000;
+  assert.equal(currentSourceCollections(catalog).length, 3, 'Different MUFON records are not regrouped');
 });

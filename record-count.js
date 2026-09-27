@@ -78,9 +78,10 @@ function fetchRecordCount(fetcher = fetch) {
 
 // The February 2008 journal moved on 2026-09-27. Group older catalog
 // snapshots under its current collection until the next rebuild catches up.
+// Build completion timestamps are not input revisions: a later build may
+// still contain this old one-record collection. Match the known record totals.
 function currentSourceCollections(catalog) {
   const sources = catalog.sources.map(source => ({ ...source }));
-  if (Date.parse(catalog.generatedAt) >= Date.parse('2026-09-27T19:25:08Z')) return sources;
   const journal = sources.find(source => source.name === 'MUFON');
   const whitepapers = sources.find(source => source.name === 'Whitepapers');
   if (journal?.documents === 1 && journal.words === 15434 && whitepapers) {
