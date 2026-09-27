@@ -74,6 +74,8 @@ header nav .primaryBtn { margin-left: 1.25rem; }
   inset: 0;
   background: url("assets/intro-graph.svg") 75% center / auto 120% no-repeat;
   opacity: .55;
+  transform-origin: 70% center;
+  animation: intro-graph-drift 24s ease-in-out infinite alternate;
   mask-image: linear-gradient(to right, transparent 20%, #000 75%);
   pointer-events: none;
 }
@@ -142,4 +144,27 @@ footer p { font-size: var(--font-size-small); }
   header nav .menu-toggle { font-size: .625rem; padding: .375rem; }
   .brand { gap: .375rem; font-size: .75rem; }
   .brand img { width: 22px; height: 22px; }
+}
+
+/* Source directory uses the graph app's paper, ink, and rule colors. */
+#sources { background: var(--mint); }
+#sources > .wrapper > p { max-width: 56rem; }
+.sources-note { color: var(--muted); font-size: .875rem; }
+.sources-table-scroll { overflow-x: auto; max-width: 100%; border: var(--border); background: var(--paper); }
+.sources-table { width: 100%; min-width: 680px; border-collapse: collapse; font-size: .875rem; line-height: 1.5; }
+.sources-table caption { text-align: left; padding: 1rem; color: var(--muted); border-bottom: var(--border); font-size: .75rem; }
+.sources-table th, .sources-table td { padding: .875rem 1rem; text-align: left; vertical-align: top; border-bottom: var(--border); }
+.sources-table thead th { font-size: .75rem; text-transform: uppercase; font-weight: 700; background: var(--mint); }
+.sources-table tbody th { font-weight: 400; min-width: 220px; }
+.sources-table tbody tr:last-child > * { border-bottom: 0; }
+.sources-table tbody tr:hover { background: var(--mint); }
+.sources-table .numeric { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.sources-table a { text-underline-offset: .2em; }
+
+@keyframes intro-graph-drift {
+  from { transform: translate3d(-1%, 1%, 0) scale(1.02); }
+  to { transform: translate3d(1%, -1%, 0) scale(1.06); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .intro::before { animation: none; transform: none; }
 }

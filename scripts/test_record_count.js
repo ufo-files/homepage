@@ -40,3 +40,19 @@ test('rejects HTTP errors, missing counts, malformed JSON, and oversized headers
     await assert.rejects(fetchRecordCount(async () => response));
   }
 });
+
+test('source summary handles partial headers and punctuation in source names', () => {
+  const { parseCatalogSummary } = require('../record-count.js');
+  const catalog = { generatedAt: '2026-09-27T18:21:20Z', counts: { documents: 3, sources: 2 }, sources: [
+    { name: 'A ] "quoted" source', documents: 1, words: 20 },
+    { name: 'B', documents: 2, words: 40 },
+  ] };
+  const header = JSON.stringify(catalog);
+  assert.equal(parseCatalogSummary(header.slice(0, -3)), null);
+  assert.deepEqual(parseCatalogSummary(header), { count: 3, generatedAt: catalog.generatedAt, sources: catalog.sources });
+  catalog.sources[0].documents = 5;
+  assert.throws(() => parseCatalogSummary(JSON.stringify(catalog)), /totals/);
+  catalog.sources[0].documents = 1;
+  catalog.sources[0].words = -1;
+  assert.throws(() => parseCatalogSummary(JSON.stringify(catalog)), /directory/);
+});

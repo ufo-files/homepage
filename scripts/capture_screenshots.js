@@ -94,7 +94,7 @@ async function main() {
   try {
     await waitForServer(port);
     const browser = await chromium.launch();
-    const page = await browser.newPage({ viewport: VIEWPORT, deviceScaleFactor: 1 });
+    const page = await browser.newPage({ viewport: VIEWPORT, deviceScaleFactor: 1, reducedMotion: "reduce" });
     await page.goto(baseUrl, { waitUntil: "networkidle" });
     await page.waitForSelector("#intro-title", { timeout: 30000 });
     await page.waitForFunction(() => document.querySelector("#record-count").dataset.state !== "loading", { timeout: 15000 });
