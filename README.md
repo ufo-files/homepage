@@ -8,8 +8,10 @@ The static public entry point for [UFO Files](https://ufo-files.app).
 
 Based on [Glenn Sorrentino’s original design system](https://github.com/glenn-sorrentino/design-system),
 revision `f89ec1a5b233fb94fa4779aa426d928d3f59bfc9`. The original reset,
-stylesheet, and locally served Atkinson Hyperlegible / IBM Plex Mono fonts are
-in `src/`. UFO Files adaptations live in `styles.css`.
+stylesheet, and bundled template fonts are in `src/`. UFO Files adaptations
+live in `styles.css`, mapping the graph app’s paper/ink palette and IBM Plex
+Mono regular/bold typography onto the template. Active font files and their
+license are in `assets/fonts/`.
 
 The intro background uses node and edge geometry from the existing graph SVG,
 with labels removed for a decorative background. The page uses the template’s

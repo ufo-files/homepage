@@ -1,10 +1,67 @@
 /* UFO Files adaptations. Original template lives in src/css/style.css. */
+/* Color and type tokens shared with the relationship graph app. */
+@font-face {
+  font-family: "UFO Plex Mono";
+  src: url("assets/fonts/IBMPlexMono-Regular.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "UFO Plex Mono";
+  src: url("assets/fonts/IBMPlexMono-Bold.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+:root {
+  --ink: #111;
+  --muted: #555;
+  --paper: #f6f5ef;
+  --panel: rgba(246, 245, 239, .96);
+  --line: rgba(17, 17, 17, .34);
+  --mint: #ecebe4;
+  --font: "UFO Plex Mono", "SF Mono", "Roboto Mono", ui-monospace, monospace;
+  --color-brand: var(--ink);
+  --color-brand-dark: var(--ink);
+  --color-brand-bg: var(--paper);
+  --color-bg: var(--paper);
+  --color-text: var(--ink);
+  --color-text-light: var(--muted);
+  --color-border: var(--line);
+  --font-mono: var(--font);
+  --font-sans: var(--font);
+  --font-sans-bold: var(--font);
+  --font-size-base: 1rem;
+  --font-size-logo: 1.125rem;
+  --font-size-1: 3rem;
+  --font-size-2: 2rem;
+  --font-size-3: 1.5rem;
+  --shadow: none;
+  --shadow-hard: none;
+  --shadow-inset: none;
+  font-synthesis: none;
+}
+h1, h2, h3 { font-weight: 400; text-transform: uppercase; }
+header { background: var(--panel); }
+.brand { font-weight: 700; text-transform: uppercase; }
+header nav a, .btn { font-size: .875rem; font-weight: 400; text-transform: uppercase; }
+header nav li { font-size: .75rem; }
+header nav li a { font-size: inherit; }
+.btn, p.badge, .skip-link { background: var(--paper); }
+.primaryBtn { background: var(--ink); color: var(--paper); }
+.btn:hover { background: var(--mint); }
+.primaryBtn:hover { background: var(--muted); color: var(--paper); }
+p.badge { font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
+.banner p { color: var(--paper); font-size: .75rem; }
+.statement { background: var(--mint); }
+.highlight { color: var(--paper); }
 * { box-sizing: border-box; }
 html { scroll-padding-top: 9rem; }
 body { color: var(--color-text); }
 [hidden] { display: none !important; }
 :focus-visible { outline: 3px solid var(--color-brand); outline-offset: 5px; }
-.skip-link { position: fixed; left: 1rem; top: -5rem; z-index: 101; padding: .75rem 1rem; background: white; }
+.skip-link { position: fixed; left: 1rem; top: -5rem; z-index: 101; padding: .75rem 1rem; background: var(--paper); }
 .skip-link:focus { top: .5rem; }
 header.island { max-width: calc(100% - 2rem); }
 .brand { display: flex; align-items: center; gap: .625rem; margin-right: 3rem; color: var(--color-brand-dark); font-family: var(--font-sans-bold); font-size: var(--font-size-logo); text-decoration: none; white-space: nowrap; }
@@ -29,7 +86,7 @@ header nav .primaryBtn { margin-left: 1.25rem; }
 .feature { width: 100%; }
 .feature .wrapper { margin-inline: auto; }
 .feature img { height: auto; border: var(--border); border-radius: .5rem; box-shadow: var(--shadow); }
-/* Keep the template's FAQ typography, spacing, and chevron artwork. */
+/* Keep the template's FAQ spacing and chevron artwork. */
 .faq-list { max-width: 640px; }
 .faq-list details { margin: 1rem 0; }
 .faq-question { list-style: none; }
@@ -46,11 +103,11 @@ footer { width: 100%; padding: 2rem 0; border-top: var(--border); }
 .footer-inner { display: flex; justify-content: space-between; gap: 1rem; }
 footer p { font-size: var(--font-size-small); }
 @media (max-width: 1000px) {
-  .intro h1 { font-size: 3rem; }
+  .intro h1 { font-size: 2.5rem; }
   .brand { margin-right: 1.5rem; }
 }
 @media (max-width: 768px) {
-  .intro h1 { font-size: 2.75rem; }
+  .intro h1 { font-size: 2.25rem; }
   .hero-copy { width: 56%; }
   .feature img { width: 100%; }
 }
@@ -58,14 +115,14 @@ footer p { font-size: var(--font-size-small); }
   html { scroll-padding-top: 10rem; }
   .wrapper { padding-left: 1.5rem; padding-right: 1.5rem; }
   header.island { width: calc(100% - 2rem); flex-wrap: wrap; padding: .75rem; gap: .75rem; }
-  .brand { margin-right: 0; font-size: 1.125rem; }
+  .brand { margin-right: 0; font-size: .875rem; }
   .brand img { width: 26px; height: 26px; }
   header nav { flex: 1; justify-content: flex-end; }
-  header nav .btn { padding: .625rem; min-height: 44px; }
+  header nav .btn { padding: .5rem; min-height: 44px; font-size: .6875rem; }
   header nav .primaryBtn { margin-left: .5rem; }
   header nav ul { display: flex; flex-wrap: wrap; max-width: none; }
   header nav:has(.menu-toggle[hidden]) { flex-basis: 100%; justify-content: space-between; }
-  header nav ul.menu-open { display: flex; position: absolute; left: 0; right: 0; top: calc(100% + .5rem); padding: 1rem; background: white; border: var(--border); border-radius: .25rem; box-shadow: var(--shadow); }
+  header nav ul.menu-open { display: flex; position: absolute; left: 0; right: 0; top: calc(100% + .5rem); padding: 1rem; background: var(--paper); border: var(--border); border-radius: .25rem; box-shadow: var(--shadow); }
   header nav ul.menu-open a { display: block; padding: .75rem .5rem; }
   .intro { min-height: 100svh; padding: 11rem 0 5rem; }
   .intro::before {
@@ -76,13 +133,13 @@ footer p { font-size: var(--font-size-small); }
   }
   .intro .wrapper { margin: 0; text-align: left; align-items: stretch; }
   .hero-copy { width: 100%; }
-  .intro h1 { font-size: 2.5rem; }
+  .intro h1 { font-size: 2rem; }
   section:not(.intro) { padding: 4rem 0; }
   .footer-inner { flex-direction: column; }
 }
 @media (max-width: 370px) {
-  header nav .primaryBtn { font-size: .75rem; padding: .5rem; }
-  header nav .menu-toggle { font-size: .75rem; padding: .5rem; }
-  .brand { gap: .375rem; font-size: 1rem; }
+  header nav .primaryBtn { font-size: .625rem; padding: .375rem; }
+  header nav .menu-toggle { font-size: .625rem; padding: .375rem; }
+  .brand { gap: .375rem; font-size: .75rem; }
   .brand img { width: 22px; height: 22px; }
 }
