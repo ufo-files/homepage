@@ -22,10 +22,19 @@ header nav .primaryBtn { margin-left: 1.25rem; }
 .feature { width: 100%; }
 .feature .wrapper { margin-inline: auto; }
 .feature img { height: auto; border: var(--border); border-radius: .5rem; box-shadow: var(--shadow); }
-.faq-wrapper { max-width: 880px; }
-details { border-bottom: var(--border); padding: 1.25rem 0; }
-summary { cursor: pointer; font-family: var(--font-sans-bold); font-size: 1.375rem; line-height: 1.4; }
-details p { margin: 1rem 0 0; max-width: 42rem; }
+/* Keep the template's FAQ typography, spacing, and chevron artwork. */
+.faq-list { max-width: 640px; }
+.faq-list details { margin: 1rem 0; }
+.faq-question { list-style: none; }
+.faq-question::-webkit-details-marker { display: none; }
+.faq-question::marker { content: ""; }
+.faq-question h3 { margin: 0; }
+.faq-question .arrow { flex-shrink: 0; }
+details[open] > .faq-question .arrow { transform: rotate(-180deg); }
+details[open] > .faq-answer { display: block; }
+@media (prefers-reduced-motion: reduce) {
+  .arrow { transition: none; }
+}
 footer { width: 100%; padding: 2rem 0; border-top: var(--border); }
 .footer-inner { display: flex; justify-content: space-between; gap: 1rem; }
 footer p { font-size: var(--font-size-small); }
