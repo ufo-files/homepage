@@ -74,6 +74,11 @@ async function capture(page, name) {
 }
 
 async function captureFullPage(page, name) {
+  await page.evaluate(async () => {
+    const images = [...document.images];
+    images.forEach(image => { image.loading = "eager"; });
+    await Promise.all(images.map(image => image.decode()));
+  });
   await page.screenshot({
     path: path.join(OUTPUT_DIR, `${name}.png`),
     fullPage: true,

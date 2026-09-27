@@ -12,7 +12,9 @@ stylesheet, and locally served Atkinson Hyperlegible / IBM Plex Mono fonts are
 in `src/`. UFO Files adaptations live in `styles.css`.
 
 The page uses the template’s island header, intro, statement, feature, and FAQ
-structure. Navigation is progressively enhanced for mobile; native disclosure
+structure, with features for Timeline, Map, Galactic Entities, Species, Signals,
+and Programs. Feature images come from the research app’s screenshot gallery;
+each button opens its corresponding view. Navigation is progressively enhanced for mobile; native disclosure
 controls keep the FAQ usable without JavaScript. Research and contact links
 continue to open the existing tools.
 
