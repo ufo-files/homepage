@@ -92,7 +92,9 @@ header nav .primaryBtn { margin-left: 1.25rem; }
 .about-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; gap: 4rem; }
 .about-copy p { max-width: 34rem; margin: 1.25rem 0; }
 .about-copy .btn { display: inline-flex; margin-top: .5rem; }
-.about-photo { display: block; width: 100%; max-width: 430px; height: auto; justify-self: center; border: var(--border); border-radius: .5rem; }
+.about-portrait { width: 100%; max-width: 430px; margin: 0; justify-self: center; }
+.about-photo { display: block; width: 100%; height: auto; border: var(--border); border-radius: .5rem; }
+.about-portrait figcaption { margin-top: .75rem; color: var(--muted); font-size: .875rem; line-height: 1.5; }
 /* Keep the template's FAQ spacing and chevron artwork. */
 .faq-list { max-width: 640px; }
 .faq-list details { margin: 1rem 0; }
@@ -115,7 +117,7 @@ footer p { font-size: var(--font-size-small); }
 }
 @media (max-width: 768px) {
   .about-layout { grid-template-columns: minmax(0, 1fr); gap: 2rem; }
-  .about-photo { justify-self: start; }
+  .about-portrait { justify-self: start; }
   .intro h1 { font-size: 2.25rem; }
   .hero-copy { width: 56%; }
   .feature img { width: 100%; }
