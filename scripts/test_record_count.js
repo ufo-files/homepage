@@ -2,6 +2,18 @@ const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const { parseRecordCount, fetchRecordCount } = require('../record-count.js');
 
+test('archive completion requires a nonzero total and verified coverage', () => {
+  const { parseSourceInventory } = require('../record-count.js');
+  const inventory = { schema: 'ufo-files-source-inventory/v1', generatedAt: '2026-09-28T12:00:00Z', sources: [
+    { name: 'NARA', totalFiles: 157919, verifiedProcessedFiles: null, processingComplete: false },
+    { name: 'AARO', totalFiles: 11, verifiedProcessedFiles: 11, processingComplete: true },
+  ] };
+  assert.equal(parseSourceInventory(inventory), inventory);
+  assert.throws(() => parseSourceInventory({ ...inventory, sources: [{ ...inventory.sources[0], processingComplete: true }] }));
+  assert.throws(() => parseSourceInventory({ ...inventory, sources: [{ name: 'Empty', totalFiles: 0, verifiedProcessedFiles: 0, processingComplete: true }] }));
+  assert.throws(() => parseSourceInventory({ ...inventory, generatedAt: 'invalid' }));
+});
+
 test('formats the document total, including an empty archive, without using entity totals', () => {
   assert.equal(parseRecordCount('{"counts":{"documents":149622,"publishedEntities":1200}}'), 149622);
   assert.equal(parseRecordCount('{"counts":{"documents":0}}'), 0);

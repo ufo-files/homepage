@@ -93,12 +93,24 @@ function currentSourceCollections(catalog) {
   return sources;
 }
 
-function renderSources(catalog) {
+function parseSourceInventory(inventory) {
+  if (inventory?.schema !== 'ufo-files-source-inventory/v1' || !Number.isFinite(Date.parse(inventory.generatedAt)) ||
+      !Array.isArray(inventory.sources) || inventory.sources.some(source =>
+        typeof source.name !== 'string' ||
+        !(source.totalFiles === null || (Number.isSafeInteger(source.totalFiles) && source.totalFiles >= 0)) ||
+        typeof source.processingComplete !== 'boolean' ||
+        (source.processingComplete && (!source.totalFiles || source.verifiedProcessedFiles !== source.totalFiles)))) {
+    throw new Error('Invalid archive inventory');
+  }
+  return inventory;
+}
+
+function renderSources(catalog, inventory) {
   const body = document.getElementById('sources-body');
-  if (!body) return;
+  if (!body || !inventory) return;
   const format = new Intl.NumberFormat('en-US');
   const sources = currentSourceCollections(catalog);
-  const signature = JSON.stringify(catalog);
+  const signature = JSON.stringify([catalog, inventory]);
   if (body.dataset.catalog !== signature) {
     const focusedUrl = body.contains(document.activeElement) ? document.activeElement.href : null;
     const rows = sources.sort((a, b) => a.name.localeCompare(b.name)).map(source => {
@@ -111,6 +123,11 @@ function renderSources(catalog) {
       link.href = `https://github.com/ufo-files/machine-data/tree/main/${encodeURIComponent(source.name)}`;
       name.append(link);
       row.append(name);
+      const archived = inventory.sources.find(item => item.name === source.name);
+      const total = document.createElement('td');
+      total.className = 'numeric';
+      total.textContent = archived?.totalFiles == null ? 'Unavailable' : format.format(archived.totalFiles);
+      row.append(total);
       const share = catalog.count ? source.documents / catalog.count * 100 : 0;
       for (const text of [format.format(source.documents), format.format(source.words), share > 0 && share < .1 ? '<0.1%' : `${share.toFixed(1)}%`]) {
         const cell = document.createElement('td');
@@ -118,6 +135,16 @@ function renderSources(catalog) {
         cell.textContent = text;
         row.append(cell);
       }
+      const complete = document.createElement('td');
+      complete.className = 'processing-status';
+      const verified = archived?.processingComplete === true;
+      complete.textContent = verified ? '✅' : '❌';
+      complete.setAttribute('aria-label', verified ? 'Processing complete' : 'Processing not verified complete');
+      complete.title = archived?.totalFiles == null ? 'Archive inventory unavailable' :
+        archived.verifiedProcessedFiles == null ?
+          `${format.format(archived.outputFiles)} output files for ${format.format(archived.totalFiles)} archived source files; processing is incomplete. Inventory: ${inventory.generatedAt}` :
+          `${format.format(archived.verifiedProcessedFiles)} of ${format.format(archived.totalFiles)} archived files have verified machine-readable outputs. Inventory: ${inventory.generatedAt}`;
+      row.append(complete);
       const research = document.createElement('td');
       const explore = document.createElement('a');
       const config = JSON.stringify({ type: 'document', allSources: false, sources: source.researchSources || [source.name], titleMode: 'auto' });
@@ -134,20 +161,27 @@ function renderSources(catalog) {
     if (focusedUrl) [...body.querySelectorAll('a')].find(link => link.href === focusedUrl)?.focus({ preventScroll: true });
   }
   document.getElementById('sources-caption').textContent = `${sources.length} sources · ${format.format(catalog.count)} records · Catalog published ${new Date(catalog.generatedAt).toLocaleString('en-US', { timeZone: 'UTC', timeZoneName: 'short' })}`;
-  document.getElementById('sources-status').textContent = 'Showing the latest published catalog. Updates automatically.';
+  document.getElementById('sources-status').textContent = `Searchable records update from the published catalog. File totals and processing status were checked ${new Date(inventory.generatedAt).toLocaleString('en-US', { timeZone: 'UTC', timeZoneName: 'short' })}.`;
 }
 
 function startRecordCount() {
   const badge = document.getElementById('record-count');
   if (!badge) return;
   let loading = false;
+  let inventory = null;
   async function refresh() {
     if (loading || document.hidden) return;
     loading = true;
     try {
-      const catalog = await fetchCatalogHeader(parseCatalogSummary);
+      const [catalog, latestInventory] = await Promise.all([
+        fetchCatalogHeader(parseCatalogSummary),
+        fetch('source-inventory.json', { cache: 'no-store', signal: AbortSignal.timeout(10000) })
+          .then(response => { if (!response.ok) throw new Error('Inventory unavailable'); return response.json(); })
+          .then(parseSourceInventory).catch(() => null),
+      ]);
+      if (latestInventory) inventory = latestInventory;
       const count = catalog.count;
-      renderSources(catalog);
+      renderSources(catalog, inventory);
       badge.textContent = `${new Intl.NumberFormat('en-US').format(count)} public records`;
       badge.dataset.state = 'ready';
       badge.title = 'Source records in the latest published UFO Files research catalog. Refreshed every minute.';
@@ -169,7 +203,7 @@ function startRecordCount() {
 }
 
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { parseRecordCount, fetchRecordCount, parseCatalogSummary, fetchCatalogHeader, currentSourceCollections };
+  module.exports = { parseRecordCount, fetchRecordCount, parseCatalogSummary, fetchCatalogHeader, currentSourceCollections, parseSourceInventory };
 } else {
   startRecordCount();
 }
