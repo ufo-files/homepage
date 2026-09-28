@@ -17,8 +17,11 @@ The intro background uses node and edge geometry from the existing graph SVG,
 with labels removed for a decorative background. The page uses the template’s
 island header, intro, statement, feature, and FAQ
 structure, with features for Timeline, Map, Galactic Entities, Species, Signals,
-and Programs. Feature images come from the research app’s screenshot gallery;
-each button opens its corresponding view. Navigation is progressively enhanced for mobile; native disclosure
+and Programs. Feature images and the social preview load directly from the research
+app’s automatically refreshed screenshot gallery on `main` via raw GitHub URLs.
+Successful graph deployments refresh that gallery, so new captures appear here
+without a homepage release, subject to browser/CDN and social-platform caching.
+Each button opens its corresponding view. Navigation is progressively enhanced for mobile; native disclosure
 controls keep the FAQ usable without JavaScript. Research and contact links
 continue to open the existing tools.
 
