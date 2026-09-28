@@ -63,3 +63,22 @@ Manual runs on other branches upload review artifacts without publishing them.
 
 GitHub Pages publishes the repository root from `main` to the custom domain in
 `CNAME`.
+
+## Source file inventory
+
+`source-inventory.json` is a dated inventory of archived content files, including
+individual scans and alternate formats. It excludes metadata, logs, ZIP bundles,
+and partial downloads. These totals are distinct from searchable catalog records.
+The table shows ✅ only when every source file has a machine-readable output
+with matching source path and byte size. ❌ includes incomplete or unverified
+coverage; this checks processing coverage, not the accuracy of extracted text.
+
+Refresh on the archive host with:
+
+```sh
+python3 scripts/build_source_inventory.py '/Volumes/UFO Files Archive 1'
+python3 -m unittest discover -s scripts -p test_source_inventory.py
+```
+
+Publish the refreshed JSON with the website. The page fetches the latest
+published inventory alongside the catalog and displays the inventory timestamp.

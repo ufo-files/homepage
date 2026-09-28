@@ -170,3 +170,4 @@ footer p { font-size: var(--font-size-small); }
 .sources-table tbody tr:hover { background: var(--mint); }
 .sources-table .numeric { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .sources-table a { text-underline-offset: .2em; }
+.sources-table .processing-status { text-align: center; font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif; }
