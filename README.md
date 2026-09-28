@@ -2,7 +2,7 @@
 
 The static public entry point for [UFO Files](https://ufo-files.app).
 
-![UFO Files homepage](screenshots/after-desktop.png)
+![UFO Files homepage](https://raw.githubusercontent.com/ufo-files/homepage/screenshots/homepage-hero.png)
 
 ## Design
 
@@ -53,6 +53,13 @@ npm run screenshots
 
 Before/after desktop and phone captures are in `screenshots/`. The screenshot
 command updates the standard images in `assets/`.
+
+After successful deployments, GitHub Actions captures desktop, mobile, and
+full-page images on a hosted runner. It uploads all three as run artifacts and
+publishes them to the `screenshots` branch using the built-in workflow token.
+The README image follows that branch; `source-revision.txt` records the captured
+commit. Captures do not write to protected `main` or trigger another deployment.
+Manual runs on other branches upload review artifacts without publishing them.
 
 GitHub Pages publishes the repository root from `main` to the custom domain in
 `CNAME`.
