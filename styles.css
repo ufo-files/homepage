@@ -89,7 +89,7 @@ header nav .primaryBtn { margin-left: 1.25rem; }
 .feature { width: 100%; }
 .feature .wrapper { margin-inline: auto; }
 .feature img { height: auto; border: var(--border); border-radius: .5rem; box-shadow: var(--shadow); }
-.about-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: 4rem; }
+.about-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; gap: 4rem; }
 .about-copy p { max-width: 34rem; margin: 1.25rem 0; }
 .about-copy .btn { display: inline-flex; margin-top: .5rem; }
 .about-photo { display: block; width: 100%; max-width: 430px; height: auto; justify-self: center; border: var(--border); border-radius: .5rem; }
