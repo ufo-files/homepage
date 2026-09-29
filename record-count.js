@@ -138,8 +138,8 @@ function renderSources(catalog, inventory) {
       const complete = document.createElement('td');
       complete.className = 'processing-status';
       const verified = archived?.processingComplete === true;
-      complete.textContent = verified ? '✅' : '❌';
-      complete.setAttribute('aria-label', verified ? 'Processing complete' : 'Processing not verified complete');
+      complete.textContent = verified ? '✅' : 'In progress';
+      complete.setAttribute('aria-label', verified ? 'Processing complete' : 'Processing in progress');
       complete.title = archived?.totalFiles == null ? 'Archive inventory unavailable' :
         archived.verifiedProcessedFiles == null ?
           `${format.format(archived.outputFiles)} output files for ${format.format(archived.totalFiles)} archived source files; processing is incomplete. Inventory: ${inventory.generatedAt}` :
