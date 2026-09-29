@@ -17,7 +17,7 @@ const inventory = require('../source-inventory.json');
       const row = page.locator('#sources-body tr').filter({ has: page.locator(`th a[href$="/${source.name}"]`) });
       assert.equal(await row.count(), 1);
       assert.equal(await row.locator('td').nth(0).innerText(), source.totalFiles == null ? 'Unavailable' : source.totalFiles.toLocaleString('en-US'));
-      assert.equal(await row.locator('.processing-status').innerText(), source.processingComplete ? '✅' : '❌');
+      assert.equal(await row.locator('.processing-status').innerText(), source.processingComplete ? '✅' : 'In progress');
     }
     const nara = page.locator('#sources-body tr').filter({ hasText: 'National Archives UAP Bulk' });
     assert(Number((await nara.locator('td').first().innerText()).replaceAll(',', '')) > 100000);

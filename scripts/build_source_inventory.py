@@ -137,8 +137,8 @@ def update_fallback(path, inventory):
             raise ValueError('Unexpected source table structure')
         total = f'{source["totalFiles"]:,}' if source and source['totalFiles'] is not None else 'Unavailable'
         complete = source and source['processingComplete']
-        status = 'Processing complete' if complete else 'Processing not verified complete'
-        indicator = '✅' if complete else '❌'
+        status = 'Processing complete' if complete else 'Processing in progress'
+        indicator = '✅' if complete else 'In progress'
         cells.insert(0, f'<td class="numeric">{total}</td>')
         cells.insert(4, f'<td class="processing-status" aria-label="{status}">{indicator}</td>')
         return heading + ''.join(cells) + end
