@@ -17,25 +17,6 @@
     if (text !== undefined) node.textContent = text;
     return node;
   }
-  const textureNames = ['fine diagonal hatch', 'horizontal dashes', 'sparse stipple', 'small crosses', 'vertical ticks'];
-  function textureDefs(prefix) {
-    const defs=svgNode('defs');
-    // Different shapes, rather than near-identical hatch angles or densities.
-    // Sparse stipple keeps the largest (OCR) area quiet behind smaller series.
-    const textures=[
-      {size:12,d:'M -3,3 L 3,-3 M 0,12 L 12,0 M 9,15 L 15,9'},
-      {size:12,d:'M 3,6 H 9'},
-      {size:14,d:'M 7,6 a 1,1 0 1,0 0,2 a 1,1 0 1,0 0,-2',solid:true},
-      {size:14,d:'M 4,7 H 10 M 7,4 V 10'},
-      {size:12,d:'M 6,3 V 9'},
-    ];
-    textures.forEach((texture,i)=>{
-      const pattern=svgNode('pattern',{id:prefix+i,patternUnits:'userSpaceOnUse',width:texture.size,height:texture.size});
-      pattern.append(svgNode('path',{d:texture.d,fill:texture.solid?'currentColor':'none',stroke:texture.solid?'none':'currentColor','stroke-width':1,opacity:'.28','stroke-linecap':'round'}));
-      defs.append(pattern);
-    });
-    return defs;
-  }
   function monthWindow() {
     const end = new Date();
     end.setUTCHours(0,0,0,0);
@@ -103,7 +84,7 @@
     const y = n => 335 - (n <= 1500 ? .9 * n / 1500 : .9 + .1 * (n - 1500) / (max - 1500))*270;
     const svg = svgNode('svg', {viewBox:'0 0 1100 405', role:'img', 'aria-labelledby':'activity-svg-title activity-svg-desc'});
     svg.append(svgNode('title',{id:'activity-svg-title'},'Three-day average worker activity over the past month'));
-    svg.append(svgNode('desc',{id:'activity-svg-desc'},'Each worker group has a distinct texture fill, line pattern and a direct label. Curves show smoothed trends of trailing three-day averages, not exact daily values. Gaps mean no dated records. ' + series.map(s => s.name + ': ' + (s.days.length ? s.days.reduce((sum,d)=>sum+d[1],0).toLocaleString() + ' recorded completions across ' + s.days.length + ' observed days' : 'no dated records in this period')).join('. ')));
+    svg.append(svgNode('desc',{id:'activity-svg-desc'},'Each worker group has a distinct line pattern and a direct label. Curves show smoothed trends of trailing three-day averages, not exact daily values. Gaps mean no dated records. ' + series.map(s => s.name + ': ' + (s.days.length ? s.days.reduce((sum,d)=>sum+d[1],0).toLocaleString() + ' recorded completions across ' + s.days.length + ' observed days' : 'no dated records in this period')).join('. ')));
     svg.append(svgNode('rect',{x:75,y:65,width:880,height:27,fill:'currentColor',opacity:'.04',rx:4}));
     const levels = [0,500,1000,1500,max];
     for (const value of levels) {
@@ -114,11 +95,8 @@
     const ticks = Math.min(4, Math.max(1, Math.round((last-first)/86400000)));
     for (let i=0;i<=ticks;i++) svg.append(svgNode('text',{x:75+880*i/ticks,y:365,'text-anchor':i===0?'start':i===ticks?'end':'middle',fill:'currentColor'},format(first+span*i/ticks)));
     svg.append(svgNode('text',{x:75,y:30,fill:'currentColor'},'Smoothed 3-day average · above 1,500 compressed into top 10%'));
-    svg.append(textureDefs('activity-fill-'));
-    // Transparent fills share a zero baseline; these are overlapping, not stacked.
-    // Keep every fill behind every outline so textures never cover another line.
-    const fills=svgNode('g',{'aria-hidden':'true'}), lines=svgNode('g');
-    svg.append(fills,lines);
+    const lines=svgNode('g');
+    svg.append(lines);
     const endLabels = [];
     series.forEach(s => {
       const color = colorFor(available.indexOf(s));
@@ -126,7 +104,6 @@
       const flush = () => {
         if (points.length > 1) {
           const curve=smoothPath(points);
-          fills.append(svgNode('path',{d:curve+` L ${points.at(-1)[0]},335 L ${points[0][0]},335 Z`,fill:`url(#activity-fill-${available.indexOf(s)})`,'data-fill-agent':s.name}));
           const line = svgNode('path',{d:curve,fill:'none',stroke:color,'stroke-width':2.5,'stroke-dasharray':patterns[available.indexOf(s)],'stroke-linecap':'round','stroke-linejoin':'round','data-agent':s.name});
           line.append(svgNode('title',{},s.name));
           lines.append(line);
@@ -159,13 +136,11 @@
     const available=seriesFor(feed, metric);
     legend.replaceChildren();
     available.forEach((s,i)=>{
-      const item=document.createElement('span'), swatch=svgNode('svg',{viewBox:'0 0 42 24',width:42,height:24,'aria-hidden':'true'});
+      const item=document.createElement('span'), swatch=svgNode('svg',{viewBox:'0 0 42 12',width:42,height:12,'aria-hidden':'true'});
       item.className='activity-legend-item';
       swatch.classList.add('activity-swatch');
-      swatch.append(textureDefs('activity-legend-'+i+'-'));
-      swatch.append(svgNode('rect',{x:1,y:3,width:40,height:20,rx:2,fill:`url(#activity-legend-${i}-${i})`}));
-      swatch.append(svgNode('line',{x1:2,x2:40,y1:3,y2:3,stroke:colorFor(i),'stroke-width':2.5,'stroke-dasharray':patterns[i],'stroke-linecap':'round'}));
-      item.title = `${s.unit || s.name} · ${textureNames[i]}`;
+      swatch.append(svgNode('line',{x1:2,x2:40,y1:6,y2:6,stroke:colorFor(i),'stroke-width':2.5,'stroke-dasharray':patterns[i],'stroke-linecap':'round'}));
+      item.title = s.unit || s.name;
       item.append(swatch,document.createTextNode(s.name));legend.append(item);
     });
     render();
