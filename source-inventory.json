@@ -1,6 +1,6 @@
 {
   "schema": "ufo-files-source-inventory/v1",
-  "generatedAt": "2026-10-01T14:40:28.741749+00:00",
+  "generatedAt": "2026-10-01T14:41:21.952449+00:00",
   "definition": "Archived content files, including scans and alternate formats; excludes metadata, logs, ZIP bundles, and partial downloads.",
   "completionRule": "Every archived content file has a nonempty machine-readable output with matching source path and byte size. This is processing coverage, not a content accuracy certification.",
   "sources": [
@@ -278,7 +278,7 @@
         ".mp4": 52,
         ".pdf": 7
       },
-      "checkedAt": "2026-10-01T13:18:50.323427+00:00"
+      "checkedAt": "2026-10-01T14:41:21.952449+00:00"
     },
     {
       "name": "Skywatcher-HQ",
