@@ -1,6 +1,6 @@
 {
   "schema": "ufo-files-source-inventory/v1",
-  "generatedAt": "2026-10-01T02:53:46.764946+00:00",
+  "generatedAt": "2026-10-01T02:55:11.648063+00:00",
   "definition": "Archived content files, including scans and alternate formats; excludes metadata, logs, ZIP bundles, and partial downloads.",
   "completionRule": "Every archived content file has a nonempty machine-readable output with matching source path and byte size. This is processing coverage, not a content accuracy certification.",
   "sources": [
@@ -130,20 +130,20 @@
       "extensions": {
         ".jpg": 205
       },
-      "checkedAt": "2026-09-28T16:47:24.940508+00:00"
+      "checkedAt": "2026-10-01T02:54:46.031511+00:00"
     },
     {
       "name": "Chile-SEFAA",
       "totalFiles": 1412,
       "verifiedProcessedFiles": null,
-      "outputFiles": 785,
+      "outputFiles": 802,
       "processingComplete": false,
       "outputReadErrors": 0,
       "extensions": {
         ".html": 110,
         ".pdf": 1302
       },
-      "checkedAt": "2026-09-28T16:47:24.940508+00:00"
+      "checkedAt": "2026-10-01T02:55:11.648063+00:00"
     },
     {
       "name": "DOE-NNSA-UAP-UFO",
@@ -259,13 +259,13 @@
       "name": "National-Archives-of-Australia-UFO",
       "totalFiles": 624,
       "verifiedProcessedFiles": null,
-      "outputFiles": 603,
+      "outputFiles": 609,
       "processingComplete": false,
       "outputReadErrors": 0,
       "extensions": {
         ".jpg": 624
       },
-      "checkedAt": "2026-09-28T16:47:24.940508+00:00"
+      "checkedAt": "2026-10-01T02:55:01.438545+00:00"
     },
     {
       "name": "Rice-Archive-of-the-Impossible",
@@ -442,14 +442,14 @@
       "name": "War-Gov-PURSUE",
       "totalFiles": 416,
       "verifiedProcessedFiles": null,
-      "outputFiles": 367,
+      "outputFiles": 371,
       "processingComplete": false,
       "outputReadErrors": 0,
       "extensions": {
         ".mp4": 149,
         ".pdf": 267
       },
-      "checkedAt": "2026-09-28T16:47:24.940508+00:00"
+      "checkedAt": "2026-10-01T02:54:56.305490+00:00"
     },
     {
       "name": "Weaponized-Podcast",
