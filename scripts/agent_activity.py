@@ -233,8 +233,10 @@ def snapshot(db):
             'agents': [{'name': agent, 'metric': metric, 'unit':units.get(agent,'timestamped log entries'), 'days': [[day,count] for day,count in sorted(days.items())]} for (agent, metric), days in sorted(groups.items())],
             'notes': 'UTC daily totals from retained timestamped logs and latest successful completion records. Missing days are unknown, not zero. Completion records may include adopted existing outputs. Signals include heartbeats, retries and errors; they do not measure output or CPU usage. Downloads count only explicit new-file events, deduplicated by source and archive path. Legacy download logs cannot establish newness and are excluded, not treated as zero. Replacements, existing files, adopted staging outputs, local copies and repeated paths are excluded. Historical logging coverage varies by source. Undated lines are excluded.'}
 
-def publish(payload):
-    endpoint = 'repos/ufo-files/homepage/contents/agent-activity.json'
+def publish(payload, filename="agent-activity.json"):
+    if filename not in {"agent-activity.json", "agent-health.json"}:
+        raise ValueError("Unsupported feed")
+    endpoint = "repos/ufo-files/homepage/contents/"+filename
     result = subprocess.run(['gh','api',endpoint+'?ref=live-inventory'], capture_output=True, text=True, timeout=45)
     body = {'message': 'Refresh recorded agent activity', 'branch':'live-inventory',
             'content':base64.b64encode((json.dumps(payload,separators=(',',':'))+'\n').encode()).decode()}
