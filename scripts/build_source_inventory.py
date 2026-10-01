@@ -13,7 +13,7 @@ import sys
 from urllib.parse import unquote
 
 CONTENT_SUFFIXES = set('pdf jpg jpeg png tif tiff gif jp2 bmp webp djvu mp4 m4v mov avi mkv webm mpg mpeg wmv mxf mts m2ts vob 3gp mp3 wav m4a aac flac ogg wma aiff txt html htm doc docx rtf odt epub eml csv xls xlsx ppt pptx'.split())
-IGNORED_DIRS = {'metadata', 'discovery', 'zips', 'thumbnails', 'previews', '__MACOSX'}
+IGNORED_DIRS = {'metadata', 'discovery', 'zips', 'thumbnails', 'previews', 'logs', '__MACOSX'}
 
 
 def source_file(path):
@@ -32,7 +32,7 @@ def files_under(root):
     while pending:
         with os.scandir(pending.pop()) as entries:
             for entry in entries:
-                if entry.name.startswith('.') or entry.is_symlink():
+                if entry.name.startswith('.') or entry.name in IGNORED_DIRS or entry.is_symlink():
                     continue
                 if entry.is_dir(follow_symlinks=False):
                     pending.append(Path(entry.path))

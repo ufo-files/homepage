@@ -1,6 +1,20 @@
 /* Read only the catalog header; the complete research dataset is tens of MB. */
 const RECORD_CATALOG_URL = 'https://ufo-files.github.io/relationship-graph-builder/data/catalog.json';
 const RECORD_HEADER_LIMIT = 16384;
+const SOURCE_INVENTORY_URL = 'https://raw.githubusercontent.com/ufo-files/homepage/live-inventory/source-inventory.json';
+
+async function fetchSourceInventory(fetcher = fetch) {
+  const response = await fetcher(`${SOURCE_INVENTORY_URL}?minute=${Math.floor(Date.now() / 60000)}`, {
+    cache: 'no-store', signal: AbortSignal.timeout(10000),
+  });
+  if (!response.ok) throw new Error('Live archive inventory unavailable');
+  return parseSourceInventory(await response.json());
+}
+
+function inventoryFresh(source, inventory, now = Date.now()) {
+  const checked = Date.parse(source?.checkedAt || inventory.generatedAt);
+  return Number.isFinite(checked) && checked <= now + 60000 && now - checked <= 3600000;
+}
 
 function parseRecordCount(header) {
   const counts = header.match(/"counts"\s*:\s*(\{[^{}]*\})/);
@@ -137,13 +151,16 @@ function renderSources(catalog, inventory) {
       }
       const complete = document.createElement('td');
       complete.className = 'processing-status';
-      const verified = archived?.processingComplete === true;
-      complete.textContent = verified ? '✅' : 'In progress';
-      complete.setAttribute('aria-label', verified ? 'Processing complete' : 'Processing in progress');
+      const fresh = inventoryFresh(archived, inventory);
+      const checkedAt = archived?.checkedAt || inventory.generatedAt;
+      total.title = `Archive checked ${checkedAt}${fresh ? "" : " — update overdue"}`;
+      const verified = fresh && archived?.processingComplete === true;
+      complete.textContent = !fresh ? 'Update overdue' : verified ? '✅' : 'In progress';
+      complete.setAttribute('aria-label', !fresh ? 'Archive inventory update overdue' : verified ? 'Processing complete' : 'Processing in progress');
       complete.title = archived?.totalFiles == null ? 'Archive inventory unavailable' :
         archived.verifiedProcessedFiles == null ?
-          `${format.format(archived.outputFiles)} output files for ${format.format(archived.totalFiles)} archived source files; processing is incomplete. Inventory: ${inventory.generatedAt}` :
-          `${format.format(archived.verifiedProcessedFiles)} of ${format.format(archived.totalFiles)} archived files have verified machine-readable outputs. Inventory: ${inventory.generatedAt}`;
+          `${format.format(archived.outputFiles)} output files for ${format.format(archived.totalFiles)} archived source files; processing is incomplete. Inventory: ${checkedAt}` :
+          `${format.format(archived.verifiedProcessedFiles)} of ${format.format(archived.totalFiles)} archived files have verified machine-readable outputs. Inventory: ${checkedAt}`;
       row.append(complete);
       const research = document.createElement('td');
       const explore = document.createElement('a');
@@ -161,7 +178,8 @@ function renderSources(catalog, inventory) {
     if (focusedUrl) [...body.querySelectorAll('a')].find(link => link.href === focusedUrl)?.focus({ preventScroll: true });
   }
   document.getElementById('sources-caption').textContent = `${sources.length} sources · ${format.format(catalog.count)} records · Catalog published ${new Date(catalog.generatedAt).toLocaleString('en-US', { timeZone: 'UTC', timeZoneName: 'short' })}`;
-  document.getElementById('sources-status').textContent = `Searchable records update from the published catalog. File totals and processing status were checked ${new Date(inventory.generatedAt).toLocaleString('en-US', { timeZone: 'UTC', timeZoneName: 'short' })}.`;
+  const overdue = inventory.sources.filter(source => !inventoryFresh(source, inventory)).length;
+  document.getElementById('sources-status').textContent = `Updates automatically every minute. Archive sources are checked independently; latest result ${new Date(inventory.generatedAt).toLocaleString('en-US', { timeZone: 'UTC', timeZoneName: 'short' })}.${overdue ? ` ${overdue} source checks are overdue; their last known totals remain visible.` : ''} Searchable records reflect the latest published catalog.`;
 }
 
 function startRecordCount() {
@@ -175,13 +193,14 @@ function startRecordCount() {
     try {
       const [catalog, latestInventory] = await Promise.all([
         fetchCatalogHeader(parseCatalogSummary),
-        fetch('source-inventory.json', { cache: 'no-store', signal: AbortSignal.timeout(10000) })
-          .then(response => { if (!response.ok) throw new Error('Inventory unavailable'); return response.json(); })
-          .then(parseSourceInventory).catch(() => null),
+        fetchSourceInventory().catch(() => null),
       ]);
       if (latestInventory) inventory = latestInventory;
       const count = catalog.count;
       renderSources(catalog, inventory);
+      if (!latestInventory) {
+        document.getElementById('sources-status').textContent = 'Live archive update unavailable. Showing last known file totals and processing status; retrying every minute.';
+      }
       badge.textContent = `${new Intl.NumberFormat('en-US').format(count)} public records`;
       badge.dataset.state = 'ready';
       badge.title = 'Source records in the latest published UFO Files research catalog. Refreshed every minute.';
@@ -203,7 +222,7 @@ function startRecordCount() {
 }
 
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { parseRecordCount, fetchRecordCount, parseCatalogSummary, fetchCatalogHeader, currentSourceCollections, parseSourceInventory };
+  module.exports = { fetchSourceInventory, inventoryFresh, parseRecordCount, fetchRecordCount, parseCatalogSummary, fetchCatalogHeader, currentSourceCollections, parseSourceInventory };
 } else {
   startRecordCount();
 }
