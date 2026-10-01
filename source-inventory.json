@@ -1,6 +1,6 @@
 {
   "schema": "ufo-files-source-inventory/v1",
-  "generatedAt": "2026-10-01T17:35:36.933672+00:00",
+  "generatedAt": "2026-10-01T17:38:58.069274+00:00",
   "definition": "Archived content files, including scans and alternate formats; excludes metadata, logs, ZIP bundles, and partial downloads.",
   "completionRule": "Every archived content file has a nonempty machine-readable output with matching source path and byte size. This is processing coverage, not a content accuracy certification.",
   "sources": [
@@ -388,7 +388,7 @@
       "extensions": {
         ".gz": 1
       },
-      "checkedAt": "2026-10-01T16:48:06.161274+00:00"
+      "checkedAt": "2026-10-01T17:38:58.069274+00:00"
     },
     {
       "name": "UPDB-NIDS",
