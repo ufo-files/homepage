@@ -1,6 +1,6 @@
 {
   "schema": "ufo-files-source-inventory/v1",
-  "generatedAt": "2026-10-01T11:12:58.438839+00:00",
+  "generatedAt": "2026-10-01T11:23:48.282578+00:00",
   "definition": "Archived content files, including scans and alternate formats; excludes metadata, logs, ZIP bundles, and partial downloads.",
   "completionRule": "Every archived content file has a nonempty machine-readable output with matching source path and byte size. This is processing coverage, not a content accuracy certification.",
   "sources": [
@@ -376,7 +376,7 @@
         ".gz": 1,
         ".json": 94762
       },
-      "checkedAt": "2026-10-01T09:48:26.158394+00:00"
+      "checkedAt": "2026-10-01T11:23:48.282578+00:00"
     },
     {
       "name": "UPDB-NICAP",
