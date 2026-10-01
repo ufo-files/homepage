@@ -1,6 +1,6 @@
 {
   "schema": "ufo-files-source-inventory/v1",
-  "generatedAt": "2026-10-01T11:30:05.802236+00:00",
+  "generatedAt": "2026-10-01T11:30:17.993880+00:00",
   "definition": "Archived content files, including scans and alternate formats; excludes metadata, logs, ZIP bundles, and partial downloads.",
   "completionRule": "Every archived content file has a nonempty machine-readable output with matching source path and byte size. This is processing coverage, not a content accuracy certification.",
   "sources": [
@@ -240,7 +240,7 @@
       "name": "National-Archives-UAP-Bulk",
       "totalFiles": 157919,
       "verifiedProcessedFiles": null,
-      "outputFiles": 3329,
+      "outputFiles": 3334,
       "processingComplete": false,
       "outputReadErrors": 0,
       "extensions": {
@@ -253,7 +253,7 @@
         ".tif": 9020,
         ".tiff": 150
       },
-      "checkedAt": "2026-10-01T10:24:54.566690+00:00"
+      "checkedAt": "2026-10-01T11:30:17.993880+00:00"
     },
     {
       "name": "National-Archives-of-Australia-UFO",
