@@ -173,17 +173,14 @@ footer p { font-size: var(--font-size-small); }
 .sources-table .processing-status { text-align: center; font-family: inherit; }
 
 /* Activity telemetry stays legible on narrow screens. */
-#activity-agents { display:flex; flex-wrap:wrap; gap:.6rem 1.3rem; border:0; padding:1rem 0; }
+#activity-agents { display:flex; flex-direction:column; align-items:flex-start; gap:.75rem; }
 #activity-agents .activity-legend-item { display:flex; align-items:center; gap:.4rem; font-size:.9rem; }
 .activity-swatch { width:42px; height:12px; flex:none; display:inline-block; }
 #activity-chart svg { width:100%; height:auto; min-width:1100px; font:12px var(--font); }
 #activity-chart { overflow-x:auto; margin:1rem 0; border-radius:12px; }
 
 #activity-status { color:var(--muted); font-size:.75rem; line-height:1.6; }
-#activity-agents { border:1px solid var(--line); border-radius:12px; margin-top:1.5rem; padding:1rem 1.25rem; gap:.75rem 1.5rem; }
+#activity-agents { border:1px solid var(--line); border-radius:0; margin-top:1.5rem; padding:1rem 1.25rem; gap:.75rem 1.5rem; }
 #activity-agents .activity-legend-item { font-size:.75rem; }
 #activity-chart { margin:.75rem 0; scrollbar-color:var(--muted) var(--mint); }
 #activity-chart:focus-visible { outline:2px solid var(--ink); outline-offset:4px; }
-@media (max-width:600px) {
-  #activity-agents { display:grid; grid-template-columns:1fr 1fr; gap:.75rem; }
-}
