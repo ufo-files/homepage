@@ -180,7 +180,12 @@ footer p { font-size: var(--font-size-small); }
 #activity-chart { overflow-x:auto; margin:1rem 0; border-radius:12px; }
 
 #activity-status { color:var(--muted); font-size:.75rem; line-height:1.6; }
-#activity-agents { width:fit-content; max-width:100%; box-sizing:border-box; border:1px solid var(--line); border-radius:0; margin-top:1.5rem; padding:1rem 1.25rem; gap:.75rem 1.5rem; }
-#activity-agents .activity-legend-item { font-size:.75rem; }
+#activity-agents { width:fit-content; max-width:100%; box-sizing:border-box; border:1px solid var(--line); border-radius:0; margin:0; padding:.5rem .625rem; gap:.25rem; }
+#activity-agents .activity-legend-item { font-size:11px; line-height:1.4; }
 #activity-chart { margin:.75rem 0; scrollbar-color:var(--muted) var(--mint); }
 #activity-chart:focus-visible { outline:2px solid var(--ink); outline-offset:4px; }
+
+.activity-heading { display:flex; align-items:flex-start; justify-content:space-between; gap:1rem; }
+.activity-heading h2 { margin:0; min-width:0; }
+.activity-heading #activity-agents { flex:none; margin-left:auto; }
+.activity-heading .activity-swatch { width:32px; height:10px; }
