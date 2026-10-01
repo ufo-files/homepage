@@ -1,6 +1,6 @@
 {
   "schema": "ufo-files-source-inventory/v1",
-  "generatedAt": "2026-10-01T10:54:23.149246+00:00",
+  "generatedAt": "2026-10-01T10:55:12.101439+00:00",
   "definition": "Archived content files, including scans and alternate formats; excludes metadata, logs, ZIP bundles, and partial downloads.",
   "completionRule": "Every archived content file has a nonempty machine-readable output with matching source path and byte size. This is processing coverage, not a content accuracy certification.",
   "sources": [
@@ -83,7 +83,7 @@
       "name": "Black-Vault-UFO",
       "totalFiles": 4437,
       "verifiedProcessedFiles": null,
-      "outputFiles": 2379,
+      "outputFiles": 2380,
       "processingComplete": false,
       "outputReadErrors": 0,
       "extensions": {
@@ -101,7 +101,7 @@
         ".wmv": 5,
         ".xlsx": 2
       },
-      "checkedAt": "2026-10-01T09:19:00.053161+00:00"
+      "checkedAt": "2026-10-01T10:55:12.101439+00:00"
     },
     {
       "name": "Brazil-Government-UAP",
@@ -136,14 +136,14 @@
       "name": "Chile-SEFAA",
       "totalFiles": 1412,
       "verifiedProcessedFiles": null,
-      "outputFiles": 807,
+      "outputFiles": 809,
       "processingComplete": false,
       "outputReadErrors": 0,
       "extensions": {
         ".html": 110,
         ".pdf": 1302
       },
-      "checkedAt": "2026-10-01T09:15:22.684939+00:00"
+      "checkedAt": "2026-10-01T10:54:46.654935+00:00"
     },
     {
       "name": "DOE-NNSA-UAP-UFO",
@@ -265,7 +265,7 @@
       "extensions": {
         ".jpg": 624
       },
-      "checkedAt": "2026-10-01T09:15:02.127075+00:00"
+      "checkedAt": "2026-10-01T10:54:36.398523+00:00"
     },
     {
       "name": "Rice-Archive-of-the-Impossible",
@@ -449,7 +449,7 @@
         ".mp4": 149,
         ".pdf": 267
       },
-      "checkedAt": "2026-10-01T09:14:51.912021+00:00"
+      "checkedAt": "2026-10-01T10:54:31.323888+00:00"
     },
     {
       "name": "Weaponized-Podcast",
@@ -461,7 +461,7 @@
       "extensions": {
         ".mp4": 139
       },
-      "checkedAt": "2026-10-01T09:14:34.354943+00:00"
+      "checkedAt": "2026-10-01T10:54:31.322272+00:00"
     },
     {
       "name": "Whitepapers",
