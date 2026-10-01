@@ -1,6 +1,6 @@
 {
   "schema": "ufo-files-source-inventory/v1",
-  "generatedAt": "2026-10-01T08:55:10.260869+00:00",
+  "generatedAt": "2026-10-01T08:55:58.302093+00:00",
   "definition": "Archived content files, including scans and alternate formats; excludes metadata, logs, ZIP bundles, and partial downloads.",
   "completionRule": "Every archived content file has a nonempty machine-readable output with matching source path and byte size. This is processing coverage, not a content accuracy certification.",
   "sources": [
@@ -14,7 +14,7 @@
       "extensions": {
         ".pdf": 11
       },
-      "checkedAt": "2026-10-01T07:20:11.291647+00:00"
+      "checkedAt": "2026-10-01T08:55:53.255592+00:00"
     },
     {
       "name": "American-Alchemy",
@@ -155,7 +155,7 @@
       "extensions": {
         ".pdf": 2
       },
-      "checkedAt": "2026-10-01T07:19:13.127499+00:00"
+      "checkedAt": "2026-10-01T08:55:17.641183+00:00"
     },
     {
       "name": "DPIArchive",
@@ -290,7 +290,7 @@
       "extensions": {
         ".mp4": 8
       },
-      "checkedAt": "2026-10-01T07:19:48.650169+00:00"
+      "checkedAt": "2026-10-01T08:55:38.012510+00:00"
     },
     {
       "name": "Steven-Greer-Document-Library",
@@ -474,7 +474,7 @@
         ".jpeg": 1,
         ".pdf": 6
       },
-      "checkedAt": "2026-10-01T07:19:28.299727+00:00"
+      "checkedAt": "2026-10-01T08:55:27.918633+00:00"
     },
     {
       "name": "WikiLeaks-UFO",
@@ -486,7 +486,7 @@
       "extensions": {
         ".html": 13
       },
-      "checkedAt": "2026-10-01T07:20:21.406177+00:00"
+      "checkedAt": "2026-10-01T08:55:58.302093+00:00"
     }
   ]
 }
