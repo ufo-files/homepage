@@ -26,6 +26,7 @@
       <ul id="site-navigation">
         <li><a href="#research">Research</a></li>
         <li><a href="#sources">Sources</a></li>
+        <li><a href="#agent-activity">Activity</a></li>
         <li><a href="#about">About</a></li>
         <li><a href="#faq">FAQ</a></li>
         <li><a href="https://github.com/ufo-files/machine-data">Data</a></li>
@@ -167,6 +168,13 @@
         </div>
       </div>
     </section>
+    <section id="agent-activity" aria-labelledby="activity-title">
+      <div class="wrapper">
+        <h2 id="activity-title">Project Activity</h2>
+        <p id="activity-status" role="status" hidden></p>
+        <div id="activity-chart" role="region" aria-label="Agent activity chart; scroll horizontally on small screens" tabindex="0"></div>
+      </div>
+    </section>
     <section id="about" aria-labelledby="about-title">
       <div class="wrapper about-layout">
         <div class="about-copy">
@@ -222,6 +230,7 @@
       <p>UFO Files · Independent research, open to everyone.</p>
     </div>
   </footer>
+  <script src="agent-activity.js"></script>
   <script src="script.js"></script>
   <script src="intro-graph.js?v=20260927-living"></script>
   <script src="record-count.js?v=20261001-processing-status"></script>

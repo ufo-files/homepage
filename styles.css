@@ -171,3 +171,17 @@ footer p { font-size: var(--font-size-small); }
 .sources-table .numeric { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .sources-table a { text-underline-offset: .2em; }
 .sources-table .processing-status { text-align: center; font-family: inherit; }
+
+/* Activity telemetry stays legible on narrow screens. */
+#activity-chart svg { width:100%; height:auto; min-width:1100px; font:12px var(--font); }
+#activity-chart { overflow-x:auto; margin:1rem 0; border-radius:12px; }
+
+#activity-status { color:var(--muted); font-size:.75rem; line-height:1.6; }
+#activity-chart { margin:.75rem 0; scrollbar-color:var(--muted) var(--mint); }
+#activity-chart:focus-visible { outline:2px solid var(--ink); outline-offset:4px; }
+
+#activity-chart [data-agent].is-highlighted { stroke-width:4; }
+#activity-chart [data-agent].is-muted { opacity:.2; }
+#activity-chart [data-series-label] { cursor:default; }
+#activity-chart [data-series-label].is-highlighted { text-decoration:underline; }
+#activity-chart [data-series-label]:focus-visible { outline:1px solid currentColor; outline-offset:3px; }
