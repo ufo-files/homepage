@@ -23,7 +23,7 @@ assert.deepEqual(await page.locator('#activity-agents .activity-legend-item').al
 const path = await page.locator('#activity-chart path[data-agent=OCR]').first().getAttribute('d');
 assert.match(path,/ C /);
 const ys = path.split(/ [MC] |^M /).filter(Boolean).map(segment=>Number(segment.trim().split(' ').at(-1).split(',')[1]));
-assert.equal(ys[0],335); assert.equal(ys.at(-1),65); // Trailing averages 0,750,1500,3500; 0–1500 fills 90%.
+assert.equal(ys[0],335); assert.equal(ys.at(-1),65); // Trailing averages 0,750,1500,3500; 0–250 fills 50%; 250–1500 fills 40%.
 assert.equal(await page.locator('#activity-chart path[data-agent=OCR]').first().getAttribute('stroke-linejoin'),'round');
 assert.equal(await page.locator('#activity-chart path[data-agent=OCR]').first().getAttribute('stroke-linecap'),'round');
 const bounds = await page.locator('#activity-chart path[data-agent=OCR]').first().evaluate(path => {
@@ -32,13 +32,18 @@ const bounds = await page.locator('#activity-chart path[data-agent=OCR]').first(
 });
 assert.ok(bounds[0]>=65-0.001 && bounds[1]<=335+0.001, 'Curve must not overshoot recorded values');
 assert.match(await page.locator('#activity-chart').textContent(),/3-day average/);
+const ticks=await page.locator('#activity-chart text[text-anchor=end]').evaluateAll(nodes=>Object.fromEntries(nodes.map(n=>[n.textContent,Number(n.getAttribute('y'))-5])));
+assert.equal(ticks['0'],335);
+assert.equal(ticks['250'],200); // Half of the 270px plot.
+assert.equal(ticks['1,500'],92); // Top 10% starts here.
+assert.equal(ticks['500'],178.4);
 assert.equal(await page.locator('[data-series-label]').count(),5);
 assert.equal(new Set(await page.locator('#activity-chart path[data-agent]').evaluateAll(paths=>paths.map(p=>p.getAttribute('stroke-dasharray')))).size,5);
 assert.match(await page.locator('#activity-svg-desc').textContent(),/recorded completions/);
 assert.equal(await page.locator('#agent-activity button, #agent-activity input, #agent-activity select, #agent-activity table, #agent-activity details').count(),0);
 const afterGap = await page.locator('#activity-chart path[data-agent=OCR]').nth(1).getAttribute('d');
 assert.ok(afterGap.startsWith('M '));
-assert.equal(Number(afterGap.split(' ')[1].split(',')[1]),335-.9*20/1500*270); // No averaging across missing days.
+assert.equal(Number(afterGap.split(' ')[1].split(',')[1]),335-.5*20/250*270); // No averaging across missing days.
 assert.match(await page.locator('#activity-status').innerText(),/2026-07-07/);
 await page.locator('#agent-activity').screenshot({path:'/private/tmp/agent-activity-desktop.png'});
 await page.setViewportSize({width:390,height:844});

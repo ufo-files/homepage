@@ -81,12 +81,14 @@
     const peak = Math.max(1, ...series.flatMap(s => movingAverage(s.days).map(d => d[1])));
     const max = Math.max(2000, Math.ceil(peak / 500) * 500);
     const x = d => 75 + (Date.parse(d+'T00:00:00Z')-first)/span*880;
-    const y = n => 335 - (n <= 1500 ? .9 * n / 1500 : .9 + .1 * (n - 1500) / (max - 1500))*270;
+    const y = n => 335 - (n <= 250 ? .5 * n / 250
+      : n <= 1500 ? .5 + .4 * (n - 250) / 1250
+      : .9 + .1 * (n - 1500) / (max - 1500))*270;
     const svg = svgNode('svg', {viewBox:'0 0 1100 405', role:'img', 'aria-labelledby':'activity-svg-title activity-svg-desc'});
     svg.append(svgNode('title',{id:'activity-svg-title'},'Three-day average worker activity over the past month'));
     svg.append(svgNode('desc',{id:'activity-svg-desc'},'Each worker group has a distinct line pattern and a direct label. Curves show smoothed trends of trailing three-day averages, not exact daily values. Gaps mean no dated records. ' + series.map(s => s.name + ': ' + (s.days.length ? s.days.reduce((sum,d)=>sum+d[1],0).toLocaleString() + ' recorded completions across ' + s.days.length + ' observed days' : 'no dated records in this period')).join('. ')));
     svg.append(svgNode('rect',{x:75,y:65,width:880,height:27,fill:'currentColor',opacity:'.04',rx:4}));
-    const levels = [0,500,1000,1500,max];
+    const levels = [0,100,250,500,1000,1500,max];
     for (const value of levels) {
       svg.append(svgNode('line',{x1:75,x2:955,y1:y(value),y2:y(value),stroke:'currentColor',opacity:'.15'}));
       svg.append(svgNode('text',{x:65,y:y(value)+5,'text-anchor':'end',fill:'currentColor'},Math.round(value).toLocaleString()));
@@ -94,7 +96,7 @@
     const format = n => new Date(n).toISOString().slice(0,10);
     const ticks = Math.min(4, Math.max(1, Math.round((last-first)/86400000)));
     for (let i=0;i<=ticks;i++) svg.append(svgNode('text',{x:75+880*i/ticks,y:365,'text-anchor':i===0?'start':i===ticks?'end':'middle',fill:'currentColor'},format(first+span*i/ticks)));
-    svg.append(svgNode('text',{x:75,y:30,fill:'currentColor'},'Smoothed 3-day average · above 1,500 compressed into top 10%'));
+    svg.append(svgNode('text',{x:75,y:30,fill:'currentColor'},'Smoothed 3-day average · 0–250: bottom 50% · above 1,500: top 10%'));
     const lines=svgNode('g');
     svg.append(lines);
     const endLabels = [];
