@@ -1,6 +1,6 @@
 {
   "schema": "ufo-files-source-inventory/v1",
-  "generatedAt": "2026-10-01T16:40:21.492935+00:00",
+  "generatedAt": "2026-10-01T16:41:25.055558+00:00",
   "definition": "Archived content files, including scans and alternate formats; excludes metadata, logs, ZIP bundles, and partial downloads.",
   "completionRule": "Every archived content file has a nonempty machine-readable output with matching source path and byte size. This is processing coverage, not a content accuracy certification.",
   "sources": [
@@ -278,7 +278,7 @@
         ".mp4": 52,
         ".pdf": 7
       },
-      "checkedAt": "2026-10-01T16:13:30.670583+00:00"
+      "checkedAt": "2026-10-01T16:40:54.390225+00:00"
     },
     {
       "name": "Skywatcher-HQ",
@@ -303,7 +303,7 @@
         ".docx": 14,
         ".pdf": 129
       },
-      "checkedAt": "2026-10-01T16:13:54.178964+00:00"
+      "checkedAt": "2026-10-01T16:41:25.055558+00:00"
     },
     {
       "name": "Tridactyls",
@@ -327,7 +327,7 @@
       "extensions": {
         ".mp4": 69
       },
-      "checkedAt": "2026-10-01T16:13:46.046345+00:00"
+      "checkedAt": "2026-10-01T16:41:19.952029+00:00"
     },
     {
       "name": "UPDB-BAASS",
