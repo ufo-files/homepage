@@ -82,7 +82,7 @@ def ingest_log(db, path, agent, allowed=None):
     return offset - initial_offset
 
 
-def ingest_records(db, directory, lane):
+def ingest_records(db, directory, lane, progress=None):
     """Only open new/changed completion JSON; no transcript reads or hashing."""
     known = {p: (mtime, size) for p, mtime, size in db.execute('SELECT * FROM records')}
     count = 0
@@ -91,6 +91,8 @@ def ingest_records(db, directory, lane):
     audit = {known_paths[(audit_offset+i) % len(known_paths)] for i in range(min(200,len(known_paths)))}
     with os.scandir(directory) as entries:
         for entry in entries:
+            if progress:
+                progress()
             if not entry.name.endswith('.json'):
                 continue
             if entry.path in known and entry.path not in audit:
@@ -238,7 +240,7 @@ def publish(payload):
         raise RuntimeError(result.stderr)
     subprocess.run(['gh','api','--method','PUT',endpoint,'--input','-'], input=json.dumps(body), text=True, check=True, stdout=subprocess.DEVNULL, timeout=60)
 
-def scan(db, archive, logs, publisher_checkout=None):
+def scan(db, archive, logs, publisher_checkout=None, progress=None):
     source_agents = {p.stem for p in (archive/'.state/archivers').glob('*.json')}
     streams = sorted(p for p in (archive/'logs').glob('downloads-live.log*') if not p.name.endswith('.lock'))
     if streams:
@@ -254,10 +256,17 @@ def scan(db, archive, logs, publisher_checkout=None):
         recovery = logs/'source-recovery.log'
         if recovery.is_file():
             ingest_log(db, recovery, 'Source recovery')
+    # Publish fast incremental inputs before potentially slow archive metadata reads.
+    for path in streams:
+        ingest_completed_downloads(db, path)
+    if publisher_checkout is not None:
+        ingest_publications(db, publisher_checkout)
+    if progress:
+        progress(force=True)
     workers = [('ssh-orchestrator', 'OCR / transcription orchestrator')]
     main = archive/'.state/mac-processor/completed'
     if main.is_dir():
-        ingest_records(db, main, 'main')
+        ingest_records(db, main, 'main', progress)
     # Dedicated language workers use mac-processor-<language>/completed.
     # Discover these rather than hard-coding the first two languages deployed.
     for folder in sorted((archive/'.state').glob('mac-processor-*')):
@@ -265,12 +274,8 @@ def scan(db, archive, logs, publisher_checkout=None):
         if not directory.is_dir() or folder.is_symlink():
             continue
         language = folder.name.removeprefix('mac-processor-')
-        ingest_records(db, directory, language.replace('-', ' ').title() + ' processing')
+        ingest_records(db, directory, language.replace('-', ' ').title() + ' processing', progress)
         workers.append((language+'-worker', language.replace('-', ' ').title()+' worker'))
-    for path in streams:
-        ingest_completed_downloads(db, path)
-    if publisher_checkout is not None:
-        ingest_publications(db, publisher_checkout)
     for name, agent in workers:
         for path in sorted(logs.glob(name+'.log*')):
             if path.is_file() and not path.is_symlink():
@@ -290,16 +295,27 @@ if __name__ == '__main__':
     lock = args.state.with_suffix('.lock').open('a')
     fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
     db = database(args.state)
+    last_publish = 0.0
+    def publish_progress(force=False):
+        global last_publish
+        if not force and time.monotonic()-last_publish < 300:
+            return
+        db.commit()  # Release the write lock before network I/O.
+        payload = snapshot(db)
+        temporary = args.output.with_suffix('.json.tmp')
+        temporary.write_text(json.dumps(payload, indent=2)+'\n')
+        temporary.replace(args.output)
+        if args.publish:
+            publish(payload)
+        last_publish = time.monotonic()
+        print(f'{payload["generatedAt"]} activity feed: {len(payload["agents"])} series', flush=True)
+
     while True:
         try:
             if not (args.archive/'.state').is_dir():
                 raise RuntimeError('Archive unavailable; retaining previous feed')
-            scan(db, args.archive, args.logs, args.publisher_checkout)
-            payload = snapshot(db)
-            args.output.write_text(json.dumps(payload, indent=2)+'\n')
-            if args.publish:
-                publish(payload)
-            print(f'{payload["generatedAt"]} activity feed: {len(payload["agents"])} series', flush=True)
+            scan(db, args.archive, args.logs, args.publisher_checkout, publish_progress)
+            publish_progress(force=True)
         except Exception as exc:
             if not args.watch:
                 raise

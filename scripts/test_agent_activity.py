@@ -77,6 +77,17 @@ class ActivityTests(unittest.TestCase):
         self.assertEqual(snapshot(self.db)['agents'][0]['days'],[['2026-08-01',1],['2026-08-02',1],['2026-08-03',1]])
         self.assertNotIn('/originals/',json.dumps(snapshot(self.db)))
 
+    def test_fast_inputs_publish_before_record_scan_and_scan_reports_progress(self):
+        directory=self.root/'.state/mac-processor/completed';directory.mkdir(parents=True)
+        (directory/'job.json').write_text(json.dumps({'outcome':'complete','kind':'ocr','updated_at':1786324553}))
+        seen=[]
+        def progress(force=False):
+            seen.append((force,self.db.execute("SELECT count(*) FROM events").fetchone()[0]))
+        scan(self.db,self.root,self.root/'logs',progress=progress)
+        self.assertEqual(seen[0],(True,0))
+        self.assertTrue(any(not forced for forced,count in seen))
+        self.assertEqual(snapshot(self.db)['agents'][0]['days'],[['2026-08-10',1]])
+
     def test_publications_count_only_published_update_commits_once(self):
         output='abc\t2026-08-01T23:00:00-07:00\tUpdate transcript machine data (200 files)\nxyz\t2026-08-01T12:00:00Z\tEdit README\n'
         with mock.patch('agent_activity.subprocess.run',return_value=mock.Mock(stdout=output)) as run:
