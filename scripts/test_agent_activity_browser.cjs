@@ -53,6 +53,16 @@ assert.equal(await page.locator('[data-agent="OCR"].is-highlighted').count(),2);
 assert.equal(await page.locator('[data-agent].is-muted').count(),4);
 await page.mouse.move(0,0);
 assert.equal(await page.locator('[data-agent].is-highlighted, [data-agent].is-muted').count(),0);
+const hitPoint=await page.locator('[data-hover-agent="OCR"]').first().evaluate(path=>{
+ const p=path.getPointAtLength(path.getTotalLength()/2);
+ const screen=new DOMPoint(p.x,p.y).matrixTransform(path.getScreenCTM());
+ return {x:screen.x,y:screen.y};
+});
+await page.mouse.move(hitPoint.x,hitPoint.y);
+assert.equal(await page.locator('[data-agent="OCR"].is-highlighted').count(),2);
+assert.equal(await ocrLabel.getAttribute('class'),'is-highlighted');
+await page.mouse.move(0,0);
+assert.equal(await page.locator('[data-agent].is-muted').count(),0);
 await ocrLabel.focus();
 assert.equal(await page.locator('[data-agent="OCR"].is-highlighted').count(),2);
 await page.locator('#activity-chart').focus();

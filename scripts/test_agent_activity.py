@@ -3,7 +3,7 @@ from pathlib import Path
 import tempfile
 import unittest
 from unittest import mock
-from agent_activity import database, ingest_log, ingest_records, snapshot, scan, ingest_download_runs, ingest_publications
+from agent_activity import database, ingest_log, ingest_records, snapshot, scan, ingest_download_runs, ingest_publications, ingest_completed_downloads
 
 class ActivityTests(unittest.TestCase):
     def setUp(self):
@@ -50,7 +50,33 @@ class ActivityTests(unittest.TestCase):
         log=self.root/'runs.log'
         log.write_text('2026-08-01T12:00:01Z [recovery-supervisor] 2026-08-01T12:00:00Z finished american-alchemy\n2026-08-01T12:00:00Z finished american-alchemy\n2026-08-01T12:00:00Z starting afu\n')
         ingest_download_runs(self.db,log);ingest_download_runs(self.db,log)
-        self.assertEqual(snapshot(self.db)['agents'][0]['days'],[['2026-08-01',1]])
+        self.assertEqual(snapshot(self.db)['agents'],[]) # Run success is not a completed file.
+    def test_completed_files_deduplicate_retries_hosts_and_video_echoes(self):
+        log=self.root/'downloads.log'
+        digest='a'*64
+        log.write_text(
+            f'2026-08-02T12:00:00Z [afu] [download-engine] transport=http bytes=42 sha256={digest} target=/old/originals/AFU/a.pdf\n'
+            f'2026-08-03T12:00:00Z [afu] [download-engine] transport=http bytes=42 sha256={digest} target=/new/originals/AFU/a.pdf\n'
+            f'2026-08-03T12:00:00Z [afu] [download-engine] transport=http bytes=42 sha256={digest} target=/new/originals/AFU/other/a.pdf\n'
+            f'2026-08-02T12:00:00Z [american-alchemy] [download-engine] transport=yt-dlp bytes=42 sha256={digest} target=/new/originals/AA/video.mp4\n'
+            '2026-08-02T12:00:00Z [american-alchemy] downloaded: video.mp4 (42 bytes)\n'
+            '2026-08-02T12:00:00Z [afu] [download-engine] progress bytes=42 target=a.part\n'
+            '2026-08-02T12:00:00Z [afu] downloaded 500, skipped 1\n'
+            'undated downloaded: unknown.mp4 (42 bytes)\n')
+        ingest_completed_downloads(self.db,log);ingest_completed_downloads(self.db,log)
+        series=snapshot(self.db)['agents'][0]
+        self.assertEqual(series['name'],'Downloaders')
+        self.assertEqual(series['days'],[['2026-08-02',2],['2026-08-03',1]])
+        log.rename(self.root/'rotated.log')
+        ingest_completed_downloads(self.db,self.root/'rotated.log')
+        log.write_text(f'2026-08-01T12:00:00Z [afu] [download-engine] transport=http bytes=42 sha256={digest} target=/old/originals/AFU/a.pdf')
+        ingest_completed_downloads(self.db,log)
+        self.assertEqual(snapshot(self.db)['agents'][0]['days'],series['days'])
+        with log.open('a') as f:f.write('\n')
+        ingest_completed_downloads(self.db,log)
+        self.assertEqual(snapshot(self.db)['agents'][0]['days'],[['2026-08-01',1],['2026-08-02',1],['2026-08-03',1]])
+        self.assertNotIn('/originals/',json.dumps(snapshot(self.db)))
+
     def test_publications_count_only_published_update_commits_once(self):
         output='abc\t2026-08-01T23:00:00-07:00\tUpdate transcript machine data (200 files)\nxyz\t2026-08-01T12:00:00Z\tEdit README\n'
         with mock.patch('agent_activity.subprocess.run',return_value=mock.Mock(stdout=output)) as run:

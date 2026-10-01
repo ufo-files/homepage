@@ -1,152 +1,134 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-01T04:26:16.433310+00:00",
+  "generatedAt": "2026-10-01T05:19:39.954765+00:00",
   "agents": [
     {
-      "name": "French processing",
+      "name": "Downloaders",
       "metric": "completions",
+      "unit": "unique completed files (earliest retained success log)",
       "days": [
         [
-          "2026-08-25",
-          237
+          "2026-07-31",
+          2071
         ],
         [
-          "2026-08-26",
-          281
+          "2026-08-01",
+          2034
         ],
         [
-          "2026-08-27",
-          281
+          "2026-08-02",
+          5
         ],
         [
-          "2026-08-28",
-          272
+          "2026-08-03",
+          6
+        ],
+        [
+          "2026-08-04",
+          1
+        ],
+        [
+          "2026-08-06",
+          1
+        ],
+        [
+          "2026-08-07",
+          2
+        ],
+        [
+          "2026-08-08",
+          140
+        ],
+        [
+          "2026-08-09",
+          110
+        ],
+        [
+          "2026-08-10",
+          10
+        ],
+        [
+          "2026-08-11",
+          5
+        ],
+        [
+          "2026-08-12",
+          1
+        ],
+        [
+          "2026-08-13",
+          1
+        ],
+        [
+          "2026-08-14",
+          6
+        ],
+        [
+          "2026-08-15",
+          1
+        ],
+        [
+          "2026-08-16",
+          4
+        ],
+        [
+          "2026-08-18",
+          8
+        ],
+        [
+          "2026-08-21",
+          1
+        ],
+        [
+          "2026-08-24",
+          67
         ],
         [
           "2026-08-29",
-          225
+          1
         ],
         [
           "2026-08-30",
-          29
-        ],
-        [
-          "2026-09-04",
-          94
-        ],
-        [
-          "2026-09-05",
-          62
-        ],
-        [
-          "2026-09-06",
-          80
-        ],
-        [
-          "2026-09-07",
-          60
-        ],
-        [
-          "2026-09-08",
-          53
-        ],
-        [
-          "2026-09-09",
-          23
-        ],
-        [
-          "2026-09-10",
-          27
-        ],
-        [
-          "2026-09-11",
-          23
-        ],
-        [
-          "2026-09-12",
-          16
-        ],
-        [
-          "2026-09-13",
-          16
-        ],
-        [
-          "2026-09-14",
-          4
-        ],
-        [
-          "2026-09-15",
-          6
-        ],
-        [
-          "2026-09-16",
-          6
-        ],
-        [
-          "2026-09-17",
-          22
-        ],
-        [
-          "2026-09-18",
-          17
-        ],
-        [
-          "2026-09-19",
-          17
-        ],
-        [
-          "2026-09-20",
-          6
-        ],
-        [
-          "2026-09-21",
-          4
-        ],
-        [
-          "2026-09-22",
           1
         ],
         [
           "2026-09-23",
-          161
+          15331
         ],
         [
           "2026-09-24",
-          129
+          23711
         ],
         [
           "2026-09-25",
-          129
+          13771
         ],
         [
           "2026-09-26",
-          179
+          12133
         ],
         [
           "2026-09-27",
-          133
+          2251
         ],
         [
           "2026-09-28",
-          96
+          9711
         ],
         [
           "2026-09-29",
-          93
+          34352
         ],
         [
           "2026-09-30",
-          90
-        ],
-        [
-          "2026-10-01",
-          8
+          35647
         ]
       ]
     },
     {
       "name": "OCR",
       "metric": "completions",
+      "unit": "document jobs",
       "days": [
         [
           "2026-08-03",
@@ -370,13 +352,14 @@
         ],
         [
           "2026-10-01",
-          209
+          211
         ]
       ]
     },
     {
       "name": "OCR / transcription orchestrator",
       "metric": "signals",
+      "unit": "timestamped log entries",
       "days": [
         [
           "2026-09-23",
@@ -412,71 +395,137 @@
         ],
         [
           "2026-10-01",
-          955
+          1012
         ]
       ]
     },
     {
-      "name": "Portuguese processing",
+      "name": "Publisher",
       "metric": "completions",
+      "unit": "published update commits",
       "days": [
         [
-          "2026-08-09",
-          13
-        ],
-        [
-          "2026-08-10",
-          28
-        ],
-        [
-          "2026-08-12",
-          71
-        ],
-        [
-          "2026-08-13",
-          43
-        ],
-        [
-          "2026-08-14",
-          19
-        ],
-        [
-          "2026-08-15",
-          4
-        ],
-        [
-          "2026-08-16",
-          3
-        ],
-        [
-          "2026-08-17",
-          2
-        ],
-        [
-          "2026-08-18",
-          5
-        ],
-        [
-          "2026-08-19",
+          "2026-08-30",
           1
         ],
         [
+          "2026-09-04",
+          34
+        ],
+        [
+          "2026-09-05",
+          39
+        ],
+        [
+          "2026-09-06",
+          44
+        ],
+        [
+          "2026-09-07",
+          40
+        ],
+        [
+          "2026-09-08",
+          38
+        ],
+        [
+          "2026-09-09",
+          32
+        ],
+        [
+          "2026-09-10",
+          33
+        ],
+        [
+          "2026-09-11",
+          32
+        ],
+        [
+          "2026-09-12",
+          37
+        ],
+        [
+          "2026-09-13",
+          38
+        ],
+        [
+          "2026-09-14",
+          32
+        ],
+        [
+          "2026-09-15",
+          33
+        ],
+        [
+          "2026-09-16",
+          27
+        ],
+        [
+          "2026-09-17",
+          30
+        ],
+        [
+          "2026-09-18",
+          35
+        ],
+        [
+          "2026-09-19",
+          34
+        ],
+        [
+          "2026-09-20",
+          13
+        ],
+        [
+          "2026-09-21",
+          8
+        ],
+        [
+          "2026-09-22",
+          26
+        ],
+        [
+          "2026-09-23",
+          47
+        ],
+        [
+          "2026-09-24",
+          48
+        ],
+        [
+          "2026-09-25",
+          49
+        ],
+        [
           "2026-09-26",
-          2
+          48
         ],
         [
           "2026-09-27",
-          79
+          48
         ],
         [
           "2026-09-28",
-          33
+          47
+        ],
+        [
+          "2026-09-29",
+          46
+        ],
+        [
+          "2026-09-30",
+          38
+        ],
+        [
+          "2026-10-01",
+          4
         ]
       ]
     },
     {
-      "name": "Transcription",
+      "name": "Transcriptions",
       "metric": "completions",
+      "unit": "media jobs",
       "days": [
         [
           "2026-08-03",
@@ -649,8 +698,192 @@
       ]
     },
     {
+      "name": "Translations",
+      "metric": "completions",
+      "unit": "paired language-processing jobs",
+      "days": [
+        [
+          "2026-08-09",
+          13
+        ],
+        [
+          "2026-08-10",
+          28
+        ],
+        [
+          "2026-08-12",
+          71
+        ],
+        [
+          "2026-08-13",
+          43
+        ],
+        [
+          "2026-08-14",
+          19
+        ],
+        [
+          "2026-08-15",
+          4
+        ],
+        [
+          "2026-08-16",
+          3
+        ],
+        [
+          "2026-08-17",
+          2
+        ],
+        [
+          "2026-08-18",
+          5
+        ],
+        [
+          "2026-08-19",
+          1
+        ],
+        [
+          "2026-08-25",
+          237
+        ],
+        [
+          "2026-08-26",
+          281
+        ],
+        [
+          "2026-08-27",
+          281
+        ],
+        [
+          "2026-08-28",
+          272
+        ],
+        [
+          "2026-08-29",
+          225
+        ],
+        [
+          "2026-08-30",
+          29
+        ],
+        [
+          "2026-09-04",
+          94
+        ],
+        [
+          "2026-09-05",
+          62
+        ],
+        [
+          "2026-09-06",
+          80
+        ],
+        [
+          "2026-09-07",
+          60
+        ],
+        [
+          "2026-09-08",
+          53
+        ],
+        [
+          "2026-09-09",
+          23
+        ],
+        [
+          "2026-09-10",
+          27
+        ],
+        [
+          "2026-09-11",
+          23
+        ],
+        [
+          "2026-09-12",
+          16
+        ],
+        [
+          "2026-09-13",
+          16
+        ],
+        [
+          "2026-09-14",
+          4
+        ],
+        [
+          "2026-09-15",
+          6
+        ],
+        [
+          "2026-09-16",
+          6
+        ],
+        [
+          "2026-09-17",
+          22
+        ],
+        [
+          "2026-09-18",
+          17
+        ],
+        [
+          "2026-09-19",
+          17
+        ],
+        [
+          "2026-09-20",
+          6
+        ],
+        [
+          "2026-09-21",
+          4
+        ],
+        [
+          "2026-09-22",
+          1
+        ],
+        [
+          "2026-09-23",
+          161
+        ],
+        [
+          "2026-09-24",
+          129
+        ],
+        [
+          "2026-09-25",
+          129
+        ],
+        [
+          "2026-09-26",
+          181
+        ],
+        [
+          "2026-09-27",
+          212
+        ],
+        [
+          "2026-09-28",
+          129
+        ],
+        [
+          "2026-09-29",
+          93
+        ],
+        [
+          "2026-09-30",
+          90
+        ],
+        [
+          "2026-10-01",
+          10
+        ]
+      ]
+    },
+    {
       "name": "aaro-uap-records",
       "metric": "signals",
+      "unit": "timestamped log entries",
       "days": [
         [
           "2026-07-31",
@@ -806,13 +1039,14 @@
         ],
         [
           "2026-10-01",
-          159
+          318
         ]
       ]
     },
     {
       "name": "afu",
       "metric": "signals",
+      "unit": "timestamped log entries",
       "days": [
         [
           "2026-09-23",
@@ -848,13 +1082,14 @@
         ],
         [
           "2026-10-01",
-          187
+          248
         ]
       ]
     },
     {
       "name": "american-alchemy",
       "metric": "signals",
+      "unit": "timestamped log entries",
       "days": [
         [
           "2026-08-01",
@@ -1013,6 +1248,7 @@
     {
       "name": "area52-investigations",
       "metric": "signals",
+      "unit": "timestamped log entries",
       "days": [
         [
           "2026-08-01",
@@ -1171,6 +1407,7 @@
     {
       "name": "argentina-ciae",
       "metric": "signals",
+      "unit": "timestamped log entries",
       "days": [
         [
           "2026-09-23",
@@ -1209,6 +1446,7 @@
     {
       "name": "australia-naa",
       "metric": "signals",
+      "unit": "timestamped log entries",
       "days": [
         [
           "2026-09-23",
@@ -1247,6 +1485,7 @@
     {
       "name": "black-vault-ufo",
       "metric": "signals",
+      "unit": "timestamped log entries",
       "days": [
         [
           "2026-07-31",
@@ -1409,6 +1648,7 @@
     {
       "name": "brazil-government-uap",
       "metric": "signals",
+      "unit": "timestamped log entries",
       "days": [
         [
           "2026-08-09",
@@ -1528,13 +1768,14 @@
         ],
         [
           "2026-10-01",
-          5
+          11
         ]
       ]
     },
     {
       "name": "canada-lac",
       "metric": "signals",
+      "unit": "timestamped log entries",
       "days": [
         [
           "2026-09-23",
@@ -1573,6 +1814,7 @@
     {
       "name": "chile-sefaa",
       "metric": "signals",
+      "unit": "timestamped log entries",
       "days": [
         [
           "2026-09-23",
@@ -1611,6 +1853,7 @@
     {
       "name": "cia-reading-room",
       "metric": "signals",
+      "unit": "timestamped log entries",
       "days": [
         [
           "2026-09-23",
@@ -1649,6 +1892,7 @@
     {
       "name": "dpiarchive",
       "metric": "signals",
+      "unit": "timestamped log entries",
       "days": [
         [
           "2026-07-31",
@@ -1804,13 +2048,14 @@
         ],
         [
           "2026-10-01",
-          22
+          51
         ]
       ]
     },
     {
       "name": "energy-nnsa-uap-ufo",
       "metric": "signals",
+      "unit": "timestamped log entries",
       "days": [
         [
           "2026-07-31",
@@ -1966,13 +2211,14 @@
         ],
         [
           "2026-10-01",
-          4
+          8
         ]
       ]
     },
     {
       "name": "fbi-vault-ufo",
       "metric": "signals",
+      "unit": "timestamped log entries",
       "days": [
         [
           "2026-08-02",
@@ -2112,13 +2358,14 @@
         ],
         [
           "2026-10-01",
-          17
+          34
         ]
       ]
     },
     {
       "name": "france-geipan",
       "metric": "signals",
+      "unit": "timestamped log entries",
       "days": [
         [
           "2026-08-26",
@@ -2170,13 +2417,14 @@
         ],
         [
           "2026-10-01",
-          43
+          75
         ]
       ]
     },
     {
       "name": "italy-air-force",
       "metric": "signals",
+      "unit": "timestamped log entries",
       "days": [
         [
           "2026-09-23",
@@ -2215,6 +2463,7 @@
     {
       "name": "nara-uap-bulk",
       "metric": "signals",
+      "unit": "timestamped log entries",
       "days": [
         [
           "2026-08-01",
@@ -2373,6 +2622,7 @@
     {
       "name": "nsa-ufo-foia",
       "metric": "signals",
+      "unit": "timestamped log entries",
       "days": [
         [
           "2026-07-31",
@@ -2528,13 +2778,14 @@
         ],
         [
           "2026-10-01",
-          4
+          8
         ]
       ]
     },
     {
       "name": "nufohrc",
       "metric": "signals",
+      "unit": "timestamped log entries",
       "days": [
         [
           "2026-09-23",
@@ -2573,6 +2824,7 @@
     {
       "name": "nuforc",
       "metric": "signals",
+      "unit": "timestamped log entries",
       "days": [
         [
           "2026-09-23",
@@ -2611,6 +2863,7 @@
     {
       "name": "rice-archive-of-the-impossible",
       "metric": "signals",
+      "unit": "timestamped log entries",
       "days": [
         [
           "2026-09-23",
@@ -2642,13 +2895,14 @@
         ],
         [
           "2026-10-01",
-          6
+          12
         ]
       ]
     },
     {
       "name": "skywatcher-hq",
       "metric": "signals",
+      "unit": "timestamped log entries",
       "days": [
         [
           "2026-08-08",
@@ -2779,6 +3033,7 @@
     {
       "name": "spain-mod",
       "metric": "signals",
+      "unit": "timestamped log entries",
       "days": [
         [
           "2026-09-23",
@@ -2817,6 +3072,7 @@
     {
       "name": "steven-greer-document-library",
       "metric": "signals",
+      "unit": "timestamped log entries",
       "days": [
         [
           "2026-07-31",
@@ -2972,13 +3228,14 @@
         ],
         [
           "2026-10-01",
-          4
+          8
         ]
       ]
     },
     {
       "name": "uap-gerb",
       "metric": "signals",
+      "unit": "timestamped log entries",
       "days": [
         [
           "2026-08-24",
@@ -3041,6 +3298,7 @@
     {
       "name": "uk-national-archives",
       "metric": "signals",
+      "unit": "timestamped log entries",
       "days": [
         [
           "2026-09-23",
@@ -3079,6 +3337,7 @@
     {
       "name": "updb-mufon",
       "metric": "signals",
+      "unit": "timestamped log entries",
       "days": [
         [
           "2026-08-12",
@@ -3193,6 +3452,7 @@
     {
       "name": "war-gov-ufo",
       "metric": "signals",
+      "unit": "timestamped log entries",
       "days": [
         [
           "2026-07-31",
@@ -3348,13 +3608,14 @@
         ],
         [
           "2026-10-01",
-          1
+          2
         ]
       ]
     },
     {
       "name": "weaponized-podcast",
       "metric": "signals",
+      "unit": "timestamped log entries",
       "days": [
         [
           "2026-08-08",
@@ -3481,170 +3742,7 @@
           2
         ]
       ]
-    },
-    {
-      "name": "Downloaders",
-      "metric": "completions",
-      "unit": "successful collection runs",
-      "days": [
-        [
-          "2026-09-23",
-          21
-        ],
-        [
-          "2026-09-25",
-          48
-        ],
-        [
-          "2026-09-26",
-          35
-        ],
-        [
-          "2026-09-27",
-          74
-        ],
-        [
-          "2026-09-28",
-          85
-        ],
-        [
-          "2026-09-29",
-          37
-        ],
-        [
-          "2026-09-30",
-          38
-        ],
-        [
-          "2026-10-01",
-          35
-        ]
-      ]
-    },
-    {
-      "name": "Publisher",
-      "metric": "completions",
-      "unit": "published update commits",
-      "days": [
-        [
-          "2026-08-30",
-          1
-        ],
-        [
-          "2026-09-04",
-          34
-        ],
-        [
-          "2026-09-05",
-          39
-        ],
-        [
-          "2026-09-06",
-          44
-        ],
-        [
-          "2026-09-07",
-          40
-        ],
-        [
-          "2026-09-08",
-          38
-        ],
-        [
-          "2026-09-09",
-          32
-        ],
-        [
-          "2026-09-10",
-          33
-        ],
-        [
-          "2026-09-11",
-          32
-        ],
-        [
-          "2026-09-12",
-          37
-        ],
-        [
-          "2026-09-13",
-          38
-        ],
-        [
-          "2026-09-14",
-          32
-        ],
-        [
-          "2026-09-15",
-          33
-        ],
-        [
-          "2026-09-16",
-          27
-        ],
-        [
-          "2026-09-17",
-          30
-        ],
-        [
-          "2026-09-18",
-          35
-        ],
-        [
-          "2026-09-19",
-          34
-        ],
-        [
-          "2026-09-20",
-          13
-        ],
-        [
-          "2026-09-21",
-          8
-        ],
-        [
-          "2026-09-22",
-          26
-        ],
-        [
-          "2026-09-23",
-          47
-        ],
-        [
-          "2026-09-24",
-          48
-        ],
-        [
-          "2026-09-25",
-          49
-        ],
-        [
-          "2026-09-26",
-          48
-        ],
-        [
-          "2026-09-27",
-          48
-        ],
-        [
-          "2026-09-28",
-          47
-        ],
-        [
-          "2026-09-29",
-          46
-        ],
-        [
-          "2026-09-30",
-          38
-        ],
-        [
-          "2026-10-01",
-          3
-        ]
-      ]
     }
   ],
-  "notes": "UTC daily totals from retained timestamped logs and latest successful completion records. Missing days are unknown, not zero. Completion records may include adopted existing outputs. Signals include heartbeats, retries and errors; they do not measure output or CPU usage. Undated lines are excluded.",
-  "backfillInProgress": true
+  "notes": "UTC daily totals from retained timestamped logs and latest successful completion records. Missing days are unknown, not zero. Completion records may include adopted existing outputs. Signals include heartbeats, retries and errors; they do not measure output or CPU usage. Downloads count unique source files with explicit successful file events, dated by their earliest retained log timestamp; run summaries, progress and retries are excluded. Historical logging coverage varies by source. Undated lines are excluded."
 }

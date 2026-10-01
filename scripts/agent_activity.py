@@ -5,6 +5,7 @@ import base64
 from collections import Counter
 from datetime import datetime, timezone
 import fcntl
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -20,6 +21,7 @@ def database(path):
     db.executescript('''
       CREATE TABLE IF NOT EXISTS events (id TEXT PRIMARY KEY, agent TEXT, metric TEXT, day TEXT);
       CREATE TABLE IF NOT EXISTS log_counts (inode TEXT, agent TEXT, day TEXT, total INTEGER, PRIMARY KEY(inode,agent,day));
+      CREATE TABLE IF NOT EXISTS download_positions (inode TEXT PRIMARY KEY, offset INTEGER);
       CREATE TABLE IF NOT EXISTS run_positions (inode TEXT PRIMARY KEY, offset INTEGER);
       CREATE TABLE IF NOT EXISTS log_positions (inode TEXT PRIMARY KEY, offset INTEGER);
       CREATE TABLE IF NOT EXISTS records (path TEXT PRIMARY KEY, mtime INTEGER, size INTEGER);
@@ -117,6 +119,56 @@ def ingest_records(db, directory, lane):
                 print(f'Indexed {count} new/changed {lane} completion records', flush=True)
     db.commit()
 
+def ingest_completed_downloads(db, path):
+    """Unique files with explicit success logs; never count progress/run summaries.
+
+    Dates are the earliest retained UTC log timestamp, not filesystem mtimes.
+    Inode offsets make the one-time historical import incremental thereafter.
+    """
+    st=path.stat(); inode=f'{st.st_dev}:{st.st_ino}'
+    old=db.execute('SELECT offset FROM download_positions WHERE inode=?',(inode,)).fetchone()
+    offset=old[0] if old and old[0]<=st.st_size else 0
+    engine=re.compile(r'^\[download-engine\] transport=\S+ bytes=([1-9]\d*) sha256=[a-fA-F0-9]{64} target=(.+)$')
+    video=re.compile(r'^downloaded: (.+) \(([1-9]\d*) bytes\)$')
+    checkpoint=offset
+    def save():
+        db.execute('INSERT OR REPLACE INTO download_positions VALUES (?,?)',(inode,offset))
+        db.commit()
+    with path.open('rb') as handle:
+        handle.seek(offset)
+        for raw in handle:
+            if not raw.endswith(b'\n'):
+                break
+            offset+=len(raw)
+            if b'transport=' in raw or b'downloaded:' in raw:
+                stamp=STAMP.match(raw.decode('utf-8',errors='replace'))
+                source=re.match(r'^\[([a-z0-9-]+)\] (.*)$',stamp[2]) if stamp else None
+                if source:
+                    message=source[2]
+                    inner=STAMP.match(message)
+                    if inner:
+                        message=inner[2]
+                    match=engine.fullmatch(message)
+                    media=video.fullmatch(message)
+                    target=match[2] if match else media[1] if media else None
+                    if target:
+                        # Host roots can change during migration; preserve archive-relative identity.
+                        relative=target.split('/originals/',1)[-1]
+                        if media or Path(target).suffix.lower() in {'.mp4','.mkv','.webm','.m4a','.mp3'}:
+                            relative=Path(target).name
+                        key='download-file:'+hashlib.sha256((source[1]+'\0'+relative).encode()).hexdigest()
+                        try:
+                            day=day_of(inner[1] if inner else stamp[1])
+                        except (ValueError,OverflowError):
+                            continue
+                        db.execute("INSERT INTO events VALUES (?,?,?,?) ON CONFLICT(id) DO UPDATE SET day=min(events.day,excluded.day)",
+                                   (key,'Completed downloads','completions',day))
+            if offset-checkpoint>=64*1024*1024:
+                save(); checkpoint=offset
+                print(f'Completed-download import: {path.name}: {offset:,}/{st.st_size:,} bytes',flush=True)
+        save()
+
+
 def ingest_download_runs(db, path):
     """Count explicit successful run endings, not heartbeat or download progress lines."""
     st=path.stat(); inode=f'{st.st_dev}:{st.st_ino}'
@@ -162,16 +214,18 @@ def ingest_publications(db, checkout=None):
 
 def snapshot(db):
     groups = {}
-    for agent, metric, day, count in db.execute("SELECT agent,metric,day,SUM(total) FROM (SELECT agent,metric,day,count(*) AS total FROM events WHERE metric='completions' GROUP BY agent,metric,day UNION ALL SELECT agent,'signals',day,total FROM log_counts) GROUP BY agent,metric,day ORDER BY day"):
+    for agent, metric, day, count in db.execute("SELECT agent,metric,day,SUM(total) FROM (SELECT agent,metric,day,count(*) AS total FROM events WHERE metric='completions' AND id NOT LIKE 'download-run:%' GROUP BY agent,metric,day UNION ALL SELECT agent,'signals',day,total FROM log_counts) GROUP BY agent,metric,day ORDER BY day"):
         if (metric == 'completions' and agent.endswith(' processing')) or (metric == 'signals' and agent.endswith(' worker')):
             agent = 'Translations'
+        if agent == 'Completed downloads':
+            agent = 'Downloaders'
         if agent == 'Transcription':
             agent = 'Transcriptions'
         groups.setdefault((agent, metric), Counter())[day] += count
-    units = {'Translations':'paired language-processing jobs','Transcriptions':'media jobs','OCR':'document jobs','Downloaders':'successful collection runs','Publisher':'published update commits'}
+    units = {'Translations':'paired language-processing jobs','Transcriptions':'media jobs','OCR':'document jobs','Downloaders':'unique completed files (earliest retained success log)','Publisher':'published update commits'}
     return {'schemaVersion': 1, 'generatedAt': datetime.now(timezone.utc).isoformat(),
             'agents': [{'name': agent, 'metric': metric, 'unit':units.get(agent,'timestamped log entries'), 'days': [[day,count] for day,count in sorted(days.items())]} for (agent, metric), days in sorted(groups.items())],
-            'notes': 'UTC daily totals from retained timestamped logs and latest successful completion records. Missing days are unknown, not zero. Completion records may include adopted existing outputs. Signals include heartbeats, retries and errors; they do not measure output or CPU usage. Undated lines are excluded.'}
+            'notes': 'UTC daily totals from retained timestamped logs and latest successful completion records. Missing days are unknown, not zero. Completion records may include adopted existing outputs. Signals include heartbeats, retries and errors; they do not measure output or CPU usage. Downloads count unique source files with explicit successful file events, dated by their earliest retained log timestamp; run summaries, progress and retries are excluded. Historical logging coverage varies by source. Undated lines are excluded.'}
 
 def publish(payload):
     endpoint = 'repos/ufo-files/homepage/contents/agent-activity.json'
@@ -214,10 +268,7 @@ def scan(db, archive, logs, publisher_checkout=None):
         ingest_records(db, directory, language.replace('-', ' ').title() + ' processing')
         workers.append((language+'-worker', language.replace('-', ' ').title()+' worker'))
     for path in streams:
-        ingest_download_runs(db, path)
-    recovery=logs/'source-recovery.log'
-    if recovery.is_file():
-        ingest_download_runs(db, recovery)
+        ingest_completed_downloads(db, path)
     if publisher_checkout is not None:
         ingest_publications(db, publisher_checkout)
     for name, agent in workers:
