@@ -180,7 +180,7 @@ footer p { font-size: var(--font-size-small); }
 #activity-chart { overflow-x:auto; margin:1rem 0; border-radius:12px; }
 
 #activity-status { color:var(--muted); font-size:.75rem; line-height:1.6; }
-#activity-agents { border:1px solid var(--line); border-radius:0; margin-top:1.5rem; padding:1rem 1.25rem; gap:.75rem 1.5rem; }
+#activity-agents { width:fit-content; max-width:100%; box-sizing:border-box; border:1px solid var(--line); border-radius:0; margin-top:1.5rem; padding:1rem 1.25rem; gap:.75rem 1.5rem; }
 #activity-agents .activity-legend-item { font-size:.75rem; }
 #activity-chart { margin:.75rem 0; scrollbar-color:var(--muted) var(--mint); }
 #activity-chart:focus-visible { outline:2px solid var(--ink); outline-offset:4px; }
