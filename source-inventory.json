@@ -1,6 +1,6 @@
 {
   "schema": "ufo-files-source-inventory/v1",
-  "generatedAt": "2026-10-01T06:00:40.882717+00:00",
+  "generatedAt": "2026-10-01T06:02:04.921042+00:00",
   "definition": "Archived content files, including scans and alternate formats; excludes metadata, logs, ZIP bundles, and partial downloads.",
   "completionRule": "Every archived content file has a nonempty machine-readable output with matching source path and byte size. This is processing coverage, not a content accuracy certification.",
   "sources": [
@@ -234,7 +234,7 @@
       "extensions": {
         ".pdf": 64
       },
-      "checkedAt": "2026-10-01T04:12:07.602945+00:00"
+      "checkedAt": "2026-10-01T06:01:24.025204+00:00"
     },
     {
       "name": "National-Archives-UAP-Bulk",
@@ -278,7 +278,7 @@
         ".mp4": 52,
         ".pdf": 7
       },
-      "checkedAt": "2026-10-01T04:13:15.639987+00:00"
+      "checkedAt": "2026-10-01T06:02:04.921042+00:00"
     },
     {
       "name": "Skywatcher-HQ",
@@ -436,7 +436,7 @@
       "extensions": {
         ".gz": 1
       },
-      "checkedAt": "2026-10-01T04:10:28.117994+00:00"
+      "checkedAt": "2026-10-01T06:01:54.746037+00:00"
     },
     {
       "name": "War-Gov-PURSUE",
