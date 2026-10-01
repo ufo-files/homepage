@@ -1,6 +1,6 @@
 {
   "schema": "ufo-files-source-inventory/v1",
-  "generatedAt": "2026-10-01T02:55:59.978007+00:00",
+  "generatedAt": "2026-10-01T03:00:58.765768+00:00",
   "definition": "Archived content files, including scans and alternate formats; excludes metadata, logs, ZIP bundles, and partial downloads.",
   "completionRule": "Every archived content file has a nonempty machine-readable output with matching source path and byte size. This is processing coverage, not a content accuracy certification.",
   "sources": [
@@ -106,8 +106,8 @@
     {
       "name": "Brazil-Government-UAP",
       "totalFiles": 341,
-      "verifiedProcessedFiles": 308,
-      "outputFiles": 1149,
+      "verifiedProcessedFiles": 320,
+      "outputFiles": 1151,
       "processingComplete": false,
       "outputReadErrors": 0,
       "extensions": {
@@ -118,7 +118,7 @@
         ".pdf": 262,
         ".png": 50
       },
-      "checkedAt": "2026-09-28T16:47:24.940508+00:00"
+      "checkedAt": "2026-10-01T03:00:58.765768+00:00"
     },
     {
       "name": "Canada-Library-and-Archives-UFO",
