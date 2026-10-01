@@ -1,6 +1,6 @@
 {
   "schema": "ufo-files-source-inventory/v1",
-  "generatedAt": "2026-10-01T15:21:28.878393+00:00",
+  "generatedAt": "2026-10-01T15:22:31.605276+00:00",
   "definition": "Archived content files, including scans and alternate formats; excludes metadata, logs, ZIP bundles, and partial downloads.",
   "completionRule": "Every archived content file has a nonempty machine-readable output with matching source path and byte size. This is processing coverage, not a content accuracy certification.",
   "sources": [
@@ -155,7 +155,7 @@
       "extensions": {
         ".pdf": 2
       },
-      "checkedAt": "2026-10-01T14:21:17.186348+00:00"
+      "checkedAt": "2026-10-01T15:22:11.217608+00:00"
     },
     {
       "name": "DPIArchive",
@@ -185,7 +185,7 @@
       "name": "France-GEIPAN",
       "totalFiles": 16426,
       "verifiedProcessedFiles": null,
-      "outputFiles": 11815,
+      "outputFiles": 11831,
       "processingComplete": false,
       "outputReadErrors": 0,
       "extensions": {
@@ -209,7 +209,7 @@
         ".xls": 2,
         ".xlsx": 10
       },
-      "checkedAt": "2026-10-01T14:11:11.019423+00:00"
+      "checkedAt": "2026-10-01T15:22:06.171254+00:00"
     },
     {
       "name": "Italy-Aeronautica-Militare-OVNI",
@@ -290,7 +290,7 @@
       "extensions": {
         ".mp4": 8
       },
-      "checkedAt": "2026-10-01T14:21:37.668658+00:00"
+      "checkedAt": "2026-10-01T15:22:31.605276+00:00"
     },
     {
       "name": "Steven-Greer-Document-Library",
@@ -474,7 +474,7 @@
         ".jpeg": 1,
         ".pdf": 6
       },
-      "checkedAt": "2026-10-01T14:21:27.485317+00:00"
+      "checkedAt": "2026-10-01T15:22:21.370108+00:00"
     },
     {
       "name": "WikiLeaks-UFO",
