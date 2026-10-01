@@ -22,6 +22,7 @@ def database(path):
       CREATE TABLE IF NOT EXISTS events (id TEXT PRIMARY KEY, agent TEXT, metric TEXT, day TEXT);
       CREATE TABLE IF NOT EXISTS log_counts (inode TEXT, agent TEXT, day TEXT, total INTEGER, PRIMARY KEY(inode,agent,day));
       CREATE TABLE IF NOT EXISTS download_positions (inode TEXT PRIMARY KEY, offset INTEGER);
+      CREATE TABLE IF NOT EXISTS new_download_positions (inode TEXT PRIMARY KEY, offset INTEGER);
       CREATE TABLE IF NOT EXISTS transfer_positions (inode TEXT PRIMARY KEY, offset INTEGER);
       CREATE TABLE IF NOT EXISTS run_positions (inode TEXT PRIMARY KEY, offset INTEGER);
       CREATE TABLE IF NOT EXISTS log_positions (inode TEXT PRIMARY KEY, offset INTEGER);
@@ -219,7 +220,7 @@ def ingest_publications(db, checkout=None):
 
 def snapshot(db):
     groups = {}
-    for agent, metric, day, count in db.execute("SELECT agent,metric,day,SUM(total) FROM (SELECT agent,metric,day,count(*) AS total FROM events WHERE metric='completions' AND id NOT LIKE 'download-run:%' AND id NOT LIKE 'download-file:%' GROUP BY agent,metric,day UNION ALL SELECT agent,'signals',day,total FROM log_counts) GROUP BY agent,metric,day ORDER BY day"):
+    for agent, metric, day, count in db.execute("SELECT agent,metric,day,SUM(total) FROM (SELECT agent,metric,day,count(*) AS total FROM events WHERE metric='completions' AND id NOT LIKE 'download-run:%' AND id NOT LIKE 'download-file:%' AND id NOT LIKE 'new-download:%' GROUP BY agent,metric,day UNION ALL SELECT agent,'signals',day,total FROM log_counts) GROUP BY agent,metric,day ORDER BY day"):
         if (metric == 'completions' and agent.endswith(' processing')) or (metric == 'signals' and agent.endswith(' worker')):
             agent = 'Translations'
         if agent == 'Completed transfers':
@@ -227,13 +228,15 @@ def snapshot(db):
         if agent == 'Transcription':
             agent = 'Transcriptions'
         groups.setdefault((agent, metric), Counter())[day] += count
-    units = {'Translations':'paired language-processing jobs','Transcriptions':'media jobs','OCR':'document jobs','Downloaders':'completed file transfers','Publisher':'published update commits'}
+    units = {'Translations':'paired language-processing jobs','Transcriptions':'media jobs','OCR':'document jobs','Downloaders':'successful download operations (includes re-downloads and existing-file results)','Publisher':'published update commits'}
     return {'schemaVersion': 1, 'generatedAt': datetime.now(timezone.utc).isoformat(),
             'agents': [{'name': agent, 'metric': metric, 'unit':units.get(agent,'timestamped log entries'), 'days': [[day,count] for day,count in sorted(days.items())]} for (agent, metric), days in sorted(groups.items())],
-            'notes': 'UTC daily totals from retained timestamped logs and latest successful completion records. Missing days are unknown, not zero. Completion records may include adopted existing outputs. Signals include heartbeats, retries and errors; they do not measure output or CPU usage. Downloads count explicit successful file transfers on their completion date, including re-downloads. Duplicate completion log events, run summaries, failed attempts and progress messages are excluded. Historical logging coverage varies by source. Undated lines are excluded.'}
+            'notes': 'UTC daily totals from retained timestamped logs and latest successful completion records. Missing days are unknown, not zero. Completion records may include adopted existing outputs. Signals include heartbeats, retries and errors; they do not measure output or CPU usage. Downloader activity counts successful download-operation records, including replacements and existing-file video results. It is not a count of newly added archive files. Exact duplicate log events are excluded; distinct completion times count separately. Local publisher copies, progress messages and failed attempts are excluded. Historical logging coverage varies by source. Undated lines are excluded.'}
 
-def publish(payload):
-    endpoint = 'repos/ufo-files/homepage/contents/agent-activity.json'
+def publish(payload, filename="agent-activity.json"):
+    if filename not in {"agent-activity.json", "agent-health.json"}:
+        raise ValueError("Unsupported feed")
+    endpoint = "repos/ufo-files/homepage/contents/"+filename
     result = subprocess.run(['gh','api',endpoint+'?ref=live-inventory'], capture_output=True, text=True, timeout=45)
     body = {'message': 'Refresh recorded agent activity', 'branch':'live-inventory',
             'content':base64.b64encode((json.dumps(payload,separators=(',',':'))+'\n').encode()).decode()}

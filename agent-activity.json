@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-01T05:46:03.311411+00:00",
+  "generatedAt": "2026-10-01T16:28:46.933290+00:00",
   "agents": [
     {
       "name": "Downloaders",
       "metric": "completions",
-      "unit": "completed file transfers",
+      "unit": "successful download operations (includes re-downloads and existing-file results)",
       "days": [
         [
           "2026-07-31",
@@ -161,7 +161,7 @@
         ],
         [
           "2026-10-01",
-          1
+          494
         ]
       ]
     },
@@ -392,7 +392,7 @@
         ],
         [
           "2026-10-01",
-          251
+          613
         ]
       ]
     },
@@ -435,7 +435,7 @@
         ],
         [
           "2026-10-01",
-          1191
+          2962
         ]
       ]
     },
@@ -558,7 +558,7 @@
         ],
         [
           "2026-10-01",
-          4
+          15
         ]
       ]
     },
@@ -916,7 +916,7 @@
         ],
         [
           "2026-10-01",
-          15
+          49
         ]
       ]
     },
@@ -1079,7 +1079,7 @@
         ],
         [
           "2026-10-01",
-          318
+          849
         ]
       ]
     },
@@ -1122,7 +1122,7 @@
         ],
         [
           "2026-10-01",
-          248
+          2031
         ]
       ]
     },
@@ -1281,7 +1281,7 @@
         ],
         [
           "2026-10-01",
-          2
+          10
         ]
       ]
     },
@@ -1440,7 +1440,7 @@
         ],
         [
           "2026-10-01",
-          2
+          10
         ]
       ]
     },
@@ -1479,7 +1479,7 @@
         ],
         [
           "2026-10-01",
-          6
+          18
         ]
       ]
     },
@@ -1518,7 +1518,7 @@
         ],
         [
           "2026-10-01",
-          21
+          63
         ]
       ]
     },
@@ -1681,7 +1681,7 @@
         ],
         [
           "2026-10-01",
-          1368
+          4914
         ]
       ]
     },
@@ -1808,7 +1808,7 @@
         ],
         [
           "2026-10-01",
-          11
+          26
         ]
       ]
     },
@@ -1847,7 +1847,7 @@
         ],
         [
           "2026-10-01",
-          16
+          50
         ]
       ]
     },
@@ -1886,7 +1886,7 @@
         ],
         [
           "2026-10-01",
-          53
+          148
         ]
       ]
     },
@@ -1925,7 +1925,7 @@
         ],
         [
           "2026-10-01",
-          22
+          50
         ]
       ]
     },
@@ -2088,7 +2088,7 @@
         ],
         [
           "2026-10-01",
-          51
+          143
         ]
       ]
     },
@@ -2251,7 +2251,7 @@
         ],
         [
           "2026-10-01",
-          8
+          24
         ]
       ]
     },
@@ -2398,7 +2398,7 @@
         ],
         [
           "2026-10-01",
-          34
+          102
         ]
       ]
     },
@@ -2457,7 +2457,7 @@
         ],
         [
           "2026-10-01",
-          100
+          275
         ]
       ]
     },
@@ -2496,7 +2496,7 @@
         ],
         [
           "2026-10-01",
-          2
+          12
         ]
       ]
     },
@@ -2655,7 +2655,7 @@
         ],
         [
           "2026-10-01",
-          298
+          946
         ]
       ]
     },
@@ -2818,7 +2818,7 @@
         ],
         [
           "2026-10-01",
-          8
+          24
         ]
       ]
     },
@@ -2857,7 +2857,7 @@
         ],
         [
           "2026-10-01",
-          2
+          6
         ]
       ]
     },
@@ -2896,7 +2896,7 @@
         ],
         [
           "2026-10-01",
-          2
+          6
         ]
       ]
     },
@@ -2935,7 +2935,7 @@
         ],
         [
           "2026-10-01",
-          12
+          37
         ]
       ]
     },
@@ -3066,7 +3066,7 @@
         ],
         [
           "2026-10-01",
-          4
+          12
         ]
       ]
     },
@@ -3105,7 +3105,7 @@
         ],
         [
           "2026-10-01",
-          18
+          58
         ]
       ]
     },
@@ -3268,7 +3268,7 @@
         ],
         [
           "2026-10-01",
-          8
+          24
         ]
       ]
     },
@@ -3331,7 +3331,7 @@
         ],
         [
           "2026-10-01",
-          4
+          20
         ]
       ]
     },
@@ -3370,7 +3370,7 @@
         ],
         [
           "2026-10-01",
-          6
+          18
         ]
       ]
     },
@@ -3485,7 +3485,7 @@
         ],
         [
           "2026-10-01",
-          2
+          27
         ]
       ]
     },
@@ -3648,7 +3648,7 @@
         ],
         [
           "2026-10-01",
-          2
+          6
         ]
       ]
     },
@@ -3779,10 +3779,10 @@
         ],
         [
           "2026-10-01",
-          2
+          10
         ]
       ]
     }
   ],
-  "notes": "UTC daily totals from retained timestamped logs and latest successful completion records. Missing days are unknown, not zero. Completion records may include adopted existing outputs. Signals include heartbeats, retries and errors; they do not measure output or CPU usage. Downloads count explicit successful file transfers on their completion date, including re-downloads. Duplicate completion log events, run summaries, failed attempts and progress messages are excluded. Historical logging coverage varies by source. Undated lines are excluded."
+  "notes": "UTC daily totals from retained timestamped logs and latest successful completion records. Missing days are unknown, not zero. Completion records may include adopted existing outputs. Signals include heartbeats, retries and errors; they do not measure output or CPU usage. Downloader activity counts successful download-operation records, including replacements and existing-file video results. It is not a count of newly added archive files. Exact duplicate log events are excluded; distinct completion times count separately. Local publisher copies, progress messages and failed attempts are excluded. Historical logging coverage varies by source. Undated lines are excluded."
 }
