@@ -1,6 +1,6 @@
 {
   "schema": "ufo-files-source-inventory/v1",
-  "generatedAt": "2026-10-01T14:57:28.173974+00:00",
+  "generatedAt": "2026-10-01T14:57:51.126874+00:00",
   "definition": "Archived content files, including scans and alternate formats; excludes metadata, logs, ZIP bundles, and partial downloads.",
   "completionRule": "Every archived content file has a nonempty machine-readable output with matching source path and byte size. This is processing coverage, not a content accuracy certification.",
   "sources": [
@@ -339,7 +339,7 @@
       "extensions": {
         ".gz": 1
       },
-      "checkedAt": "2026-10-01T13:50:55.623407+00:00"
+      "checkedAt": "2026-10-01T14:57:51.126874+00:00"
     },
     {
       "name": "UPDB-Brazil-Government",
