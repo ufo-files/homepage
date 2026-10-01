@@ -51,36 +51,32 @@ class ActivityTests(unittest.TestCase):
         log.write_text('2026-08-01T12:00:01Z [recovery-supervisor] 2026-08-01T12:00:00Z finished american-alchemy\n2026-08-01T12:00:00Z finished american-alchemy\n2026-08-01T12:00:00Z starting afu\n')
         ingest_download_runs(self.db,log);ingest_download_runs(self.db,log)
         self.assertEqual(snapshot(self.db)['agents'],[]) # Run success is not a completed file.
-    def test_new_downloads_exclude_replacements_existing_files_and_legacy_logs(self):
+    def test_transfers_count_redownloads_and_deduplicate_log_echoes(self):
         log=self.root/'downloads.log'
         digest='a'*64
         log.write_text(
-            f'2026-08-02T12:00:00Z [afu] [download-event] outcome=new transport=http bytes=42 sha256={digest} target=/old/originals/AFU/a.pdf\n'
-            f'2026-08-02T12:00:00Z [afu] [download-event] outcome=new transport=http bytes=42 sha256={digest} target=/new/originals/AFU/a.pdf\n'
-            f'2026-08-03T12:00:00Z [afu] [download-event] outcome=new transport=http bytes=42 sha256={digest} target=/new/originals/AFU/a.pdf\n'
-            f'2026-08-03T12:00:00Z [afu] [download-event] outcome=new transport=http bytes=42 sha256={digest} target=/new/originals/AFU/other/a.pdf\n'
-            f'2026-08-02T12:00:00Z [american-alchemy] [download-event] outcome=new transport=yt-dlp bytes=42 sha256={digest} target=/new/originals/AA/video.mp4\n'
+            f'2026-08-02T12:00:00Z [afu] [download-engine] transport=http bytes=42 sha256={digest} target=/old/originals/AFU/a.pdf\n'
+            f'2026-08-02T12:00:00Z [afu] [download-engine] transport=http bytes=42 sha256={digest} target=/new/originals/AFU/a.pdf\n'
+            f'2026-08-03T12:00:00Z [afu] [download-engine] transport=http bytes=42 sha256={digest} target=/new/originals/AFU/a.pdf\n'
+            f'2026-08-03T12:00:00Z [afu] [download-engine] transport=http bytes=42 sha256={digest} target=/new/originals/AFU/other/a.pdf\n'
+            f'2026-08-02T12:00:00Z [american-alchemy] [download-engine] transport=yt-dlp bytes=42 sha256={digest} target=/new/originals/AA/video.mp4\n'
             '2026-08-02T12:00:00Z [american-alchemy] downloaded: video.mp4 (42 bytes)\n'
             '2026-08-02T12:00:00Z [afu] [download-engine] progress bytes=42 target=a.part\n'
             '2026-08-02T12:00:00Z [afu] downloaded 500, skipped 1\n'
-            f'2026-08-03T12:00:00Z [afu] [download-event] outcome=replaced transport=http bytes=42 sha256={digest} target=/new/originals/AFU/replaced.pdf\n'
-            f'2026-08-03T12:00:00Z [afu] [download-engine] transport=http bytes=42 sha256={digest} target=/new/originals/AFU/legacy.pdf\n'
-            f'2026-08-03T12:00:00Z [afu] [download-event] outcome=existing transport=yt-dlp bytes=42 sha256={digest} target=existing.mp4\n'
-            f'2026-08-03T12:00:00Z [afu] [download-event] outcome=adopted transport=yt-dlp bytes=42 sha256={digest} target=cached.mp4\n'
             'undated downloaded: unknown.mp4 (42 bytes)\n'
             '\x00non-text log fragment\n')
         ingest_completed_downloads(self.db,log);ingest_completed_downloads(self.db,log)
         series=snapshot(self.db)['agents'][0]
         self.assertEqual(series['name'],'Downloaders')
-        self.assertEqual(series['days'],[['2026-08-02',2],['2026-08-03',1]])
+        self.assertEqual(series['days'],[['2026-08-02',2],['2026-08-03',2]])
         log.rename(self.root/'rotated.log')
         ingest_completed_downloads(self.db,self.root/'rotated.log')
-        log.write_text(f'2026-08-01T12:00:00Z [afu] [download-event] outcome=new transport=http bytes=42 sha256={digest} target=/old/originals/AFU/a.pdf')
+        log.write_text(f'2026-08-01T12:00:00Z [afu] [download-engine] transport=http bytes=42 sha256={digest} target=/old/originals/AFU/a.pdf')
         ingest_completed_downloads(self.db,log)
         self.assertEqual(snapshot(self.db)['agents'][0]['days'],series['days'])
         with log.open('a') as f:f.write('\n')
         ingest_completed_downloads(self.db,log)
-        self.assertEqual(snapshot(self.db)['agents'][0]['days'],[['2026-08-01',1],['2026-08-02',1],['2026-08-03',1]])
+        self.assertEqual(snapshot(self.db)['agents'][0]['days'],[['2026-08-01',1],['2026-08-02',2],['2026-08-03',2]])
         self.assertNotIn('/originals/',json.dumps(snapshot(self.db)))
 
     def test_fast_inputs_publish_before_record_scan_and_scan_reports_progress(self):
