@@ -1,6 +1,6 @@
 {
   "schema": "ufo-files-source-inventory/v1",
-  "generatedAt": "2026-10-01T07:58:43.888549+00:00",
+  "generatedAt": "2026-10-01T07:59:20.970983+00:00",
   "definition": "Archived content files, including scans and alternate formats; excludes metadata, logs, ZIP bundles, and partial downloads.",
   "completionRule": "Every archived content file has a nonempty machine-readable output with matching source path and byte size. This is processing coverage, not a content accuracy certification.",
   "sources": [
@@ -136,14 +136,14 @@
       "name": "Chile-SEFAA",
       "totalFiles": 1412,
       "verifiedProcessedFiles": null,
-      "outputFiles": 805,
+      "outputFiles": 806,
       "processingComplete": false,
       "outputReadErrors": 0,
       "extensions": {
         ".html": 110,
         ".pdf": 1302
       },
-      "checkedAt": "2026-10-01T06:05:04.329154+00:00"
+      "checkedAt": "2026-10-01T07:59:20.970983+00:00"
     },
     {
       "name": "DOE-NNSA-UAP-UFO",
@@ -265,7 +265,7 @@
       "extensions": {
         ".jpg": 624
       },
-      "checkedAt": "2026-10-01T06:04:43.772624+00:00"
+      "checkedAt": "2026-10-01T07:59:10.813346+00:00"
     },
     {
       "name": "Rice-Archive-of-the-Impossible",
@@ -449,7 +449,7 @@
         ".mp4": 149,
         ".pdf": 267
       },
-      "checkedAt": "2026-10-01T06:04:33.560058+00:00"
+      "checkedAt": "2026-10-01T07:59:00.608346+00:00"
     },
     {
       "name": "Weaponized-Podcast",
