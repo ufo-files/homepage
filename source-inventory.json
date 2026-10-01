@@ -1,6 +1,6 @@
 {
   "schema": "ufo-files-source-inventory/v1",
-  "generatedAt": "2026-10-01T14:51:15.176794+00:00",
+  "generatedAt": "2026-10-01T14:52:24.758347+00:00",
   "definition": "Archived content files, including scans and alternate formats; excludes metadata, logs, ZIP bundles, and partial downloads.",
   "completionRule": "Every archived content file has a nonempty machine-readable output with matching source path and byte size. This is processing coverage, not a content accuracy certification.",
   "sources": [
@@ -130,7 +130,7 @@
       "extensions": {
         ".jpg": 205
       },
-      "checkedAt": "2026-10-01T13:34:55.071358+00:00"
+      "checkedAt": "2026-10-01T14:52:24.758347+00:00"
     },
     {
       "name": "Chile-SEFAA",
@@ -161,13 +161,13 @@
       "name": "DPIArchive",
       "totalFiles": 3505,
       "verifiedProcessedFiles": null,
-      "outputFiles": 3058,
+      "outputFiles": 3059,
       "processingComplete": false,
       "outputReadErrors": 0,
       "extensions": {
         ".pdf": 3505
       },
-      "checkedAt": "2026-10-01T13:36:13.457908+00:00"
+      "checkedAt": "2026-10-01T14:51:49.140308+00:00"
     },
     {
       "name": "FBI-Vault-UFO",
