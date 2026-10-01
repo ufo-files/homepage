@@ -1,6 +1,6 @@
 {
   "schema": "ufo-files-source-inventory/v1",
-  "generatedAt": "2026-10-01T16:55:27.393260+00:00",
+  "generatedAt": "2026-10-01T16:56:30.380735+00:00",
   "definition": "Archived content files, including scans and alternate formats; excludes metadata, logs, ZIP bundles, and partial downloads.",
   "completionRule": "Every archived content file has a nonempty machine-readable output with matching source path and byte size. This is processing coverage, not a content accuracy certification.",
   "sources": [
@@ -101,7 +101,7 @@
         ".wmv": 5,
         ".xlsx": 2
       },
-      "checkedAt": "2026-10-01T16:28:59.122912+00:00"
+      "checkedAt": "2026-10-01T16:55:59.685815+00:00"
     },
     {
       "name": "Brazil-Government-UAP",
@@ -136,14 +136,14 @@
       "name": "Chile-SEFAA",
       "totalFiles": 1412,
       "verifiedProcessedFiles": null,
-      "outputFiles": 823,
+      "outputFiles": 825,
       "processingComplete": false,
       "outputReadErrors": 0,
       "extensions": {
         ".html": 110,
         ".pdf": 1302
       },
-      "checkedAt": "2026-10-01T16:28:48.874312+00:00"
+      "checkedAt": "2026-10-01T16:55:39.187597+00:00"
     },
     {
       "name": "DOE-NNSA-UAP-UFO",
@@ -167,7 +167,7 @@
       "extensions": {
         ".pdf": 3505
       },
-      "checkedAt": "2026-10-01T16:29:10.941726+00:00"
+      "checkedAt": "2026-10-01T16:56:30.380735+00:00"
     },
     {
       "name": "FBI-Vault-UFO",
