@@ -176,7 +176,6 @@ function renderSources(catalog, inventory) {
     if (focusedUrl) [...body.querySelectorAll('a')].find(link => link.href === focusedUrl)?.focus({ preventScroll: true });
   }
   document.getElementById('sources-caption').textContent = `${sources.length} sources · ${format.format(catalog.count)} records · Catalog published ${new Date(catalog.generatedAt).toLocaleString('en-US', { timeZone: 'UTC', timeZoneName: 'short' })}`;
-  document.getElementById('sources-status').textContent = `Updates automatically every minute. Archive sources are checked independently; latest result ${new Date(inventory.generatedAt).toLocaleString('en-US', { timeZone: 'UTC', timeZoneName: 'short' })}. Processing status reflects each source’s last check; hover over its file total or status for the timestamp. Searchable records reflect the latest published catalog.`;
 }
 
 function startRecordCount() {
@@ -195,17 +194,12 @@ function startRecordCount() {
       if (latestInventory) inventory = latestInventory;
       const count = catalog.count;
       renderSources(catalog, inventory);
-      if (!latestInventory) {
-        document.getElementById('sources-status').textContent = 'Live archive update unavailable. Showing last known file totals and processing status; retrying every minute.';
-      }
       badge.textContent = `${new Intl.NumberFormat('en-US').format(count)} public records`;
       badge.dataset.state = 'ready';
       badge.title = 'Source records in the latest published UFO Files research catalog. Refreshed every minute.';
     } catch {
       badge.textContent = 'Record count unavailable';
       badge.dataset.state = 'unavailable';
-      const status = document.getElementById('sources-status');
-      if (status) status.textContent = 'Live refresh unavailable. Showing the last available catalog snapshot; retrying automatically.';
       badge.title = 'The published catalog could not be reached. The count will retry automatically.';
     } finally {
       loading = false;

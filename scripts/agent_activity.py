@@ -22,6 +22,7 @@ def database(path):
       CREATE TABLE IF NOT EXISTS events (id TEXT PRIMARY KEY, agent TEXT, metric TEXT, day TEXT);
       CREATE TABLE IF NOT EXISTS log_counts (inode TEXT, agent TEXT, day TEXT, total INTEGER, PRIMARY KEY(inode,agent,day));
       CREATE TABLE IF NOT EXISTS download_positions (inode TEXT PRIMARY KEY, offset INTEGER);
+      CREATE TABLE IF NOT EXISTS new_download_positions (inode TEXT PRIMARY KEY, offset INTEGER);
       CREATE TABLE IF NOT EXISTS transfer_positions (inode TEXT PRIMARY KEY, offset INTEGER);
       CREATE TABLE IF NOT EXISTS run_positions (inode TEXT PRIMARY KEY, offset INTEGER);
       CREATE TABLE IF NOT EXISTS log_positions (inode TEXT PRIMARY KEY, offset INTEGER);
@@ -123,19 +124,20 @@ def ingest_records(db, directory, lane, progress=None):
     db.commit()
 
 def ingest_completed_downloads(db, path):
-    """Completed transfers with explicit success logs; never count progress/run summaries.
+    """Only explicit new-file downloads; legacy success logs have unknown newness.
 
     Dates come from each completion timestamp, not the first time a file appeared.
     Inode offsets make the one-time historical import incremental thereafter.
     """
     st=path.stat(); inode=f'{st.st_dev}:{st.st_ino}'
-    old=db.execute('SELECT offset FROM transfer_positions WHERE inode=?',(inode,)).fetchone()
+    old=db.execute('SELECT offset FROM new_download_positions WHERE inode=?',(inode,)).fetchone()
+    if old is None:
+        old=db.execute('SELECT offset FROM transfer_positions WHERE inode=?',(inode,)).fetchone()
     offset=old[0] if old and old[0]<=st.st_size else 0
-    engine=re.compile(r'^\[download-engine\] transport=\S+ bytes=([1-9]\d*) sha256=[a-fA-F0-9]{64} target=(.+)$')
-    video=re.compile(r'^downloaded: (.+) \(([1-9]\d*) bytes\)$')
+    engine=re.compile(r'^\[download-event\] outcome=new transport=(?:http|playwright|yt-dlp) bytes=([1-9]\d*) sha256=[a-fA-F0-9]{64} target=(.+)$')
     checkpoint=offset
     def save():
-        db.execute('INSERT OR REPLACE INTO transfer_positions VALUES (?,?)',(inode,offset))
+        db.execute('INSERT OR REPLACE INTO new_download_positions VALUES (?,?)',(inode,offset))
         db.commit()
     with path.open('rb', buffering=1024*1024) as handle:
         handle.seek(offset)
@@ -152,12 +154,11 @@ def ingest_completed_downloads(db, path):
                     if inner:
                         message=inner[2]
                     match=engine.fullmatch(message)
-                    media=video.fullmatch(message)
-                    target=match[2] if match else media[1] if media else None
+                    target=match[2] if match else None
                     if target:
                         # Host roots can change during migration; preserve archive-relative identity.
                         relative=target.split('/originals/',1)[-1]
-                        if media or Path(target).suffix.lower() in {'.mp4','.mkv','.webm','.m4a','.mp3'}:
+                        if Path(target).suffix.lower() in {'.mp4','.mkv','.webm','.m4a','.mp3'}:
                             relative=Path(target).name
                         completed_at=inner[1] if inner else stamp[1]
                         try:
@@ -165,9 +166,9 @@ def ingest_completed_downloads(db, path):
                             instant=datetime.fromisoformat(completed_at.replace('Z','+00:00')).astimezone(timezone.utc).isoformat()
                         except (ValueError,OverflowError):
                             continue
-                        key='download-transfer:'+hashlib.sha256((source[1]+'\0'+relative+'\0'+instant).encode()).hexdigest()
-                        db.execute("INSERT OR IGNORE INTO events VALUES (?,?,?,?)",
-                                   (key,'Completed transfers','completions',day))
+                        key='new-download:'+hashlib.sha256((source[1]+'\0'+relative).encode()).hexdigest()
+                        db.execute("INSERT INTO events VALUES (?,?,?,?) ON CONFLICT(id) DO UPDATE SET day=min(events.day,excluded.day)",
+                                   (key,'New downloads','completions',day))
             if offset-checkpoint>=64*1024*1024:
                 save(); checkpoint=offset
                 print(f'Completed-download import: {path.name}: {offset:,}/{st.st_size:,} bytes',flush=True)
@@ -219,18 +220,18 @@ def ingest_publications(db, checkout=None):
 
 def snapshot(db):
     groups = {}
-    for agent, metric, day, count in db.execute("SELECT agent,metric,day,SUM(total) FROM (SELECT agent,metric,day,count(*) AS total FROM events WHERE metric='completions' AND id NOT LIKE 'download-run:%' AND id NOT LIKE 'download-file:%' GROUP BY agent,metric,day UNION ALL SELECT agent,'signals',day,total FROM log_counts) GROUP BY agent,metric,day ORDER BY day"):
+    for agent, metric, day, count in db.execute("SELECT agent,metric,day,SUM(total) FROM (SELECT agent,metric,day,count(*) AS total FROM events WHERE metric='completions' AND id NOT LIKE 'download-run:%' AND id NOT LIKE 'download-file:%' AND id NOT LIKE 'download-transfer:%' GROUP BY agent,metric,day UNION ALL SELECT agent,'signals',day,total FROM log_counts) GROUP BY agent,metric,day ORDER BY day"):
         if (metric == 'completions' and agent.endswith(' processing')) or (metric == 'signals' and agent.endswith(' worker')):
             agent = 'Translations'
-        if agent == 'Completed transfers':
+        if agent == 'New downloads':
             agent = 'Downloaders'
         if agent == 'Transcription':
             agent = 'Transcriptions'
         groups.setdefault((agent, metric), Counter())[day] += count
-    units = {'Translations':'paired language-processing jobs','Transcriptions':'media jobs','OCR':'document jobs','Downloaders':'completed file transfers','Publisher':'published update commits'}
+    units = {'Translations':'paired language-processing jobs','Transcriptions':'media jobs','OCR':'document jobs','Downloaders':'new files downloaded','Publisher':'published update commits'}
     return {'schemaVersion': 1, 'generatedAt': datetime.now(timezone.utc).isoformat(),
             'agents': [{'name': agent, 'metric': metric, 'unit':units.get(agent,'timestamped log entries'), 'days': [[day,count] for day,count in sorted(days.items())]} for (agent, metric), days in sorted(groups.items())],
-            'notes': 'UTC daily totals from retained timestamped logs and latest successful completion records. Missing days are unknown, not zero. Completion records may include adopted existing outputs. Signals include heartbeats, retries and errors; they do not measure output or CPU usage. Downloads count explicit successful file transfers on their completion date, including re-downloads. Duplicate completion log events, run summaries, failed attempts and progress messages are excluded. Historical logging coverage varies by source. Undated lines are excluded.'}
+            'notes': 'UTC daily totals from retained timestamped logs and latest successful completion records. Missing days are unknown, not zero. Completion records may include adopted existing outputs. Signals include heartbeats, retries and errors; they do not measure output or CPU usage. Downloads count only explicit new-file events, deduplicated by source and archive path. Legacy download logs cannot establish newness and are excluded, not treated as zero. Replacements, existing files, adopted staging outputs, local copies and repeated paths are excluded. Historical logging coverage varies by source. Undated lines are excluded.'}
 
 def publish(payload):
     endpoint = 'repos/ufo-files/homepage/contents/agent-activity.json'
