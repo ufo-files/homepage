@@ -1,6 +1,6 @@
 {
   "schema": "ufo-files-source-inventory/v1",
-  "generatedAt": "2026-10-01T02:55:11.648063+00:00",
+  "generatedAt": "2026-10-01T02:55:59.978007+00:00",
   "definition": "Archived content files, including scans and alternate formats; excludes metadata, logs, ZIP bundles, and partial downloads.",
   "completionRule": "Every archived content file has a nonempty machine-readable output with matching source path and byte size. This is processing coverage, not a content accuracy certification.",
   "sources": [
@@ -81,9 +81,9 @@
     },
     {
       "name": "Black-Vault-UFO",
-      "totalFiles": 4436,
+      "totalFiles": 4437,
       "verifiedProcessedFiles": null,
-      "outputFiles": 2366,
+      "outputFiles": 2372,
       "processingComplete": false,
       "outputReadErrors": 0,
       "extensions": {
@@ -92,7 +92,7 @@
         ".jpg": 127,
         ".mov": 7,
         ".mp4": 37,
-        ".pdf": 2762,
+        ".pdf": 2763,
         ".png": 8,
         ".pptx": 1,
         ".tif": 723,
@@ -101,7 +101,7 @@
         ".wmv": 5,
         ".xlsx": 2
       },
-      "checkedAt": "2026-09-28T16:47:24.940508+00:00"
+      "checkedAt": "2026-10-01T02:55:59.978007+00:00"
     },
     {
       "name": "Brazil-Government-UAP",
@@ -159,15 +159,15 @@
     },
     {
       "name": "DPIArchive",
-      "totalFiles": 3354,
+      "totalFiles": 3502,
       "verifiedProcessedFiles": null,
-      "outputFiles": 3041,
+      "outputFiles": 3047,
       "processingComplete": false,
       "outputReadErrors": 0,
       "extensions": {
-        ".pdf": 3354
+        ".pdf": 3502
       },
-      "checkedAt": "2026-09-28T16:47:24.940508+00:00"
+      "checkedAt": "2026-10-01T02:55:44.556778+00:00"
     },
     {
       "name": "FBI-Vault-UFO",
