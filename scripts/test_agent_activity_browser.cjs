@@ -47,6 +47,16 @@ assert.equal(Number(afterGap.split(' ')[1].split(',')[1]),335-.5*20/250*270); //
 assert.equal(await page.locator('#activity-status').isVisible(),false);
 assert.equal(await page.locator('#activity-title').innerText(),'PROJECT ACTIVITY');
 assert.match(await page.locator('#activity-chart').textContent(),/2026-07-07/);
+const ocrLabel=page.locator('[data-series-label="OCR"]');
+await ocrLabel.hover();
+assert.equal(await page.locator('[data-agent="OCR"].is-highlighted').count(),2);
+assert.equal(await page.locator('[data-agent].is-muted').count(),4);
+await page.mouse.move(0,0);
+assert.equal(await page.locator('[data-agent].is-highlighted, [data-agent].is-muted').count(),0);
+await ocrLabel.focus();
+assert.equal(await page.locator('[data-agent="OCR"].is-highlighted').count(),2);
+await page.locator('#activity-chart').focus();
+assert.equal(await page.locator('[data-agent].is-highlighted, [data-agent].is-muted').count(),0);
 await page.locator('#agent-activity').screenshot({path:'/private/tmp/agent-activity-desktop.png'});
 await page.setViewportSize({width:390,height:844});
 assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));

@@ -83,7 +83,7 @@
     const y = n => 335 - (n <= 250 ? .5 * n / 250
       : n <= 1500 ? .5 + .4 * (n - 250) / 1250
       : .9 + .1 * (n - 1500) / (max - 1500))*270;
-    const svg = svgNode('svg', {viewBox:'0 0 1100 405', role:'img', 'aria-labelledby':'activity-svg-title activity-svg-desc'});
+    const svg = svgNode('svg', {viewBox:'0 0 1100 405', role:'group', 'aria-labelledby':'activity-svg-title activity-svg-desc'});
     svg.append(svgNode('title',{id:'activity-svg-title'},'Three-day average worker activity over the past month'));
     svg.append(svgNode('desc',{id:'activity-svg-desc'},'Each worker group has a distinct line pattern and a direct label. Curves show smoothed trends of trailing three-day averages, not exact daily values. Gaps mean no dated records. ' + series.map(s => s.name + ': ' + (s.days.length ? s.days.reduce((sum,d)=>sum+d[1],0).toLocaleString() + ' recorded completions across ' + s.days.length + ' observed days' : 'no dated records in this period')).join('. ')));
     svg.append(svgNode('rect',{x:75,y:65,width:880,height:27,fill:'currentColor',opacity:'.04',rx:4}));
@@ -97,6 +97,19 @@
     for (let i=0;i<=ticks;i++) svg.append(svgNode('text',{x:75+880*i/ticks,y:365,'text-anchor':i===0?'start':i===ticks?'end':'middle',fill:'currentColor'},format(first+span*i/ticks)));
     const lines=svgNode('g');
     svg.append(lines);
+    let hoveredLabel=null, focusedLabel=null;
+    const highlight = () => {
+      const active=hoveredLabel || focusedLabel;
+      lines.querySelectorAll('[data-agent]').forEach(line=>{
+        const selected=line.dataset.agent===active;
+        line.classList.toggle('is-highlighted',selected);
+        line.classList.toggle('is-muted',!!active && !selected);
+        if (selected) lines.append(line); // Keep the highlighted line above crossings.
+      });
+      svg.querySelectorAll('[data-series-label]').forEach(label=>{
+        label.classList.toggle('is-highlighted',label.dataset.seriesLabel===active);
+      });
+    };
     const endLabels = [];
     series.forEach(s => {
       const color = colorFor(available.indexOf(s));
@@ -127,7 +140,12 @@
       const label=endLabels[i];
       label.y=Math.min(label.y,i===endLabels.length-1 ? 335 : endLabels[i+1].y-18);
       svg.append(svgNode('path',{d:`M ${label.point} L 963,${label.y}`,fill:'none',stroke:label.color,'stroke-width':1,opacity:'.65'}));
-      svg.append(svgNode('text',{x:970,y:label.y+4,fill:label.color,'data-series-label':label.name},label.name));
+      const text=svgNode('text',{x:970,y:label.y+4,fill:label.color,'data-series-label':label.name,tabindex:0,'aria-label':label.name+'; focus to highlight line'},label.name);
+      text.addEventListener('pointerenter',()=>{hoveredLabel=label.name;highlight();});
+      text.addEventListener('pointerleave',()=>{hoveredLabel=null;highlight();});
+      text.addEventListener('focus',()=>{focusedLabel=label.name;highlight();});
+      text.addEventListener('blur',()=>{focusedLabel=null;highlight();});
+      svg.append(text);
     }
     chart.append(svg);
     status.textContent = '';
