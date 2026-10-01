@@ -9,7 +9,6 @@
   const chart = document.getElementById('activity-chart');
   if (!chart) return;
   const status = document.getElementById('activity-status');
-  const legend = document.getElementById('activity-agents');
   const NS = 'http://www.w3.org/2000/svg';
   function svgNode(tag, attrs, text) {
     const node = document.createElementNS(NS, tag);
@@ -134,29 +133,16 @@
     status.textContent = '';
     status.hidden = true;
   }
-  function updateChart() {
-    const available=seriesFor(feed, metric);
-    legend.replaceChildren();
-    available.forEach((s,i)=>{
-      const item=document.createElement('span'), swatch=svgNode('svg',{viewBox:'0 0 42 12',width:42,height:12,'aria-hidden':'true'});
-      item.className='activity-legend-item';
-      swatch.classList.add('activity-swatch');
-      swatch.append(svgNode('line',{x1:2,x2:40,y1:6,y2:6,stroke:colorFor(i),'stroke-width':2.5,'stroke-dasharray':patterns[i],'stroke-linecap':'round'}));
-      item.title = s.unit || s.name;
-      item.append(swatch,document.createTextNode(s.name));legend.append(item);
-    });
-    render();
-  }
   async function refresh() {
     try {
       const response=await fetch(endpoint+'?t='+Math.floor(Date.now()/60000),{cache:'no-store'});
       if(!response.ok)throw Error('feed unavailable');
       const next=await response.json();
       if(next.schemaVersion!==1 || !Array.isArray(next.agents))throw Error('invalid feed');
-      feed=next;updateChart();
+      feed=next;render();
     } catch(error) {
       if(!feed) {
-        try {const r=await fetch('agent-activity.json');if(!r.ok)throw Error();feed=await r.json();updateChart();status.textContent='Showing a saved snapshot; live activity is temporarily unavailable.';status.hidden=false;}
+        try {const r=await fetch('agent-activity.json');if(!r.ok)throw Error();feed=await r.json();render();status.textContent='Showing a saved snapshot; live activity is temporarily unavailable.';status.hidden=false;}
         catch {status.textContent='Activity history is temporarily unavailable.';status.hidden=false;}
       } else { render(); status.textContent='Live refresh unavailable; showing last received records.';status.hidden=false; }
     }

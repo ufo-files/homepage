@@ -19,7 +19,7 @@ assert.equal(await page.locator('#activity-chart pattern, #activity-chart [data-
 assert.equal(await page.locator('#activity-chart path[data-agent=OCR]').count(),2); // Gap on Aug 5.
 assert.equal(await page.locator('#activity-chart path[data-agent]').count(),6);
 assert.deepEqual(await page.locator('#activity-chart path[data-agent]').evaluateAll(paths=>[...new Set(paths.map(p=>p.getAttribute('stroke')))]),['currentColor']);
-assert.deepEqual(await page.locator('#activity-agents .activity-legend-item').allTextContents(),['Translations','Transcriptions','OCR','Downloaders','Publisher']);
+assert.equal(await page.locator('#activity-agents').count(),0);
 const path = await page.locator('#activity-chart path[data-agent=OCR]').first().getAttribute('d');
 assert.match(path,/ C /);
 const ys = path.split(/ [MC] |^M /).filter(Boolean).map(segment=>Number(segment.trim().split(' ').at(-1).split(',')[1]));
