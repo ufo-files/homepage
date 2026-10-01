@@ -1,6 +1,6 @@
 {
   "schema": "ufo-files-source-inventory/v1",
-  "generatedAt": "2026-10-01T18:10:21.013646+00:00",
+  "generatedAt": "2026-10-01T18:11:14.019054+00:00",
   "definition": "Archived content files, including scans and alternate formats; excludes metadata, logs, ZIP bundles, and partial downloads.",
   "completionRule": "Every archived content file has a nonempty machine-readable output with matching source path and byte size. This is processing coverage, not a content accuracy certification.",
   "sources": [
@@ -32,7 +32,7 @@
       "name": "Archives-for-the-Unexplained",
       "totalFiles": 174106,
       "verifiedProcessedFiles": null,
-      "outputFiles": 35527,
+      "outputFiles": 35530,
       "processingComplete": false,
       "outputReadErrors": 0,
       "extensions": {
@@ -51,7 +51,7 @@
         ".xls": 28,
         ".xlsx": 95
       },
-      "checkedAt": "2026-10-01T17:19:04.663194+00:00"
+      "checkedAt": "2026-10-01T18:11:03.861007+00:00"
     },
     {
       "name": "Area52-Investigations",
@@ -63,7 +63,7 @@
       "extensions": {
         ".mp4": 122
       },
-      "checkedAt": "2026-10-01T17:23:33.490468+00:00"
+      "checkedAt": "2026-10-01T18:10:53.661402+00:00"
     },
     {
       "name": "Argentina-CIAE-CEFAE",
@@ -265,7 +265,7 @@
       "extensions": {
         ".jpg": 624
       },
-      "checkedAt": "2026-10-01T17:31:51.554215+00:00"
+      "checkedAt": "2026-10-01T18:11:14.019054+00:00"
     },
     {
       "name": "Rice-Archive-of-the-Impossible",
@@ -449,7 +449,7 @@
         ".mp4": 149,
         ".pdf": 267
       },
-      "checkedAt": "2026-10-01T17:31:41.264574+00:00"
+      "checkedAt": "2026-10-01T18:11:08.937492+00:00"
     },
     {
       "name": "Weaponized-Podcast",
