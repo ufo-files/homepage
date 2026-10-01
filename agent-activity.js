@@ -24,15 +24,20 @@
     const dates = available.flatMap(s => s.days.map(d => Date.parse(d[0]+'T00:00:00Z')));
     if (!dates.length) { status.textContent = 'No timestamped records available for this measure.'; return; }
     const first = Math.min(...dates), last = Math.max(...dates), span = Math.max(86400000, last-first);
-    const logarithmic = document.getElementById('activity-log-scale').checked;
+    const compressed = metric === 'completions';
+    const scaleControl = document.getElementById('activity-log-scale');
+    scaleControl.disabled = compressed;
+    scaleControl.closest('label').hidden = compressed;
+    const logarithmic = !compressed && scaleControl.checked;
     const peak = Math.max(1, ...series.flatMap(s => s.days.map(d => d[1])));
-    const max = logarithmic ? 10 ** Math.ceil(Math.log10(Math.max(10, peak))) : Math.ceil(peak / 4) * 4;
+    const max = compressed ? Math.max(2000, Math.ceil(peak / 500) * 500) : logarithmic ? 10 ** Math.ceil(Math.log10(Math.max(10, peak))) : Math.ceil(peak / 4) * 4;
     const x = d => 75 + (Date.parse(d+'T00:00:00Z')-first)/span*880;
-    const y = n => 335 - (logarithmic ? Math.log1p(n)/Math.log1p(max) : n/max)*270;
+    const y = n => 335 - (compressed ? (n <= 1500 ? .9 * n / 1500 : .9 + .1 * (n - 1500) / (max - 1500)) : logarithmic ? Math.log1p(n)/Math.log1p(max) : n/max)*270;
     const svg = svgNode('svg', {viewBox:'0 0 1000 405', role:'img', 'aria-labelledby':'activity-svg-title activity-svg-desc'});
     svg.append(svgNode('title',{id:'activity-svg-title'},'Daily agent activity across all retained history'));
     svg.append(svgNode('desc',{id:'activity-svg-desc'},'One color per agent. Lines join consecutive recorded days only. Gaps mean no dated records. Exact daily counts are in the table below.'));
-    const levels = logarithmic ? [0, ...Array.from({length:Math.round(Math.log10(max))+1}, (_,i)=>10**i).filter(value=>max<100000 || value>=10)] : [0,max/4,max/2,max*3/4,max];
+    if (compressed) svg.append(svgNode('rect',{x:75,y:65,width:880,height:27,fill:'currentColor',opacity:'.04',rx:4}));
+    const levels = compressed ? [0,500,1000,1500,max] : logarithmic ? [0, ...Array.from({length:Math.round(Math.log10(max))+1}, (_,i)=>10**i).filter(value=>max<100000 || value>=10)] : [0,max/4,max/2,max*3/4,max];
     for (const value of levels) {
       svg.append(svgNode('line',{x1:75,x2:955,y1:y(value),y2:y(value),stroke:'currentColor',opacity:'.15'}));
       svg.append(svgNode('text',{x:65,y:y(value)+5,'text-anchor':'end',fill:'currentColor'},Math.round(value).toLocaleString()));
@@ -40,20 +45,28 @@
     const format = n => new Date(n).toISOString().slice(0,10);
     const ticks = Math.min(4, Math.max(1, Math.round((last-first)/86400000)));
     for (let i=0;i<=ticks;i++) svg.append(svgNode('text',{x:75+880*i/ticks,y:365,'text-anchor':i===0?'start':i===ticks?'end':'middle',fill:'currentColor'},format(first+span*i/ticks)));
-    svg.append(svgNode('text',{x:75,y:30,fill:'currentColor'},(metric==='completions'?'Recorded completions / day':'Timestamped log entries / day')+(logarithmic?' · logarithmic scale':'')));
+    svg.append(svgNode('text',{x:75,y:30,fill:'currentColor'},(metric==='completions'?'Recorded completions / day':'Timestamped log entries / day')+(compressed?' · above 1,500 compressed into top 10%':logarithmic?' · logarithmic scale':'')));
     const body = document.getElementById('activity-rows'); body.replaceChildren();
     series.forEach(s => {
       const color = colorFor(available.indexOf(s));
-      let previous;
+      let previous, points = [];
+      const flush = () => {
+        if (points.length > 1) {
+          const line = svgNode('polyline',{points:points.join(' '),fill:'none',stroke:color,'stroke-width':2,'stroke-linecap':'round','stroke-linejoin':'round','data-agent':s.name});
+          line.append(svgNode('title',{},s.name));
+          svg.append(line);
+        }
+        points = [];
+      };
       s.days.forEach(([date,count]) => {
         const at = Date.parse(date+'T00:00:00Z');
-        if (previous && at-previous.at===86400000) svg.append(svgNode('line',{x1:previous.x,y1:previous.y,x2:x(date),y2:y(count),stroke:color,'stroke-width':2}));
-        const dot=svgNode('circle',{cx:x(date),cy:y(count),r:3.5,fill:color});
-        dot.append(svgNode('title',{},`${s.name}: ${count.toLocaleString()} on ${date} UTC`)); svg.append(dot);
-        previous={at,x:x(date),y:y(count)};
+        if (previous !== undefined && at-previous!==86400000) flush();
+        points.push(`${x(date)},${y(count)}`);
+        previous=at;
         const tr=document.createElement('tr');
         [date,s.name,count.toLocaleString()].forEach(value => {const td=document.createElement('td');td.textContent=value;tr.append(td);});body.append(tr);
       });
+      flush();
     });
     chart.append(svg);
     status.textContent = `${format(first)}–${format(last)} UTC · Updated ${new Date(feed.generatedAt).toLocaleString()} · ${series.length} agents shown${feed.backfillInProgress ? ' · Historical import in progress' : ''}`;
