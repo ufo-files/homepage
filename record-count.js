@@ -11,9 +11,8 @@ async function fetchSourceInventory(fetcher = fetch) {
   return parseSourceInventory(await response.json());
 }
 
-function inventoryFresh(source, inventory, now = Date.now()) {
-  const checked = Date.parse(source?.checkedAt || inventory.generatedAt);
-  return Number.isFinite(checked) && checked <= now + 60000 && now - checked <= 3600000;
+function processingStatus(source) {
+  return source?.processingComplete === true ? '✅' : 'In progress';
 }
 
 function parseRecordCount(header) {
@@ -151,12 +150,11 @@ function renderSources(catalog, inventory) {
       }
       const complete = document.createElement('td');
       complete.className = 'processing-status';
-      const fresh = inventoryFresh(archived, inventory);
       const checkedAt = archived?.checkedAt || inventory.generatedAt;
-      total.title = `Archive checked ${checkedAt}${fresh ? "" : " — update overdue"}`;
-      const verified = fresh && archived?.processingComplete === true;
-      complete.textContent = !fresh ? 'Update overdue' : verified ? '✅' : 'In progress';
-      complete.setAttribute('aria-label', !fresh ? 'Archive inventory update overdue' : verified ? 'Processing complete' : 'Processing in progress');
+      total.title = `Archive checked ${checkedAt}`;
+      const verified = archived?.processingComplete === true;
+      complete.textContent = processingStatus(archived);
+      complete.setAttribute('aria-label', verified ? 'Processing complete at last check' : 'Processing in progress at last check');
       complete.title = archived?.totalFiles == null ? 'Archive inventory unavailable' :
         archived.verifiedProcessedFiles == null ?
           `${format.format(archived.outputFiles)} output files for ${format.format(archived.totalFiles)} archived source files; processing is incomplete. Inventory: ${checkedAt}` :
@@ -178,8 +176,7 @@ function renderSources(catalog, inventory) {
     if (focusedUrl) [...body.querySelectorAll('a')].find(link => link.href === focusedUrl)?.focus({ preventScroll: true });
   }
   document.getElementById('sources-caption').textContent = `${sources.length} sources · ${format.format(catalog.count)} records · Catalog published ${new Date(catalog.generatedAt).toLocaleString('en-US', { timeZone: 'UTC', timeZoneName: 'short' })}`;
-  const overdue = inventory.sources.filter(source => !inventoryFresh(source, inventory)).length;
-  document.getElementById('sources-status').textContent = `Updates automatically every minute. Archive sources are checked independently; latest result ${new Date(inventory.generatedAt).toLocaleString('en-US', { timeZone: 'UTC', timeZoneName: 'short' })}.${overdue ? ` ${overdue} source checks are overdue; their last known totals remain visible.` : ''} Searchable records reflect the latest published catalog.`;
+  document.getElementById('sources-status').textContent = `Updates automatically every minute. Archive sources are checked independently; latest result ${new Date(inventory.generatedAt).toLocaleString('en-US', { timeZone: 'UTC', timeZoneName: 'short' })}. Processing status reflects each source’s last check; hover over its file total or status for the timestamp. Searchable records reflect the latest published catalog.`;
 }
 
 function startRecordCount() {
@@ -222,7 +219,7 @@ function startRecordCount() {
 }
 
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { fetchSourceInventory, inventoryFresh, parseRecordCount, fetchRecordCount, parseCatalogSummary, fetchCatalogHeader, currentSourceCollections, parseSourceInventory };
+  module.exports = { fetchSourceInventory, processingStatus, parseRecordCount, fetchRecordCount, parseCatalogSummary, fetchCatalogHeader, currentSourceCollections, parseSourceInventory };
 } else {
   startRecordCount();
 }

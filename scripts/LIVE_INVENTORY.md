@@ -15,8 +15,8 @@ large scans may take longer. Finished checks are published at most once per minu
 State survives restarts. A failed check preserves its previous timestamp and
 values; a failed upload retries. No archive files are modified.
 
-Each source has `checkedAt`. The UI marks checks older than one hour as overdue
-and retains the last known count. Catalog-derived records/words continue to
+Each source has `checkedAt`. The UI retains the last known count and processing result, with the check
+timestamp available on each row. Inventory age does not change processing status. Catalog-derived records/words continue to
 refresh from the latest published research catalog, so they reflect deployed
 searchable data rather than unprocessed downloads. These are automatically
 refreshed measurements, not instantaneous filesystem events.

@@ -101,10 +101,9 @@ test('archive feed fetches live branch and bypasses stale cache', async () => {
   await assert.rejects(fetchSourceInventory(async () => new Response('', {status:503})));
 });
 
-test('freshness belongs to each row rather than the newest completed source', () => {
-  const { inventoryFresh } = require('../record-count.js');
-  const now = Date.parse('2026-10-01T03:00:00Z');
-  const inventory = {generatedAt:'2026-10-01T03:00:00Z'};
-  assert.equal(inventoryFresh({checkedAt:'2026-10-01T00:00:00Z'}, inventory, now), false);
-  assert.equal(inventoryFresh({checkedAt:'2026-10-01T02:45:00Z'}, inventory, now), true);
+test('inventory age does not change the processing result', () => {
+  const { processingStatus } = require('../record-count.js');
+  assert.equal(processingStatus({processingComplete:true,checkedAt:'2026-09-28T00:00:00Z'}), '✅');
+  assert.equal(processingStatus({processingComplete:false,checkedAt:new Date().toISOString()}), 'In progress');
+  assert.equal(processingStatus(undefined), 'In progress');
 });
