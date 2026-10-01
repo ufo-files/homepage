@@ -1,6 +1,6 @@
 {
   "schema": "ufo-files-source-inventory/v1",
-  "generatedAt": "2026-10-01T13:31:45.455590+00:00",
+  "generatedAt": "2026-10-01T13:32:23.315233+00:00",
   "definition": "Archived content files, including scans and alternate formats; excludes metadata, logs, ZIP bundles, and partial downloads.",
   "completionRule": "Every archived content file has a nonempty machine-readable output with matching source path and byte size. This is processing coverage, not a content accuracy certification.",
   "sources": [
@@ -143,7 +143,7 @@
         ".html": 110,
         ".pdf": 1302
       },
-      "checkedAt": "2026-10-01T12:09:24.344105+00:00"
+      "checkedAt": "2026-10-01T13:32:23.315233+00:00"
     },
     {
       "name": "DOE-NNSA-UAP-UFO",
@@ -265,7 +265,7 @@
       "extensions": {
         ".jpg": 624
       },
-      "checkedAt": "2026-10-01T12:09:03.889790+00:00"
+      "checkedAt": "2026-10-01T13:32:07.938466+00:00"
     },
     {
       "name": "Rice-Archive-of-the-Impossible",
@@ -442,14 +442,14 @@
       "name": "War-Gov-PURSUE",
       "totalFiles": 416,
       "verifiedProcessedFiles": null,
-      "outputFiles": 372,
+      "outputFiles": 373,
       "processingComplete": false,
       "outputReadErrors": 0,
       "extensions": {
         ".mp4": 149,
         ".pdf": 267
       },
-      "checkedAt": "2026-10-01T12:08:48.590610+00:00"
+      "checkedAt": "2026-10-01T13:31:57.847764+00:00"
     },
     {
       "name": "Weaponized-Podcast",
