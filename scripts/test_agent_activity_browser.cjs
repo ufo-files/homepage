@@ -28,11 +28,7 @@ assert.equal(await page.locator('#activity-agents').count(),0);
 const path = await page.locator('#activity-chart path[data-agent=OCR]').first().getAttribute('d');
 assert.match(path,/ C /);
 const ys = path.split(/ [MC] |^M /).filter(Boolean).map(segment=>Number(segment.trim().split(' ').at(-1).split(',')[1]));
-const scaled=n=>335-(n<=250 ? .5*n/250 : n<=1500 ? .5+.4*(n-250)/1250 : .9+.1*(n-1500)/(11000-1500))*270;
-assert.deepEqual(ys,[0,1500,4500,10500].map(scaled)); // Running totals; June history stays outside the month.
-assert.equal(await page.locator('[data-axis-label="y"]').textContent(),'Cumulative completions');
-assert.match(await page.locator('#activity-svg-desc').textContent(),/OCR: 10,550 recorded completions/);
-assert.match(await page.locator('#activity-svg-desc').textContent(),/Downloaders: 9 recorded completions/);
+assert.deepEqual(ys,[335,92,83,65]); // Raw counts 0,1500,3000,6000 with the piecewise scale.
 assert.equal(await page.locator('#activity-chart path[data-agent=OCR]').first().getAttribute('stroke-linejoin'),'round');
 assert.equal(await page.locator('#activity-chart path[data-agent=OCR]').first().getAttribute('stroke-linecap'),'round');
 const bounds = await page.locator('#activity-chart path[data-agent=OCR]').first().evaluate(path => {
@@ -40,7 +36,9 @@ const bounds = await page.locator('#activity-chart path[data-agent=OCR]').first(
   return [Math.min(...values),Math.max(...values)];
 });
 assert.ok(bounds[0]>=65-0.001 && bounds[1]<=335+0.001, 'Curve must not overshoot recorded values');
-assert.equal(await page.locator('#activity-chart text').filter({hasText:'Smoothed 3-day average'}).count(),0);
+assert.equal(await page.locator('#activity-chart text').filter({hasText:'Today (partial)'}).count(),1);
+assert.equal(await page.locator('[data-agent=OCR]').last().getAttribute('opacity'),'.4');
+assert.equal(await page.locator('#activity-operations, #activity-freshness, .activity-note').count(),0);
 const ticks=await page.locator('#activity-chart text[text-anchor=end]').evaluateAll(nodes=>Object.fromEntries(nodes.map(n=>[n.textContent,Number(n.getAttribute('y'))-5])));
 assert.equal(ticks['0'],335);
 assert.equal(ticks['250'],200); // Half of the 270px plot.
@@ -52,7 +50,7 @@ assert.match(await page.locator('#activity-svg-desc').textContent(),/recorded co
 assert.equal(await page.locator('#agent-activity button, #agent-activity input, #agent-activity select, #agent-activity table, #agent-activity details').count(),0);
 const afterGap = await page.locator('#activity-chart path[data-agent=OCR]').nth(1).getAttribute('d');
 assert.ok(afterGap.startsWith('M '));
-assert.equal(Number(afterGap.split(' ')[1].split(',')[1]),scaled(10520)); // Keep the running total across a visible missing-history gap.
+assert.equal(Number(afterGap.split(' ')[1].split(',')[1]),335-.5*20/250*270); // No averaging across missing days.
 assert.equal(await page.locator('#activity-status').isVisible(),false);
 assert.equal(await page.locator('#activity-title').innerText(),'PROJECT ACTIVITY');
 assert.match(await page.locator('#activity-chart').textContent(),/2026-07-07/);
@@ -81,14 +79,12 @@ livePayload.generatedAt="2026-10-01T02:00:00Z";
 livePayload.agents[0].days.at(-1)[1]=70;
 const beforeRefresh=feedRequests;
 await page.clock.fastForward(60000);
-await page.waitForFunction(()=>document.querySelector('#activity-svg-desc').textContent.includes('OCR: 10,590 recorded completions'));
-const finalPath=await page.locator('[data-agent="OCR"]').nth(1).getAttribute('d');
-assert.ok(finalPath.endsWith(','+scaled(10590)), 'Partial current day adds to the total instead of resetting it');
+await page.waitForFunction(()=>document.querySelectorAll('[data-agent="OCR"]')[1].getAttribute('d').endsWith(',297.2'));
 assert.ok(feedRequests>beforeRefresh,'Chart polls for updated counts without a page rebuild');
 await page.locator('#agent-activity').screenshot({path:'/private/tmp/agent-activity-desktop.png'});
 await page.setViewportSize({width:390,height:844});
 assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
 assert.ok(await page.locator('#activity-chart svg').evaluate(svg=>12*svg.getBoundingClientRect().width/1100)>=12,'Mobile chart labels must remain at least 12px');
 await page.locator('#agent-activity').screenshot({path:'/private/tmp/agent-activity-mobile.png'});
-assert.deepEqual(errors,[]);await browser.close();console.log('Cumulative counts, month boundary, partial day, live refresh, gaps, interactions and mobile layout passed');
+assert.deepEqual(errors,[]);await browser.close();console.log('Compressed scale, rounded lines, no dots, gaps, controls and mobile layout passed');
 })().catch(e=>{console.error(e);process.exit(1)});
