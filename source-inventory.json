@@ -1,6 +1,6 @@
 {
   "schema": "ufo-files-source-inventory/v1",
-  "generatedAt": "2026-10-01T09:10:20.287055+00:00",
+  "generatedAt": "2026-10-01T09:12:35.020413+00:00",
   "definition": "Archived content files, including scans and alternate formats; excludes metadata, logs, ZIP bundles, and partial downloads.",
   "completionRule": "Every archived content file has a nonempty machine-readable output with matching source path and byte size. This is processing coverage, not a content accuracy certification.",
   "sources": [
@@ -63,7 +63,7 @@
       "extensions": {
         ".mp4": 122
       },
-      "checkedAt": "2026-10-01T07:56:49.901861+00:00"
+      "checkedAt": "2026-10-01T09:12:35.020413+00:00"
     },
     {
       "name": "Argentina-CIAE-CEFAE",
