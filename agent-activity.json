@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-01T05:19:39.954765+00:00",
+  "generatedAt": "2026-10-01T05:46:03.311411+00:00",
   "agents": [
     {
       "name": "Downloaders",
       "metric": "completions",
-      "unit": "unique completed files (earliest retained success log)",
+      "unit": "completed file transfers",
       "days": [
         [
           "2026-07-31",
@@ -13,27 +13,31 @@
         ],
         [
           "2026-08-01",
-          2034
+          3994
         ],
         [
           "2026-08-02",
-          5
+          2875
         ],
         [
           "2026-08-03",
-          6
+          106941
         ],
         [
           "2026-08-04",
-          1
+          10074
+        ],
+        [
+          "2026-08-05",
+          2071
         ],
         [
           "2026-08-06",
-          1
+          7505
         ],
         [
           "2026-08-07",
-          2
+          59243
         ],
         [
           "2026-08-08",
@@ -41,59 +45,91 @@
         ],
         [
           "2026-08-09",
-          110
+          131
         ],
         [
           "2026-08-10",
-          10
+          31
         ],
         [
           "2026-08-11",
-          5
+          21
         ],
         [
           "2026-08-12",
-          1
+          35
         ],
         [
           "2026-08-13",
-          1
+          17
         ],
         [
           "2026-08-14",
-          6
+          26
         ],
         [
           "2026-08-15",
-          1
+          25129
         ],
         [
           "2026-08-16",
-          4
+          12036
+        ],
+        [
+          "2026-08-17",
+          2334
         ],
         [
           "2026-08-18",
-          8
+          13
+        ],
+        [
+          "2026-08-19",
+          2197
+        ],
+        [
+          "2026-08-20",
+          6
         ],
         [
           "2026-08-21",
           1
         ],
         [
+          "2026-08-22",
+          12
+        ],
+        [
           "2026-08-24",
-          67
+          79
+        ],
+        [
+          "2026-08-25",
+          11796
+        ],
+        [
+          "2026-08-26",
+          21762
+        ],
+        [
+          "2026-08-27",
+          14255
+        ],
+        [
+          "2026-08-28",
+          8986
         ],
         [
           "2026-08-29",
-          1
+          23089
         ],
         [
           "2026-08-30",
-          1
+          4133
         ],
         [
           "2026-09-23",
-          15331
+          15332
         ],
         [
           "2026-09-24",
@@ -109,19 +145,23 @@
         ],
         [
           "2026-09-27",
-          2251
+          2262
         ],
         [
           "2026-09-28",
-          9711
+          9718
         ],
         [
           "2026-09-29",
-          34352
+          34354
         ],
         [
           "2026-09-30",
           35647
+        ],
+        [
+          "2026-10-01",
+          1
         ]
       ]
     },
@@ -352,7 +392,7 @@
         ],
         [
           "2026-10-01",
-          211
+          251
         ]
       ]
     },
@@ -395,7 +435,7 @@
         ],
         [
           "2026-10-01",
-          1012
+          1191
         ]
       ]
     },
@@ -876,7 +916,7 @@
         ],
         [
           "2026-10-01",
-          10
+          15
         ]
       ]
     },
@@ -2417,7 +2457,7 @@
         ],
         [
           "2026-10-01",
-          75
+          100
         ]
       ]
     },
@@ -2615,7 +2655,7 @@
         ],
         [
           "2026-10-01",
-          234
+          298
         ]
       ]
     },
@@ -3026,7 +3066,7 @@
         ],
         [
           "2026-10-01",
-          2
+          4
         ]
       ]
     },
@@ -3744,5 +3784,5 @@
       ]
     }
   ],
-  "notes": "UTC daily totals from retained timestamped logs and latest successful completion records. Missing days are unknown, not zero. Completion records may include adopted existing outputs. Signals include heartbeats, retries and errors; they do not measure output or CPU usage. Downloads count unique source files with explicit successful file events, dated by their earliest retained log timestamp; run summaries, progress and retries are excluded. Historical logging coverage varies by source. Undated lines are excluded."
+  "notes": "UTC daily totals from retained timestamped logs and latest successful completion records. Missing days are unknown, not zero. Completion records may include adopted existing outputs. Signals include heartbeats, retries and errors; they do not measure output or CPU usage. Downloads count explicit successful file transfers on their completion date, including re-downloads. Duplicate completion log events, run summaries, failed attempts and progress messages are excluded. Historical logging coverage varies by source. Undated lines are excluded."
 }

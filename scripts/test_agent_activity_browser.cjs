@@ -11,8 +11,12 @@ const payload={schemaVersion:1,generatedAt:'2026-10-01T01:00:00Z',agents:[
 {name:'Translations',metric:'completions',days:[['2026-08-01',7],['2026-08-02',9]]},
 {name:'Downloaders',metric:'completions',days:[['2026-07-31',3],['2026-08-01',6]]},
 {name:'Publisher',metric:'completions',days:[['2026-07-31',1],['2026-08-01',2]]}]};
+await page.route('http://127.0.0.1:8131/agent-activity.json',r=>r.fulfill({json:payload}));
 let feedRequests=0;
-await page.route('**/live-inventory/agent-activity.json*',r=>{feedRequests++;return r.fulfill({json:payload});});
+let livePayload=structuredClone(payload);
+livePayload.generatedAt="2026-09-30T01:00:00Z";
+livePayload.agents[0].days[1][1]=999;
+await page.route('**/live-inventory/agent-activity.json*',r=>{feedRequests++;return r.fulfill({json:livePayload});});
 await page.goto('http://127.0.0.1:8131');
 await page.locator('#activity-chart path[data-agent=OCR]').first().waitFor();
 assert.equal(await page.locator('#activity-chart circle').count(),0);
@@ -68,7 +72,9 @@ await ocrLabel.focus();
 assert.equal(await page.locator('[data-agent="OCR"].is-highlighted').count(),2);
 await page.locator('#activity-chart').focus();
 assert.equal(await page.locator('[data-agent].is-highlighted, [data-agent].is-muted').count(),0);
-payload.agents[0].days.at(-1)[1]=70;
+livePayload=structuredClone(payload);
+livePayload.generatedAt="2026-10-01T02:00:00Z";
+livePayload.agents[0].days.at(-1)[1]=70;
 const beforeRefresh=feedRequests;
 await page.clock.fastForward(60000);
 await page.waitForFunction(()=>document.querySelectorAll('[data-agent="OCR"]')[1].getAttribute('d').endsWith(',297.2'));

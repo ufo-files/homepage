@@ -149,11 +149,12 @@
   }
   async function refresh() {
     try {
-      const response=await fetch(endpoint+'?v=completed-files-1&t='+Math.floor(Date.now()/60000),{cache:'no-store'});
+      const response=await fetch(endpoint+'?v=completed-transfers-1&t='+Math.floor(Date.now()/60000),{cache:'no-store'});
       if(!response.ok)throw Error('feed unavailable');
       const next=await response.json();
       if(next.schemaVersion!==1 || !Array.isArray(next.agents))throw Error('invalid feed');
-      feed=next;render();
+      if (!feed || Date.parse(next.generatedAt)>=Date.parse(feed.generatedAt)) feed=next;
+      render();
     } catch(error) {
       if(!feed) {
         try {const r=await fetch('agent-activity.json');if(!r.ok)throw Error();feed=await r.json();render();status.textContent='Showing a saved snapshot; live activity is temporarily unavailable.';status.hidden=false;}
@@ -162,5 +163,15 @@
     }
   }
   document.addEventListener('visibilitychange',()=>{if(!document.hidden)refresh();});
-  refresh();setInterval(()=>{if(!document.hidden)refresh();},60000);
+  // A newly deployed snapshot can be newer than GitHub's cached branch response.
+  // Start with it and only move forward in time as the live feed catches up.
+  (async()=>{
+    try {
+      const response=await fetch('agent-activity.json',{cache:'no-store'});
+      const saved=await response.json();
+      if(response.ok && saved.schemaVersion===1 && Array.isArray(saved.agents)) {feed=saved;render();}
+    } catch(error) { /* The live request below can still succeed. */ }
+    refresh();
+  })();
+  setInterval(()=>{if(!document.hidden)refresh();},60000);
 })();
