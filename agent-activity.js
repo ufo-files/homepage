@@ -45,6 +45,22 @@
     }
     return roles.map(name => ({name,metric:type,unit:units.get(name),days:[...totals.get(name)].sort((a,b)=>a[0].localeCompare(b[0]))}));
   }
+  function linePath(points) {
+    // Shape-preserving interpolation through raw daily values, without averaging.
+    const slopes=points.slice(1).map((p,i)=>(p[1]-points[i][1])/(p[0]-points[i][0]));
+    const tangents=points.map((p,i)=>{
+      if (!i) return slopes[0];
+      if (i===points.length-1) return slopes[i-1];
+      const a=slopes[i-1],b=slopes[i];
+      return a*b<=0 ? 0 : 2*a*b/(a+b);
+    });
+    let path=`M ${points[0]}`;
+    for (let i=1;i<points.length;i++) {
+      const a=points[i-1],b=points[i],dx=(b[0]-a[0])/3;
+      path+=` C ${a[0]+dx},${a[1]+tangents[i-1]*dx} ${b[0]-dx},${b[1]-tangents[i]*dx} ${b}`;
+    }
+    return path;
+  }
   function render() {
     const available = seriesFor(feed, metric);
     const series = available;
@@ -60,7 +76,7 @@
       : .9 + .1 * (n - 1500) / (max - 1500))*270;
     const svg = svgNode('svg', {viewBox:'0 0 1100 405', role:'group', 'aria-labelledby':'activity-svg-title activity-svg-desc'});
     svg.append(svgNode('title',{id:'activity-svg-title'},'Daily worker completions over the past month'));
-    svg.append(svgNode('desc',{id:'activity-svg-desc'},'Each worker group has a distinct line pattern and a direct label. Straight segments connect recorded daily totals without smoothing. Gaps mean no dated records. ' + series.map(s => s.name + ': ' + (s.days.length ? s.days.reduce((sum,d)=>sum+d[1],0).toLocaleString() + ' recorded ' + (s.unit || 'completions') + ' across ' + s.days.length + ' observed days' : 'no dated records in this period')).join('. ')));
+    svg.append(svgNode('desc',{id:'activity-svg-desc'},'Each worker group has a distinct line pattern and a direct label. Lightly curved lines pass through the recorded daily totals without averaging. Gaps mean no dated records. ' + series.map(s => s.name + ': ' + (s.days.length ? s.days.reduce((sum,d)=>sum+d[1],0).toLocaleString() + ' recorded ' + (s.unit || 'completions') + ' across ' + s.days.length + ' observed days' : 'no dated records in this period')).join('. ')));
     svg.append(svgNode('rect',{x:75,y:65,width:880,height:27,fill:'currentColor',opacity:'.04',rx:4}));
     svg.append(svgNode('text',{x:14,y:200,transform:'rotate(-90 14 200)','text-anchor':'middle',fill:'currentColor','data-axis-label':'y'},'Daily completions'));
     const levels = [0,100,250,500,1000,1500,max];
@@ -92,7 +108,7 @@
       let previous, points = [];
       const flush = () => {
         if (points.length > 1) {
-          const curve=points.map((point,i)=>(i ? 'L ' : 'M ')+point.join(',')).join(' ');
+          const curve=linePath(points);
           const line = svgNode('path',{d:curve,fill:'none',stroke:color,'stroke-width':2.5,'stroke-dasharray':patterns[available.indexOf(s)],'stroke-linecap':'round','stroke-linejoin':'round','data-agent':s.name});
           line.append(svgNode('title',{},s.name));
           lines.append(line);
