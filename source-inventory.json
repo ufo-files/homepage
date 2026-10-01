@@ -1,6 +1,6 @@
 {
   "schema": "ufo-files-source-inventory/v1",
-  "generatedAt": "2026-10-01T08:06:34.975530+00:00",
+  "generatedAt": "2026-10-01T08:17:19.276058+00:00",
   "definition": "Archived content files, including scans and alternate formats; excludes metadata, logs, ZIP bundles, and partial downloads.",
   "completionRule": "Every archived content file has a nonempty machine-readable output with matching source path and byte size. This is processing coverage, not a content accuracy certification.",
   "sources": [
@@ -118,7 +118,7 @@
         ".pdf": 262,
         ".png": 50
       },
-      "checkedAt": "2026-10-01T06:21:14.629770+00:00"
+      "checkedAt": "2026-10-01T08:17:19.276058+00:00"
     },
     {
       "name": "Canada-Library-and-Archives-UFO",
