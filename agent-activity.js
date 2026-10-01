@@ -1,7 +1,9 @@
 /* Public aggregate telemetry only; absent days are not inferred as zero work. */
 (function () {
   const endpoint = 'https://raw.githubusercontent.com/ufo-files/homepage/live-inventory/agent-activity.json';
-  const colorFor = i => `hsl(${(i * 137.508) % 360} 58% 38%)`;
+  const colors = ['#0072B2', '#A64400', '#007B5A', '#955184', '#444444'];
+  const patterns = ['', '10 5', '3 5', '12 4 3 4', '18 6'];
+  const colorFor = i => colors[i];
   let feed;
   const metric = 'completions';
   const roles = ['Translations', 'Transcriptions', 'OCR', 'Downloaders', 'Publisher'];
@@ -57,19 +59,16 @@
     });
   }
   function smoothPath(points) {
-    // Shape-preserving cubic interpolation: passes through each observation,
-    // flattens at turning points, and never overshoots a segment's values.
-    const slopes = points.slice(1).map((p, i) => (p[1]-points[i][1])/(p[0]-points[i][0]));
-    const tangents = points.map((p, i) => {
-      if (!i) return slopes[0];
-      if (i === points.length-1) return slopes[i-1];
-      const a=slopes[i-1], b=slopes[i];
-      return a*b <= 0 ? 0 : 2*a*b/(a+b);
-    });
+    // Uniform cubic B-spline: continuous tangent and curvature, bounded by
+    // the observations. Repeated endpoints retain the start/end of each run.
+    const padded = [points[0], points[0], ...points, points.at(-1), points.at(-1)];
+    const blend = (a,b,c) => [(a[0]+4*b[0]+c[0])/6,(a[1]+4*b[1]+c[1])/6];
     let d = `M ${points[0][0]},${points[0][1]}`;
-    for (let i=1; i<points.length; i++) {
-      const a=points[i-1], b=points[i], dx=(b[0]-a[0])*.48;
-      d += ` C ${a[0]+dx},${a[1]+tangents[i-1]*dx} ${b[0]-dx},${b[1]-tangents[i]*dx} ${b[0]},${b[1]}`;
+    for (let i=1; i<padded.length-2; i++) {
+      const a=padded[i], b=padded[i+1], c=padded[i+2];
+      const c1=[(2*a[0]+b[0])/3,(2*a[1]+b[1])/3];
+      const c2=[(a[0]+2*b[0])/3,(a[1]+2*b[1])/3];
+      d += ` C ${c1} ${c2} ${blend(a,b,c)}`;
     }
     return d;
   }
@@ -84,9 +83,9 @@
     const max = Math.max(2000, Math.ceil(peak / 500) * 500);
     const x = d => 75 + (Date.parse(d+'T00:00:00Z')-first)/span*880;
     const y = n => 335 - (n <= 1500 ? .9 * n / 1500 : .9 + .1 * (n - 1500) / (max - 1500))*270;
-    const svg = svgNode('svg', {viewBox:'0 0 1000 405', role:'img', 'aria-labelledby':'activity-svg-title activity-svg-desc'});
+    const svg = svgNode('svg', {viewBox:'0 0 1100 405', role:'img', 'aria-labelledby':'activity-svg-title activity-svg-desc'});
     svg.append(svgNode('title',{id:'activity-svg-title'},'Three-day average worker activity over the past month'));
-    svg.append(svgNode('desc',{id:'activity-svg-desc'},'One color per worker group. Lines show trailing averages of up to three consecutive recorded days and never cross gaps. Gaps mean no dated records.'));
+    svg.append(svgNode('desc',{id:'activity-svg-desc'},'Each worker group has a distinct line pattern and a direct label. Curves show smoothed trends of trailing three-day averages, not exact daily values. Gaps mean no dated records. ' + series.map(s => s.name + ': ' + (s.days.length ? s.days.reduce((sum,d)=>sum+d[1],0).toLocaleString() + ' recorded completions across ' + s.days.length + ' observed days' : 'no dated records in this period')).join('. ')));
     svg.append(svgNode('rect',{x:75,y:65,width:880,height:27,fill:'currentColor',opacity:'.04',rx:4}));
     const levels = [0,500,1000,1500,max];
     for (const value of levels) {
@@ -96,13 +95,14 @@
     const format = n => new Date(n).toISOString().slice(0,10);
     const ticks = Math.min(4, Math.max(1, Math.round((last-first)/86400000)));
     for (let i=0;i<=ticks;i++) svg.append(svgNode('text',{x:75+880*i/ticks,y:365,'text-anchor':i===0?'start':i===ticks?'end':'middle',fill:'currentColor'},format(first+span*i/ticks)));
-    svg.append(svgNode('text',{x:75,y:30,fill:'currentColor'},'3-day average activity · above 1,500 compressed into top 10%'));
+    svg.append(svgNode('text',{x:75,y:30,fill:'currentColor'},'Smoothed 3-day average · above 1,500 compressed into top 10%'));
+    const endLabels = [];
     series.forEach(s => {
       const color = colorFor(available.indexOf(s));
       let previous, points = [];
       const flush = () => {
         if (points.length > 1) {
-          const line = svgNode('path',{d:smoothPath(points),fill:'none',stroke:color,'stroke-width':2,'stroke-linecap':'round','stroke-linejoin':'round','data-agent':s.name});
+          const line = svgNode('path',{d:smoothPath(points),fill:'none',stroke:color,'stroke-width':2.5,'stroke-dasharray':patterns[available.indexOf(s)],'stroke-linecap':'round','stroke-linejoin':'round','data-agent':s.name});
           line.append(svgNode('title',{},s.name));
           svg.append(line);
         }
@@ -114,9 +114,19 @@
         points.push([x(date),y(count)]);
         previous=at;
       });
+      if (points.length) endLabels.push({name:s.name,point:points.at(-1),color});
       flush();
-
     });
+    endLabels.sort((a,b)=>a.point[1]-b.point[1]);
+    endLabels.forEach((label,i) => {
+      label.y=Math.max(label.point[1],i ? endLabels[i-1].y+18 : 65);
+    });
+    for (let i=endLabels.length-1;i>=0;i--) {
+      const label=endLabels[i];
+      label.y=Math.min(label.y,i===endLabels.length-1 ? 335 : endLabels[i+1].y-18);
+      svg.append(svgNode('path',{d:`M ${label.point} L 963,${label.y}`,fill:'none',stroke:label.color,'stroke-width':1,opacity:'.65'}));
+      svg.append(svgNode('text',{x:970,y:label.y+4,fill:label.color,'data-series-label':label.name},label.name));
+    }
     chart.append(svg);
     status.textContent = `${format(first)}–${format(last)} UTC · Updated ${new Date(feed.generatedAt).toLocaleString()} · ${series.length} worker groups shown${feed.backfillInProgress ? ' · Historical import in progress' : ''}`;
   }
@@ -124,9 +134,10 @@
     const available=seriesFor(feed, metric);
     legend.replaceChildren();
     available.forEach((s,i)=>{
-      const item=document.createElement('span'), swatch=document.createElement('span');
+      const item=document.createElement('span'), swatch=svgNode('svg',{viewBox:'0 0 42 12',width:42,height:12,'aria-hidden':'true'});
       item.className='activity-legend-item';
-      swatch.className='activity-swatch';swatch.style.backgroundColor=colorFor(i);
+      swatch.classList.add('activity-swatch');
+      swatch.append(svgNode('line',{x1:2,x2:40,y1:6,y2:6,stroke:colorFor(i),'stroke-width':2.5,'stroke-dasharray':patterns[i],'stroke-linecap':'round'}));
       item.title = s.unit || s.name;
       item.append(swatch,document.createTextNode(s.name));legend.append(item);
     });
