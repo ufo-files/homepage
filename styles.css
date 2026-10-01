@@ -181,3 +181,5 @@ footer p { font-size: var(--font-size-small); }
 #activity-metric { padding:.5rem; margin-left:.5rem; max-width:100%; }
 #agent-activity details { margin-top:1rem; }
 #agent-activity details .sources-table-scroll { max-height:28rem; overflow:auto; }
+
+.activity-scale { display:inline-flex; gap:.4rem; align-items:center; margin:.75rem; }

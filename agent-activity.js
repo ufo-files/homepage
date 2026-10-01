@@ -24,21 +24,23 @@
     const dates = available.flatMap(s => s.days.map(d => Date.parse(d[0]+'T00:00:00Z')));
     if (!dates.length) { status.textContent = 'No timestamped records available for this measure.'; return; }
     const first = Math.min(...dates), last = Math.max(...dates), span = Math.max(86400000, last-first);
-    const max = Math.ceil(Math.max(1, ...series.flatMap(s => s.days.map(d => d[1]))) / 4) * 4;
+    const logarithmic = document.getElementById('activity-log-scale').checked;
+    const peak = Math.max(1, ...series.flatMap(s => s.days.map(d => d[1])));
+    const max = logarithmic ? 10 ** Math.ceil(Math.log10(Math.max(10, peak))) : Math.ceil(peak / 4) * 4;
     const x = d => 75 + (Date.parse(d+'T00:00:00Z')-first)/span*880;
-    const y = n => 335 - n/max*270;
+    const y = n => 335 - (logarithmic ? Math.log1p(n)/Math.log1p(max) : n/max)*270;
     const svg = svgNode('svg', {viewBox:'0 0 1000 405', role:'img', 'aria-labelledby':'activity-svg-title activity-svg-desc'});
     svg.append(svgNode('title',{id:'activity-svg-title'},'Daily agent activity across all retained history'));
     svg.append(svgNode('desc',{id:'activity-svg-desc'},'One color per agent. Lines join consecutive recorded days only. Gaps mean no dated records. Exact daily counts are in the table below.'));
-    for (let i=0;i<=4;i++) {
-      const value=max*i/4;
+    const levels = logarithmic ? [0, ...Array.from({length:Math.round(Math.log10(max))+1}, (_,i)=>10**i).filter(value=>max<100000 || value>=10)] : [0,max/4,max/2,max*3/4,max];
+    for (const value of levels) {
       svg.append(svgNode('line',{x1:75,x2:955,y1:y(value),y2:y(value),stroke:'currentColor',opacity:'.15'}));
       svg.append(svgNode('text',{x:65,y:y(value)+5,'text-anchor':'end',fill:'currentColor'},Math.round(value).toLocaleString()));
     }
     const format = n => new Date(n).toISOString().slice(0,10);
     const ticks = Math.min(4, Math.max(1, Math.round((last-first)/86400000)));
     for (let i=0;i<=ticks;i++) svg.append(svgNode('text',{x:75+880*i/ticks,y:365,'text-anchor':i===0?'start':i===ticks?'end':'middle',fill:'currentColor'},format(first+span*i/ticks)));
-    svg.append(svgNode('text',{x:75,y:30,fill:'currentColor'},metric==='completions'?'Recorded completions / day':'Timestamped log entries / day'));
+    svg.append(svgNode('text',{x:75,y:30,fill:'currentColor'},(metric==='completions'?'Recorded completions / day':'Timestamped log entries / day')+(logarithmic?' · logarithmic scale':'')));
     const body = document.getElementById('activity-rows'); body.replaceChildren();
     series.forEach(s => {
       const color = colorFor(available.indexOf(s));
@@ -54,7 +56,7 @@
       });
     });
     chart.append(svg);
-    status.textContent = `${format(first)}–${format(last)} UTC · Updated ${new Date(feed.generatedAt).toLocaleString()} · ${series.length} agents shown`;
+    status.textContent = `${format(first)}–${format(last)} UTC · Updated ${new Date(feed.generatedAt).toLocaleString()} · ${series.length} agents shown${feed.backfillInProgress ? ' · Historical import in progress' : ''}`;
   }
   function controls(reset) {
     const available=seriesFor(feed, metric);
@@ -68,6 +70,7 @@
       label.append(input,swatch,document.createTextNode(s.name));legend.append(label);
     }); render();
   }
+  document.getElementById('activity-log-scale').addEventListener('change',()=>{if(feed)render();});
   document.getElementById('activity-metric').addEventListener('change', e=>{metric=e.target.value;if(feed)controls(true);});
   document.getElementById('activity-all').addEventListener('click',()=>{if(feed)controls(true);});
   document.getElementById('activity-none').addEventListener('click',()=>{selected.clear();if(feed)controls(false);});
@@ -82,7 +85,7 @@
       if(!feed) {
         try {const r=await fetch('agent-activity.json');if(!r.ok)throw Error();feed=await r.json();controls(true);status.textContent+=' · Saved snapshot';}
         catch {status.textContent='Activity history is temporarily unavailable.';}
-      } else status.textContent+=' · Live refresh unavailable; showing last received records';
+      } else { render(); status.textContent+=' · Live refresh unavailable; showing last received records'; }
     }
   }
   refresh();setInterval(()=>{if(!document.hidden)refresh();},60000);

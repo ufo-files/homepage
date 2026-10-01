@@ -42,6 +42,7 @@ def ingest_log(db, path, agent, allowed=None):
     inode = f'{stat.st_dev}:{stat.st_ino}'
     old = db.execute('SELECT offset FROM log_positions WHERE inode=?', (inode,)).fetchone()
     offset = old[0] if old and old[0] <= stat.st_size else 0
+    initial_offset = offset
     counts = Counter()
     with path.open('rb') as handle:
         handle.seek(offset)
@@ -75,6 +76,7 @@ def ingest_log(db, path, agent, allowed=None):
         db.execute('INSERT INTO log_counts VALUES (?,?,?,?) ON CONFLICT(inode,agent,day) DO UPDATE SET total=total+excluded.total', (inode,owner,day,total))
     db.execute('INSERT OR REPLACE INTO log_positions VALUES (?,?)', (inode,offset))
     db.commit()
+    return offset - initial_offset
 
 
 def ingest_records(db, directory, lane):
@@ -139,8 +141,9 @@ def scan(db, archive, logs):
     if streams:
         # This timestamped stream wraps source logs, so do not count originals too.
         for path in streams:
-            print(f'Indexing retained activity stream {path.name}', flush=True)
-            ingest_log(db, path, 'Source stream', source_agents)
+            added = ingest_log(db, path, 'Source stream', source_agents)
+            if added:
+                print(f'Activity log updates: {path.name}, {added:,} new bytes', flush=True)
     else:
         for path in sorted((archive/'logs').glob('*.log')):
             if path.stem in source_agents and not path.is_symlink():
