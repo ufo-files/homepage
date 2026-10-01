@@ -1,6 +1,6 @@
 {
   "schema": "ufo-files-source-inventory/v1",
-  "generatedAt": "2026-10-01T03:52:28.868488+00:00",
+  "generatedAt": "2026-10-01T03:53:32.439673+00:00",
   "definition": "Archived content files, including scans and alternate formats; excludes metadata, logs, ZIP bundles, and partial downloads.",
   "completionRule": "Every archived content file has a nonempty machine-readable output with matching source path and byte size. This is processing coverage, not a content accuracy certification.",
   "sources": [
@@ -155,7 +155,7 @@
       "extensions": {
         ".pdf": 2
       },
-      "checkedAt": "2026-10-01T02:50:25.093219+00:00"
+      "checkedAt": "2026-10-01T03:53:22.166134+00:00"
     },
     {
       "name": "DPIArchive",
@@ -400,7 +400,7 @@
       "extensions": {
         ".gz": 1
       },
-      "checkedAt": "2026-10-01T02:24:48.667831+00:00"
+      "checkedAt": "2026-10-01T03:53:11.886272+00:00"
     },
     {
       "name": "UPDB-Pilots",
@@ -474,7 +474,7 @@
         ".jpeg": 1,
         ".pdf": 6
       },
-      "checkedAt": "2026-10-01T02:50:35.206031+00:00"
+      "checkedAt": "2026-10-01T03:53:32.439673+00:00"
     },
     {
       "name": "WikiLeaks-UFO",
