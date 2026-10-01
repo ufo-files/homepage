@@ -17,6 +17,10 @@ await page.locator('#activity-chart path[data-agent=OCR]').first().waitFor();
 assert.equal(await page.locator('#activity-chart circle').count(),0);
 assert.equal(await page.locator('#activity-chart path[data-agent=OCR]').count(),2); // Gap on Aug 5.
 assert.equal(await page.locator('#activity-chart path[data-agent]').count(),6);
+assert.equal(await page.locator('#activity-chart path[data-fill-agent]').count(),6);
+assert.equal(await page.locator('#activity-chart path[data-fill-agent=OCR]').count(),2);
+assert.equal(new Set(await page.locator('#activity-chart path[data-fill-agent]').evaluateAll(paths=>paths.map(p=>p.getAttribute('fill')))).size,5);
+assert.equal(await page.locator('#activity-agents rect[fill^="url"]').count(),5);
 assert.deepEqual(await page.locator('#activity-agents .activity-legend-item').allTextContents(),['Translations','Transcriptions','OCR','Downloaders','Publisher']);
 const path = await page.locator('#activity-chart path[data-agent=OCR]').first().getAttribute('d');
 assert.match(path,/ C /);
