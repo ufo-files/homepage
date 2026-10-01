@@ -1,6 +1,6 @@
 {
   "schema": "ufo-files-source-inventory/v1",
-  "generatedAt": "2026-10-01T07:59:20.970983+00:00",
+  "generatedAt": "2026-10-01T08:02:00.551396+00:00",
   "definition": "Archived content files, including scans and alternate formats; excludes metadata, logs, ZIP bundles, and partial downloads.",
   "completionRule": "Every archived content file has a nonempty machine-readable output with matching source path and byte size. This is processing coverage, not a content accuracy certification.",
   "sources": [
@@ -130,7 +130,7 @@
       "extensions": {
         ".jpg": 205
       },
-      "checkedAt": "2026-10-01T06:05:31.937147+00:00"
+      "checkedAt": "2026-10-01T08:02:00.551396+00:00"
     },
     {
       "name": "Chile-SEFAA",
