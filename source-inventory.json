@@ -1,6 +1,6 @@
 {
   "schema": "ufo-files-source-inventory/v1",
-  "generatedAt": "2026-10-01T15:56:26.548555+00:00",
+  "generatedAt": "2026-10-01T15:57:30.835608+00:00",
   "definition": "Archived content files, including scans and alternate formats; excludes metadata, logs, ZIP bundles, and partial downloads.",
   "completionRule": "Every archived content file has a nonempty machine-readable output with matching source path and byte size. This is processing coverage, not a content accuracy certification.",
   "sources": [
@@ -351,7 +351,7 @@
       "extensions": {
         ".gz": 1
       },
-      "checkedAt": "2026-10-01T15:14:05.925948+00:00"
+      "checkedAt": "2026-10-01T15:57:30.835608+00:00"
     },
     {
       "name": "UPDB-Canada-Government",
