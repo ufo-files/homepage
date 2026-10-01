@@ -1,0 +1,16 @@
+# Agent activity history
+
+The homepage reads `agent-activity.json` from the `live-inventory` branch every minute while visible. A committed snapshot is used if the live feed cannot be reached. The archive Mac refreshes the aggregate feed every 15 minutes after completing its previous pass.
+
+`agent_activity.py` imports all retained dated history, without a date cutoff:
+
+- Processing completions: each retained successful claim record in the main, French, and Portuguese completion directories contributes once, at `updated_at`. Main claims are split into OCR and transcription using `kind`. `complete` describes the original candidate and is not the success flag; `outcome` is authoritative. Existing outputs adopted by a worker can appear as completions. Overwritten or deleted historical claim versions cannot be reconstructed.
+- Logged activity: explicit UTC timestamped lines in the retained live download stream, including its rotated history, and worker logs. Bracketed source identities attribute each stream entry to its agent. Original source logs are not counted again. Installations without a live stream fall back to individual source logs and the recovery log. These include heartbeats, attempts, failures and successes. This measures logging activity, not throughput or utilization. The shared OCR/media log stays one orchestrator series because unlabelled interleaved lines cannot reliably be attributed to a lane.
+
+Undated lines, including historical publisher successes, are omitted. No timestamp is inferred from filesystem modification time. The aggregate contains only agent names, dates, counts and freshness; private paths and log messages remain local. Missing dates remain gaps, not inferred zeroes. Rotated download-stream and worker logs are included. Inode-based offsets prevent counting a renamed file twice. Different logging verbosity means signal counts should not be used to rank agent productivity.
+
+The local SQLite index deduplicates events and remembers log byte offsets. First import reads completion JSON once; later passes enumerate completion filenames, open new records, and audit a rotating batch of 200 known records for changed timestamps/content. It does not read transcripts, hash outputs, or take processing/publisher locks. Keep the SQLite database across upgrades. Losing it requires another full history import.
+
+Install on the archive Mac with `python3 scripts/install_agent_activity.py`. Runtime lives in `~/Library/Application Support/ufo-files/agent-activity`; service is `com.ufo-files.agent-activity`, with logs in `~/Library/Logs/ufo-files/agent-activity.log`. GitHub CLI authentication needs write access to the homepage live-inventory branch. Failed refreshes preserve the previous public feed and retry next cycle.
+
+Tests: `python3 -m unittest discover -s scripts -p test_agent_activity.py`, `npm test`, and (with a preview server on port 8131) `node scripts/test_agent_activity_browser.cjs`.

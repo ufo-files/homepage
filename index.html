@@ -26,6 +26,7 @@
       <ul id="site-navigation">
         <li><a href="#research">Research</a></li>
         <li><a href="#sources">Sources</a></li>
+        <li><a href="#agent-activity">Activity</a></li>
         <li><a href="#about">About</a></li>
         <li><a href="#faq">FAQ</a></li>
         <li><a href="https://github.com/ufo-files/machine-data">Data</a></li>
@@ -167,6 +168,25 @@
         </div>
       </div>
     </section>
+    <section id="agent-activity" aria-labelledby="activity-title">
+      <div class="wrapper">
+        <h2 id="activity-title">Agent activity</h2>
+        <p>All available history, from our retained logs and processing records. Each line represents an agent; dots show daily recorded activity.</p>
+        <label for="activity-metric">Measure</label>
+        <select id="activity-metric">
+          <option value="completions">Processing completions</option>
+          <option value="signals">Logged activity</option>
+        </select>
+        <p id="activity-status" role="status">Loading recorded activity…</p>
+        <div class="activity-actions"><button id="activity-all" type="button">Show all agents</button> <button id="activity-none" type="button">Clear selection</button></div>
+        <fieldset id="activity-agents" aria-label="Agents to display"></fieldset>
+        <div id="activity-chart" role="region" aria-label="Agent activity chart; scroll horizontally on small screens" tabindex="0"></div>
+        <p class="sources-note">Gaps mean no dated records, not zero work. Processing counts reflect the latest successful record for each retained job and can include adopted existing outputs. Logged activity includes heartbeats, retries, and errors—not just successful work. Undated lines are excluded. Logging verbosity differs between agents, so signal counts are not a productivity ranking. These counts do not measure CPU usage.</p>
+        <details><summary>Daily counts</summary><div class="sources-table-scroll" tabindex="0" role="region" aria-label="Daily agent activity">
+          <table class="sources-table"><thead><tr><th scope="col">Date (UTC)</th><th scope="col">Agent</th><th scope="col">Count</th></tr></thead><tbody id="activity-rows"></tbody></table>
+        </div></details>
+      </div>
+    </section>
     <section id="about" aria-labelledby="about-title">
       <div class="wrapper about-layout">
         <div class="about-copy">
@@ -222,6 +242,7 @@
       <p>UFO Files · Independent research, open to everyone.</p>
     </div>
   </footer>
+  <script src="agent-activity.js"></script>
   <script src="script.js"></script>
   <script src="intro-graph.js?v=20260927-living"></script>
   <script src="record-count.js?v=20261001-processing-status"></script>
