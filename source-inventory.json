@@ -1,6 +1,6 @@
 {
   "schema": "ufo-files-source-inventory/v1",
-  "generatedAt": "2026-10-01T13:04:22.039959+00:00",
+  "generatedAt": "2026-10-01T13:05:20.373675+00:00",
   "definition": "Archived content files, including scans and alternate formats; excludes metadata, logs, ZIP bundles, and partial downloads.",
   "completionRule": "Every archived content file has a nonempty machine-readable output with matching source path and byte size. This is processing coverage, not a content accuracy certification.",
   "sources": [
@@ -77,7 +77,7 @@
         ".html": 1,
         ".pdf": 13
       },
-      "checkedAt": "2026-10-01T11:46:56.648376+00:00"
+      "checkedAt": "2026-10-01T13:04:29.230033+00:00"
     },
     {
       "name": "Black-Vault-UFO",
@@ -179,7 +179,7 @@
       "extensions": {
         ".pdf": 16
       },
-      "checkedAt": "2026-10-01T11:47:06.687013+00:00"
+      "checkedAt": "2026-10-01T13:04:44.506955+00:00"
     },
     {
       "name": "France-GEIPAN",
@@ -222,7 +222,7 @@
         ".html": 1,
         ".pdf": 31
       },
-      "checkedAt": "2026-10-01T11:47:11.689121+00:00"
+      "checkedAt": "2026-10-01T13:04:49.617355+00:00"
     },
     {
       "name": "NSA-UFO-FOIA",
@@ -234,7 +234,7 @@
       "extensions": {
         ".pdf": 64
       },
-      "checkedAt": "2026-10-01T11:47:37.131659+00:00"
+      "checkedAt": "2026-10-01T13:05:20.373675+00:00"
     },
     {
       "name": "National-Archives-UAP-Bulk",
@@ -315,7 +315,7 @@
       "extensions": {
         ".pdf": 22
       },
-      "checkedAt": "2026-10-01T11:47:01.676070+00:00"
+      "checkedAt": "2026-10-01T13:04:34.366992+00:00"
     },
     {
       "name": "UAP-Gerb",
