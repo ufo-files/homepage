@@ -18,7 +18,7 @@ const assert=require('node:assert/strict');
  assert.match(await page.locator('[data-series-label="Publisher"]').textContent(),/^Offline/);
  assert.equal(await page.locator('#activity-chart circle, #activity-operations, #activity-freshness').count(),0);
  const spans=await page.locator('[data-agent="OCR"] line[data-state]').evaluateAll(nodes=>nodes.map(n=>Number(n.getAttribute('x2'))-Number(n.getAttribute('x1'))));
- assert.equal(spans.length,2);assert.ok(spans.every(w=>w<=730*900/86400+.01),'No interpolation over unknown history');
+ assert.equal(spans.length,2);assert.ok(spans.every(w=>w<=730*900/3600+.01),'No interpolation over unknown history');
  await page.locator('[data-series-label="OCR"]').hover();assert.equal(await page.locator('[data-agent="Downloaders"]').evaluate(n=>n.style.opacity),'0.2');
  await page.mouse.move(0,0);assert.equal(await page.locator('[data-agent="Downloaders"]').evaluate(n=>n.style.opacity),'1');
  await page.locator('[data-series-label="OCR"]').focus();assert.equal(await page.locator('[data-agent="Downloaders"]').evaluate(n=>n.style.opacity),'0.2');

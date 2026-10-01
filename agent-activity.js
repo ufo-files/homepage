@@ -11,10 +11,15 @@
   const valid=data=>data?.schemaVersion===2 && Array.isArray(data.groups);
   const utc=at=>new Date(at*1000).toISOString().replace('T',' ').slice(0,16)+' UTC';
   function render(){
-    const end=Date.now()/1000,start=end-86400,x=t=>150+(t-start)/86400*730;
+    const end=Date.now()/1000;
+    const times=(feed?.groups||[]).flatMap(g=>g.observations||[]).map(o=>o[0]).filter(at=>Number.isFinite(at)&&at<=end);
+    const oldest=times.length?Math.min(...times):end;
+    const duration=[900,3600,21600,86400].find(seconds=>end-oldest<=seconds)||86400;
+    const start=end-duration,x=t=>150+(t-start)/duration*730;
+    const period=duration===900?'Last 15 minutes':duration===3600?'Last hour':duration===21600?'Last 6 hours':'Last 24 hours';
     const ttl=Math.min(900,Math.max(0,Number(feed?.validForSeconds)||0));
     const svg=node('svg',{viewBox:'0 0 1100 430',role:'group','aria-labelledby':'activity-svg-title activity-svg-desc'});
-    svg.append(node('title',{id:'activity-svg-title'},'Project worker health over the last 24 hours'));
+    svg.append(node('title',{id:'activity-svg-title'},'Project worker health'));
     svg.append(node('desc',{id:'activity-svg-desc'},'One timeline per worker group. Running means the service is active, not necessarily completing a job. Patterns identify running, healthy idle, blocked or retrying, offline, and unknown. Observations expire after 15 minutes. Unobserved history remains unknown. Hover or focus a segment for its observation time.'));
     const highlight=name=>svg.querySelectorAll('[data-agent]').forEach(n=>n.style.opacity=name&&n.dataset.agent!==name?'.2':'1');
     roles.forEach((name,i)=>{
@@ -43,10 +48,10 @@
       text.addEventListener('focus',()=>highlight(name));text.addEventListener('blur',()=>highlight(null));row.append(text);svg.append(row);
     });
     for(let i=0;i<=4;i++){
-      const at=start+i*21600;
+      const at=start+i*duration/4;
       svg.append(node('text',{x:x(at),y:345,'text-anchor':i===0?'start':i===4?'end':'middle',fill:'currentColor'},i===4?'Now':new Date(at*1000).toISOString().slice(11,16)+' UTC'));
     }
-    svg.append(node('text',{x:150,y:370,fill:'currentColor'},'Last 24 hours'));
+    svg.append(node('text',{x:150,y:370,fill:'currentColor'},period+(times.length && end-oldest<86400?' · Recording since '+utc(oldest):'')));
     Object.entries(labels).forEach(([state,label],i)=>{
       const left=150+i*172;
       svg.append(node('line',{x1:left,x2:left+28,y1:407,y2:407,stroke:'currentColor','stroke-width':3,'stroke-dasharray':patterns[state]}));
