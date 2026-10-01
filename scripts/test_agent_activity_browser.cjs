@@ -47,6 +47,7 @@ assert.match(await page.locator('#activity-status').innerText(),/2026-07-07/);
 await page.locator('#agent-activity').screenshot({path:'/private/tmp/agent-activity-desktop.png'});
 await page.setViewportSize({width:390,height:844});
 assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
+assert.ok(await page.locator('#activity-chart svg').evaluate(svg=>12*svg.getBoundingClientRect().width/1100)>=12,'Mobile chart labels must remain at least 12px');
 await page.locator('#agent-activity').screenshot({path:'/private/tmp/agent-activity-mobile.png'});
 assert.deepEqual(errors,[]);await browser.close();console.log('Compressed scale, rounded lines, no dots, gaps, controls and mobile layout passed');
 })().catch(e=>{console.error(e);process.exit(1)});

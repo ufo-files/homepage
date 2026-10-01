@@ -171,11 +171,15 @@
     <section id="agent-activity" aria-labelledby="activity-title">
       <div class="wrapper">
         <h2 id="activity-title">Agent activity</h2>
-        <p>The past month of activity across five worker groups, shown as smooth trends of the 3-day moving average.</p>
+        <p>Five worker groups. One month of activity. Smoothed 3-day averages.</p>
         <p id="activity-status" role="status">Loading recorded activity…</p>
         <div id="activity-agents" aria-label="Worker groups"></div>
         <div id="activity-chart" role="region" aria-label="Agent activity chart; scroll horizontally on small screens" tabindex="0"></div>
-        <p class="sources-note">Translations counts successful paired language-processing jobs; Transcriptions counts media jobs; OCR counts document jobs. Downloaders counts successful collection runs, which may find no new files. Publisher counts published machine-data update commits, dated by their commit timestamp. These are different work units, not comparable document totals. Each group has its own texture fill, line pattern and direct label. Filled areas overlap from the same zero baseline; they are not stacked. Smooth curves show trends, not exact daily values. Lines average up to three consecutive recorded days; averaging restarts after gaps. Averages above 1,500 use the top 10% of the chart. Gaps mean no dated records. Processing records can include adopted existing outputs.</p>
+        <p class="activity-scroll-hint">Scroll the chart horizontally to explore the full month →</p>
+        <div class="activity-notes">
+          <p><strong>Reading the chart</strong> Curves show trends, not exact daily totals. Each group has a distinct texture and line pattern. Fills overlap from zero; they are not stacked. Values above 1,500 occupy the top 10%. Gaps mean missing records and reset the 3-day average.</p>
+          <p><strong>What counts</strong> Translations: paired language jobs. Transcriptions: media jobs. OCR: document jobs. Downloaders: successful collection runs, even with no new files. Publisher: update commits, dated by commit time. Units differ; processing can include adopted outputs.</p>
+        </div>
 
       </div>
     </section>
