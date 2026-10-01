@@ -1,6 +1,6 @@
 {
   "schema": "ufo-files-source-inventory/v1",
-  "generatedAt": "2026-10-01T03:53:32.439673+00:00",
+  "generatedAt": "2026-10-01T03:54:05.367443+00:00",
   "definition": "Archived content files, including scans and alternate formats; excludes metadata, logs, ZIP bundles, and partial downloads.",
   "completionRule": "Every archived content file has a nonempty machine-readable output with matching source path and byte size. This is processing coverage, not a content accuracy certification.",
   "sources": [
@@ -14,7 +14,7 @@
       "extensions": {
         ".pdf": 11
       },
-      "checkedAt": "2026-10-01T02:50:55.648743+00:00"
+      "checkedAt": "2026-10-01T03:53:55.301859+00:00"
     },
     {
       "name": "American-Alchemy",
@@ -290,7 +290,7 @@
       "extensions": {
         ".mp4": 8
       },
-      "checkedAt": "2026-10-01T02:50:45.417488+00:00"
+      "checkedAt": "2026-10-01T03:53:45.015675+00:00"
     },
     {
       "name": "Steven-Greer-Document-Library",
@@ -486,7 +486,7 @@
       "extensions": {
         ".html": 13
       },
-      "checkedAt": "2026-10-01T02:51:00.761651+00:00"
+      "checkedAt": "2026-10-01T03:54:05.367443+00:00"
     }
   ]
 }
