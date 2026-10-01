@@ -174,14 +174,7 @@ footer p { font-size: var(--font-size-small); }
 
 /* Activity telemetry stays legible on narrow screens. */
 #activity-agents { display:flex; flex-wrap:wrap; gap:.6rem 1.3rem; border:0; padding:1rem 0; }
-#activity-agents label { display:flex; align-items:center; gap:.4rem; font-size:.9rem; }
+#activity-agents .activity-legend-item { display:flex; align-items:center; gap:.4rem; font-size:.9rem; }
 .activity-swatch { width:.9rem; height:.2rem; display:inline-block; }
-#activity-chart svg { width:100%; height:auto; min-width:620px; font:14px sans-serif; }
+#activity-chart svg { width:100%; height:auto; min-width:620px; font:12px var(--font); }
 #activity-chart { overflow-x:auto; margin:1rem 0; border-radius:12px; }
-#activity-metric { padding:.5rem; margin-left:.5rem; max-width:100%; }
-#agent-activity details { margin-top:1rem; }
-#agent-activity details .sources-table-scroll { max-height:28rem; overflow:auto; }
-
-.activity-scale { display:inline-flex; gap:.4rem; align-items:center; margin:.75rem; }
-
-.activity-scale[hidden] { display:none; }

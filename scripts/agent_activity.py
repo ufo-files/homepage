@@ -20,6 +20,7 @@ def database(path):
     db.executescript('''
       CREATE TABLE IF NOT EXISTS events (id TEXT PRIMARY KEY, agent TEXT, metric TEXT, day TEXT);
       CREATE TABLE IF NOT EXISTS log_counts (inode TEXT, agent TEXT, day TEXT, total INTEGER, PRIMARY KEY(inode,agent,day));
+      CREATE TABLE IF NOT EXISTS run_positions (inode TEXT PRIMARY KEY, offset INTEGER);
       CREATE TABLE IF NOT EXISTS log_positions (inode TEXT PRIMARY KEY, offset INTEGER);
       CREATE TABLE IF NOT EXISTS records (path TEXT PRIMARY KEY, mtime INTEGER, size INTEGER);
     ''')
@@ -116,12 +117,60 @@ def ingest_records(db, directory, lane):
                 print(f'Indexed {count} new/changed {lane} completion records', flush=True)
     db.commit()
 
+def ingest_download_runs(db, path):
+    """Count explicit successful run endings, not heartbeat or download progress lines."""
+    st=path.stat(); inode=f'{st.st_dev}:{st.st_ino}'
+    old=db.execute('SELECT offset FROM run_positions WHERE inode=?',(inode,)).fetchone()
+    offset=old[0] if old and old[0]<=st.st_size else 0
+    pattern=re.compile(r'(\d{4}-\d\d-\d\dT\d\d:\d\d:\d\dZ) finished ([a-z0-9-]+)$')
+    with path.open('rb') as handle:
+        handle.seek(offset)
+        while True:
+            start=handle.tell();line=handle.readline()
+            if not line or not line.endswith(b'\n'):
+                handle.seek(start);break
+            if b' finished ' not in line:
+                continue
+            match=pattern.search(line.decode('utf-8',errors='replace').strip())
+            if match:
+                day=day_of(match[1])
+                db.execute('INSERT OR IGNORE INTO events VALUES (?,?,?,?)',
+                           (f'download-run:{match[1]}:{match[2]}','Downloaders','completions',day))
+        db.execute('INSERT OR REPLACE INTO run_positions VALUES (?,?)',(inode,handle.tell()))
+    db.commit()
+
+
+def ingest_publications(db, checkout=None):
+    # GitHub main is authoritative and avoids traversing thousands of loose Git
+    # objects on the archive disk. After backfill, overlap recent dates for updates.
+    latest=db.execute("SELECT max(day) FROM events WHERE agent='Publisher'").fetchone()[0]
+    endpoint='repos/ufo-files/machine-data/commits?sha=main&per_page=100'
+    if latest:
+        from datetime import timedelta
+        since=(datetime.fromisoformat(latest)-timedelta(days=2)).date().isoformat()
+        endpoint+='&since='+since+'T00:00:00Z'
+    result=subprocess.run(['gh','api','--paginate',endpoint,'--jq',
+                           '.[] | [.sha, .commit.committer.date, (.commit.message | split("\\n")[0])] | @tsv'],
+                          capture_output=True,text=True,check=True,timeout=300)
+    for line in result.stdout.splitlines():
+        sha,at,subject=line.split('\t',2)
+        if re.fullmatch(r'Update transcript machine data \(\d+ files\)',subject):
+            db.execute('INSERT OR IGNORE INTO events VALUES (?,?,?,?)',
+                       ('publication:'+sha,'Publisher','completions',day_of(at)))
+    db.commit()
+
+
 def snapshot(db):
     groups = {}
     for agent, metric, day, count in db.execute("SELECT agent,metric,day,SUM(total) FROM (SELECT agent,metric,day,count(*) AS total FROM events WHERE metric='completions' GROUP BY agent,metric,day UNION ALL SELECT agent,'signals',day,total FROM log_counts) GROUP BY agent,metric,day ORDER BY day"):
-        groups.setdefault((agent, metric), []).append([day, count])
+        if (metric == 'completions' and agent.endswith(' processing')) or (metric == 'signals' and agent.endswith(' worker')):
+            agent = 'Translations'
+        if agent == 'Transcription':
+            agent = 'Transcriptions'
+        groups.setdefault((agent, metric), Counter())[day] += count
+    units = {'Translations':'paired language-processing jobs','Transcriptions':'media jobs','OCR':'document jobs','Downloaders':'successful collection runs','Publisher':'published update commits'}
     return {'schemaVersion': 1, 'generatedAt': datetime.now(timezone.utc).isoformat(),
-            'agents': [{'name': agent, 'metric': metric, 'days': days} for (agent, metric), days in sorted(groups.items())],
+            'agents': [{'name': agent, 'metric': metric, 'unit':units.get(agent,'timestamped log entries'), 'days': [[day,count] for day,count in sorted(days.items())]} for (agent, metric), days in sorted(groups.items())],
             'notes': 'UTC daily totals from retained timestamped logs and latest successful completion records. Missing days are unknown, not zero. Completion records may include adopted existing outputs. Signals include heartbeats, retries and errors; they do not measure output or CPU usage. Undated lines are excluded.'}
 
 def publish(payload):
@@ -135,7 +184,7 @@ def publish(payload):
         raise RuntimeError(result.stderr)
     subprocess.run(['gh','api','--method','PUT',endpoint,'--input','-'], input=json.dumps(body), text=True, check=True, stdout=subprocess.DEVNULL, timeout=60)
 
-def scan(db, archive, logs):
+def scan(db, archive, logs, publisher_checkout=None):
     source_agents = {p.stem for p in (archive/'.state/archivers').glob('*.json')}
     streams = sorted(p for p in (archive/'logs').glob('downloads-live.log*') if not p.name.endswith('.lock'))
     if streams:
@@ -151,19 +200,36 @@ def scan(db, archive, logs):
         recovery = logs/'source-recovery.log'
         if recovery.is_file():
             ingest_log(db, recovery, 'Source recovery')
-    for name, agent in [('ssh-orchestrator','OCR / transcription orchestrator'), ('french-worker','French worker'), ('portuguese-worker','Portuguese worker')]:
+    workers = [('ssh-orchestrator', 'OCR / transcription orchestrator')]
+    main = archive/'.state/mac-processor/completed'
+    if main.is_dir():
+        ingest_records(db, main, 'main')
+    # Dedicated language workers use mac-processor-<language>/completed.
+    # Discover these rather than hard-coding the first two languages deployed.
+    for folder in sorted((archive/'.state').glob('mac-processor-*')):
+        directory = folder/'completed'
+        if not directory.is_dir() or folder.is_symlink():
+            continue
+        language = folder.name.removeprefix('mac-processor-')
+        ingest_records(db, directory, language.replace('-', ' ').title() + ' processing')
+        workers.append((language+'-worker', language.replace('-', ' ').title()+' worker'))
+    for path in streams:
+        ingest_download_runs(db, path)
+    recovery=logs/'source-recovery.log'
+    if recovery.is_file():
+        ingest_download_runs(db, recovery)
+    if publisher_checkout is not None:
+        ingest_publications(db, publisher_checkout)
+    for name, agent in workers:
         for path in sorted(logs.glob(name+'.log*')):
             if path.is_file() and not path.is_symlink():
                 ingest_log(db, path, agent)
-    for folder, lane in [('mac-processor','main'), ('mac-processor-french','French processing'), ('mac-processor-portuguese','Portuguese processing')]:
-        directory = archive/'.state'/folder/'completed'
-        if directory.is_dir():
-            ingest_records(db, directory, lane)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--archive', type=Path, default=Path('/Volumes/UFO Files Archive 1'))
     parser.add_argument('--logs', type=Path, default=Path.home()/'Library/Logs/ufo-files')
+    parser.add_argument('--publisher-checkout', type=Path, default=Path('/Volumes/UFO Files Archive 4/.ufo-machine-data/machine-data-checkout'))
     parser.add_argument('--state', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--publish', action='store_true')
@@ -177,7 +243,7 @@ if __name__ == '__main__':
         try:
             if not (args.archive/'.state').is_dir():
                 raise RuntimeError('Archive unavailable; retaining previous feed')
-            scan(db, args.archive, args.logs)
+            scan(db, args.archive, args.logs, args.publisher_checkout)
             payload = snapshot(db)
             args.output.write_text(json.dumps(payload, indent=2)+'\n')
             if args.publish:

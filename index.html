@@ -171,21 +171,12 @@
     <section id="agent-activity" aria-labelledby="activity-title">
       <div class="wrapper">
         <h2 id="activity-title">Agent activity</h2>
-        <p>All available history, from our retained logs and processing records. Each line represents an agent’s daily recorded activity.</p>
-        <label for="activity-metric">Measure</label>
-        <select id="activity-metric">
-          <option value="completions">Processing completions</option>
-          <option value="signals">Logged activity</option>
-        </select>
-        <label class="activity-scale"><input id="activity-log-scale" type="checkbox"> Logarithmic scale</label>
+        <p>The past month of activity across five worker groups, shown as a 3-day moving average.</p>
         <p id="activity-status" role="status">Loading recorded activity…</p>
-        <div class="activity-actions"><button id="activity-all" type="button">Show all agents</button> <button id="activity-none" type="button">Clear selection</button></div>
-        <fieldset id="activity-agents" aria-label="Agents to display"></fieldset>
+        <div id="activity-agents" aria-label="Worker groups"></div>
         <div id="activity-chart" role="region" aria-label="Agent activity chart; scroll horizontally on small screens" tabindex="0"></div>
-        <p class="sources-note">The completion scale reserves the top 10% for counts above 1,500. Gaps mean no dated records, not zero work; isolated dates remain in the daily-count table. Processing counts reflect the latest successful record for each retained job and can include adopted existing outputs. Logged activity includes heartbeats, retries, and errors—not just successful work. Undated lines are excluded. Logging verbosity differs between agents, so signal counts are not a productivity ranking. These counts do not measure CPU usage.</p>
-        <details><summary>Daily counts</summary><div class="sources-table-scroll" tabindex="0" role="region" aria-label="Daily agent activity">
-          <table class="sources-table"><thead><tr><th scope="col">Date (UTC)</th><th scope="col">Agent</th><th scope="col">Count</th></tr></thead><tbody id="activity-rows"></tbody></table>
-        </div></details>
+        <p class="sources-note">Translations counts successful paired language-processing jobs; Transcriptions counts media jobs; OCR counts document jobs. Downloaders counts successful collection runs, which may find no new files. Publisher counts published machine-data update commits, dated by their commit timestamp. These are different work units, not comparable document totals. Lines average up to three consecutive recorded days; averaging restarts after gaps. Averages above 1,500 use the top 10% of the chart. Gaps mean no dated records. Processing records can include adopted existing outputs.</p>
+
       </div>
     </section>
     <section id="about" aria-labelledby="about-title">
