@@ -31,7 +31,7 @@ const bounds = await page.locator('#activity-chart path[data-agent=OCR]').first(
   return [Math.min(...values),Math.max(...values)];
 });
 assert.ok(bounds[0]>=65-0.001 && bounds[1]<=335+0.001, 'Curve must not overshoot recorded values');
-assert.match(await page.locator('#activity-chart').textContent(),/3-day average/);
+assert.equal(await page.locator('#activity-chart text').filter({hasText:'Smoothed 3-day average'}).count(),0);
 const ticks=await page.locator('#activity-chart text[text-anchor=end]').evaluateAll(nodes=>Object.fromEntries(nodes.map(n=>[n.textContent,Number(n.getAttribute('y'))-5])));
 assert.equal(ticks['0'],335);
 assert.equal(ticks['250'],200); // Half of the 270px plot.

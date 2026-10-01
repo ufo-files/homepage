@@ -96,7 +96,6 @@
     const format = n => new Date(n).toISOString().slice(0,10);
     const ticks = Math.min(4, Math.max(1, Math.round((last-first)/86400000)));
     for (let i=0;i<=ticks;i++) svg.append(svgNode('text',{x:75+880*i/ticks,y:365,'text-anchor':i===0?'start':i===ticks?'end':'middle',fill:'currentColor'},format(first+span*i/ticks)));
-    svg.append(svgNode('text',{x:75,y:30,fill:'currentColor'},'Smoothed 3-day average · 0–250: bottom 50% · above 1,500: top 10%'));
     const lines=svgNode('g');
     svg.append(lines);
     const endLabels = [];
