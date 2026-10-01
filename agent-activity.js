@@ -17,6 +17,23 @@
   function seriesFor(data, type) {
     return data.agents.filter(s => s.metric === type && Array.isArray(s.days) && s.days.length);
   }
+  function smoothPath(points) {
+    // Shape-preserving cubic interpolation: passes through each observation,
+    // flattens at turning points, and never overshoots a segment's values.
+    const slopes = points.slice(1).map((p, i) => (p[1]-points[i][1])/(p[0]-points[i][0]));
+    const tangents = points.map((p, i) => {
+      if (!i) return slopes[0];
+      if (i === points.length-1) return slopes[i-1];
+      const a=slopes[i-1], b=slopes[i];
+      return a*b <= 0 ? 0 : 2*a*b/(a+b);
+    });
+    let d = `M ${points[0][0]},${points[0][1]}`;
+    for (let i=1; i<points.length; i++) {
+      const a=points[i-1], b=points[i], dx=(b[0]-a[0])/3;
+      d += ` C ${a[0]+dx},${a[1]+tangents[i-1]*dx} ${b[0]-dx},${b[1]-tangents[i]*dx} ${b[0]},${b[1]}`;
+    }
+    return d;
+  }
   function render() {
     const available = seriesFor(feed, metric);
     const series = available.filter(s => selected.has(s.name));
@@ -52,7 +69,7 @@
       let previous, points = [];
       const flush = () => {
         if (points.length > 1) {
-          const line = svgNode('polyline',{points:points.join(' '),fill:'none',stroke:color,'stroke-width':2,'stroke-linecap':'round','stroke-linejoin':'round','data-agent':s.name});
+          const line = svgNode('path',{d:smoothPath(points),fill:'none',stroke:color,'stroke-width':2,'stroke-linecap':'round','stroke-linejoin':'round','data-agent':s.name});
           line.append(svgNode('title',{},s.name));
           svg.append(line);
         }
@@ -61,7 +78,7 @@
       s.days.forEach(([date,count]) => {
         const at = Date.parse(date+'T00:00:00Z');
         if (previous !== undefined && at-previous!==86400000) flush();
-        points.push(`${x(date)},${y(count)}`);
+        points.push([x(date),y(count)]);
         previous=at;
         const tr=document.createElement('tr');
         [date,s.name,count.toLocaleString()].forEach(value => {const td=document.createElement('td');td.textContent=value;tr.append(td);});body.append(tr);
