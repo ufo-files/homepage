@@ -1,9 +1,8 @@
 /* Public aggregate telemetry only; absent days are not inferred as zero work. */
 (function () {
   const endpoint = 'https://raw.githubusercontent.com/ufo-files/homepage/live-inventory/agent-activity.json';
-  const colors = ['#0072B2', '#A64400', '#007B5A', '#955184', '#444444'];
   const patterns = ['', '10 5', '3 5', '12 4 3 4', '18 6'];
-  const colorFor = i => colors[i];
+  const colorFor = () => 'currentColor';
   let feed;
   const metric = 'completions';
   const roles = ['Translations', 'Transcriptions', 'OCR', 'Downloaders', 'Publisher'];
@@ -18,15 +17,21 @@
     if (text !== undefined) node.textContent = text;
     return node;
   }
-  const textureNames = ['diagonal hatch', 'reverse diagonal hatch', 'horizontal stripes', 'crosshatch', 'vertical stripes'];
+  const textureNames = ['fine diagonal hatch', 'horizontal dashes', 'sparse stipple', 'small crosses', 'vertical ticks'];
   function textureDefs(prefix) {
     const defs=svgNode('defs');
-    const strokes=['M -2,2 L 2,-2 M 0,10 L 10,0 M 8,12 L 12,8',
-      'M -2,8 L 2,12 M 0,0 L 10,10 M 8,-2 L 12,2',
-      'M 0,5 H 10', 'M 2,5 H 8 M 5,2 V 8', 'M 5,0 V 10'];
-    strokes.forEach((d,i)=>{
-      const pattern=svgNode('pattern',{id:prefix+i,patternUnits:'userSpaceOnUse',width:10,height:10});
-      pattern.append(svgNode('path',{d,fill:'none',stroke:colorFor(i),'stroke-width':1,'stroke-opacity':'.38'}));
+    // Different shapes, rather than near-identical hatch angles or densities.
+    // Sparse stipple keeps the largest (OCR) area quiet behind smaller series.
+    const textures=[
+      {size:12,d:'M -3,3 L 3,-3 M 0,12 L 12,0 M 9,15 L 15,9'},
+      {size:12,d:'M 3,6 H 9'},
+      {size:14,d:'M 7,6 a 1,1 0 1,0 0,2 a 1,1 0 1,0 0,-2',solid:true},
+      {size:14,d:'M 4,7 H 10 M 7,4 V 10'},
+      {size:12,d:'M 6,3 V 9'},
+    ];
+    textures.forEach((texture,i)=>{
+      const pattern=svgNode('pattern',{id:prefix+i,patternUnits:'userSpaceOnUse',width:texture.size,height:texture.size});
+      pattern.append(svgNode('path',{d:texture.d,fill:texture.solid?'currentColor':'none',stroke:texture.solid?'none':'currentColor','stroke-width':1,opacity:'.28','stroke-linecap':'round'}));
       defs.append(pattern);
     });
     return defs;
