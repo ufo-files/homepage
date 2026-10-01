@@ -85,3 +85,8 @@ python3 -m unittest discover -s scripts -p test_source_inventory.py
 
 Publish the refreshed JSON with the website. The page fetches the latest
 published inventory alongside the catalog and displays the inventory timestamp.
+
+The live inventory worker checks each source once every 24 hours and publishes
+at most one successful update every 24 hours. Saved check and publication times
+survive service restarts. Failed publications retry after one minute. The homepage
+can continue polling the saved feed without rescanning the archive.
