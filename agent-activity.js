@@ -40,7 +40,7 @@
       if (!totals.has(name)) continue;
       units.set(name, series.unit);
       for (const [day,count] of series.days) {
-        if (day >= from && day <= to) totals.get(name).set(day,(totals.get(name).get(day)||0)+count);
+        if (day >= from && day < to) totals.get(name).set(day,(totals.get(name).get(day)||0)+count);
       }
     }
     return roles.map(name => ({name,metric:type,unit:units.get(name),days:[...totals.get(name)].sort((a,b)=>a[0].localeCompare(b[0]))}));
@@ -76,7 +76,7 @@
       : .9 + .1 * (n - 1500) / (max - 1500))*270;
     const svg = svgNode('svg', {viewBox:'0 0 1100 405', role:'group', 'aria-labelledby':'activity-svg-title activity-svg-desc'});
     svg.append(svgNode('title',{id:'activity-svg-title'},'Daily worker completions over the past month'));
-    svg.append(svgNode('desc',{id:'activity-svg-desc'},'Each worker group has a distinct line pattern and a direct label. Daily recorded completions. Today is incomplete and its final segment is faded. Missing-history gaps remain visible. ' + series.map(s => s.name + ': ' + (s.days.length ? s.days.reduce((sum,d)=>sum+d[1],0).toLocaleString() + ' recorded ' + (s.unit || 'completions') + ' across ' + s.days.length + ' observed days' : 'no dated records in this period')).join('. ')));
+    svg.append(svgNode('desc',{id:'activity-svg-desc'},'Each worker group has a distinct line pattern and a direct label. Recorded completions for finished UTC days. The current partial day is excluded. Missing-history gaps remain visible. ' + series.map(s => s.name + ': ' + (s.days.length ? s.days.reduce((sum,d)=>sum+d[1],0).toLocaleString() + ' recorded ' + (s.unit || 'completions') + ' across ' + s.days.length + ' observed days' : 'no dated records in this period')).join('. ')));
     svg.append(svgNode('rect',{x:75,y:65,width:880,height:27,fill:'currentColor',opacity:'.04',rx:4}));
     svg.append(svgNode('text',{x:14,y:200,transform:'rotate(-90 14 200)','text-anchor':'middle',fill:'currentColor','data-axis-label':'y'},'Daily completions'));
     const levels = [0,100,250,500,1000,1500,max];
@@ -84,7 +84,6 @@
       svg.append(svgNode('line',{x1:75,x2:955,y1:y(value),y2:y(value),stroke:'currentColor',opacity:'.15'}));
       svg.append(svgNode('text',{x:65,y:y(value)+5,'text-anchor':'end',fill:'currentColor'},Math.round(value).toLocaleString()));
     }
-    svg.append(svgNode('text',{x:955,y:390,'text-anchor':'end',fill:'currentColor'},'Today (partial)'));
     const format = n => new Date(n).toISOString().slice(0,10);
     const ticks = Math.min(4, Math.max(1, Math.round((last-first)/86400000)));
     for (let i=0;i<=ticks;i++) svg.append(svgNode('text',{x:75+880*i/ticks,y:365,'text-anchor':i===0?'start':i===ticks?'end':'middle',fill:'currentColor'},format(first+span*i/ticks)));
@@ -111,8 +110,7 @@
         if (points.length > 1) {
           const curve=linePath(points);
           const line = svgNode('path',{d:curve,fill:'none',stroke:color,'stroke-width':2.5,'stroke-dasharray':patterns[available.indexOf(s)],'stroke-linecap':'round','stroke-linejoin':'round','data-agent':s.name});
-          line.append(svgNode('title',{},s.name+' · '+(s.unit || 'completions')+(points.at(-1)[0]===x(to)?' · today is partial':'')));
-          if(points.at(-1)[0]===x(to)) line.setAttribute('opacity','.4');
+          line.append(svgNode('title',{},s.name+' · '+(s.unit || 'completions')));
           lines.append(line);
           const target=svgNode('path',{d:curve,fill:'none',stroke:'transparent','stroke-width':14,'pointer-events':'stroke','data-hover-agent':s.name});
           target.addEventListener('pointerenter',()=>{hoveredSeries=s.name;highlight();});
@@ -124,7 +122,6 @@
       s.days.forEach(([date,count]) => {
         const at = Date.parse(date+'T00:00:00Z');
         if (previous !== undefined && at-previous!==86400000) flush();
-        if(date===to && points.length>1) {const lastPoint=points.at(-1);flush();points=[lastPoint];}
         points.push([x(date),y(count)]);
         previous=at;
       });
@@ -138,7 +135,6 @@
     for (let i=endLabels.length-1;i>=0;i--) {
       const label=endLabels[i];
       label.y=Math.min(label.y,i===endLabels.length-1 ? 335 : endLabels[i+1].y-18);
-      svg.append(svgNode('path',{d:`M ${label.point} L 963,${label.y}`,fill:'none',stroke:label.color,'stroke-width':1,opacity:'.65'}));
       const text=svgNode('text',{x:970,y:label.y+4,fill:label.color,'data-series-label':label.name,tabindex:0,'aria-label':label.name+'; focus to highlight line'},label.name);
       text.addEventListener('pointerenter',()=>{hoveredSeries=label.name;highlight();});
       text.addEventListener('pointerleave',()=>{hoveredSeries=null;highlight();});

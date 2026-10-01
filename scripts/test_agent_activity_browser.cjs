@@ -3,10 +3,10 @@ const assert=require('node:assert/strict');
 (async()=>{
 const browser=await chromium.launch({headless:true});
 const page=await browser.newPage({viewport:{width:1280,height:1000}});
-await page.clock.install({time:new Date('2026-08-07T12:00:00Z')});
+await page.clock.install({time:new Date('2026-08-08T12:00:00Z')});
 const errors=[];page.on('pageerror',e=>errors.push(e.message));
 const payload={schemaVersion:1,generatedAt:'2026-10-01T01:00:00Z',agents:[
-{name:'OCR',metric:'completions',days:[['2026-06-01',99999],['2026-08-01',0],['2026-08-02',1500],['2026-08-03',3000],['2026-08-04',6000],['2026-08-06',20],['2026-08-07',30]]},
+{name:'OCR',metric:'completions',days:[['2026-06-01',99999],['2026-08-01',0],['2026-08-02',1500],['2026-08-03',3000],['2026-08-04',6000],['2026-08-06',20],['2026-08-07',30],['2026-08-08',99999]]},
 {name:'Transcriptions',metric:'completions',days:[['2026-08-01',2],['2026-08-02',4]]},
 {name:'Translations',metric:'completions',days:[['2026-08-01',7],['2026-08-02',9]]},
 {name:'Downloaders',metric:'completions',days:[['2026-07-31',3],['2026-08-01',6]]},
@@ -36,8 +36,9 @@ const bounds = await page.locator('#activity-chart path[data-agent=OCR]').first(
   return [Math.min(...values),Math.max(...values)];
 });
 assert.ok(bounds[0]>=65-0.001 && bounds[1]<=335+0.001, 'Curve must not overshoot recorded values');
-assert.equal(await page.locator('#activity-chart text').filter({hasText:'Today (partial)'}).count(),1);
-assert.equal(await page.locator('[data-agent=OCR]').last().getAttribute('opacity'),'.4');
+assert.equal(await page.locator('#activity-chart text').filter({hasText:'Today (partial)'}).count(),0);
+assert.equal(await page.locator('[data-agent][opacity]').count(),0);
+assert.equal(await page.locator('#activity-chart path:not([data-agent]):not([data-hover-agent])').count(),0,'No grey connector lines');
 assert.equal(await page.locator('#activity-operations, #activity-freshness, .activity-note').count(),0);
 const ticks=await page.locator('#activity-chart text[text-anchor=end]').evaluateAll(nodes=>Object.fromEntries(nodes.map(n=>[n.textContent,Number(n.getAttribute('y'))-5])));
 assert.equal(ticks['0'],335);
@@ -53,7 +54,7 @@ assert.ok(afterGap.startsWith('M '));
 assert.equal(Number(afterGap.split(' ')[1].split(',')[1]),335-.5*20/250*270); // No averaging across missing days.
 assert.equal(await page.locator('#activity-status').isVisible(),false);
 assert.equal(await page.locator('#activity-title').innerText(),'PROJECT ACTIVITY');
-assert.match(await page.locator('#activity-chart').textContent(),/2026-07-07/);
+assert.match(await page.locator('#activity-chart').textContent(),/2026-07-08/);
 const ocrLabel=page.locator('[data-series-label="OCR"]');
 await ocrLabel.hover();
 assert.equal(await page.locator('[data-agent="OCR"].is-highlighted').count(),2);
@@ -76,7 +77,7 @@ await page.locator('#activity-chart').focus();
 assert.equal(await page.locator('[data-agent].is-highlighted, [data-agent].is-muted').count(),0);
 livePayload=structuredClone(payload);
 livePayload.generatedAt="2026-10-01T02:00:00Z";
-livePayload.agents[0].days.at(-1)[1]=70;
+livePayload.agents[0].days.find(d=>d[0]==='2026-08-07')[1]=70;
 const beforeRefresh=feedRequests;
 await page.clock.fastForward(60000);
 await page.waitForFunction(()=>document.querySelectorAll('[data-agent="OCR"]')[1].getAttribute('d').endsWith(',297.2'));
