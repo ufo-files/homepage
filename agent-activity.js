@@ -45,31 +45,6 @@
     }
     return roles.map(name => ({name,metric:type,unit:units.get(name),days:[...totals.get(name)].sort((a,b)=>a[0].localeCompare(b[0]))}));
   }
-  function movingAverage(days) {
-    let window = [], previous;
-    return days.map(([day,count]) => {
-      const at=Date.parse(day+'T00:00:00Z');
-      if (previous !== undefined && at-previous !== 86400000) window=[];
-      window.push(count);
-      if (window.length>3) window.shift();
-      previous=at;
-      return [day,window.reduce((sum,value)=>sum+value,0)/window.length];
-    });
-  }
-  function smoothPath(points) {
-    // Uniform cubic B-spline: continuous tangent and curvature, bounded by
-    // the observations. Repeated endpoints retain the start/end of each run.
-    const padded = [points[0], points[0], ...points, points.at(-1), points.at(-1)];
-    const blend = (a,b,c) => [(a[0]+4*b[0]+c[0])/6,(a[1]+4*b[1]+c[1])/6];
-    let d = `M ${points[0][0]},${points[0][1]}`;
-    for (let i=1; i<padded.length-2; i++) {
-      const a=padded[i], b=padded[i+1], c=padded[i+2];
-      const c1=[(2*a[0]+b[0])/3,(2*a[1]+b[1])/3];
-      const c2=[(a[0]+2*b[0])/3,(a[1]+2*b[1])/3];
-      d += ` C ${c1} ${c2} ${blend(a,b,c)}`;
-    }
-    return d;
-  }
   function render() {
     const available = seriesFor(feed, metric);
     const series = available;
@@ -77,17 +52,17 @@
     const [from,to] = monthWindow();
     const first = Date.parse(from+'T00:00:00Z'), last = Date.parse(to+'T00:00:00Z');
     const span = Math.max(86400000,last-first);
-    const peak = Math.max(1, ...series.flatMap(s => movingAverage(s.days).map(d => d[1])));
+    const peak = Math.max(1, ...series.flatMap(s => s.days.map(d => d[1])));
     const max = Math.max(2000, Math.ceil(peak / 500) * 500);
     const x = d => 75 + (Date.parse(d+'T00:00:00Z')-first)/span*880;
     const y = n => 335 - (n <= 250 ? .5 * n / 250
       : n <= 1500 ? .5 + .4 * (n - 250) / 1250
       : .9 + .1 * (n - 1500) / (max - 1500))*270;
     const svg = svgNode('svg', {viewBox:'0 0 1100 405', role:'group', 'aria-labelledby':'activity-svg-title activity-svg-desc'});
-    svg.append(svgNode('title',{id:'activity-svg-title'},'Three-day average worker activity over the past month'));
-    svg.append(svgNode('desc',{id:'activity-svg-desc'},'Each worker group has a distinct line pattern and a direct label. Curves show smoothed trends of trailing three-day averages, not exact daily values. Gaps mean no dated records. ' + series.map(s => s.name + ': ' + (s.days.length ? s.days.reduce((sum,d)=>sum+d[1],0).toLocaleString() + ' recorded ' + (s.unit || 'completions') + ' across ' + s.days.length + ' observed days' : 'no dated records in this period')).join('. ')));
+    svg.append(svgNode('title',{id:'activity-svg-title'},'Daily worker completions over the past month'));
+    svg.append(svgNode('desc',{id:'activity-svg-desc'},'Each worker group has a distinct line pattern and a direct label. Straight segments connect recorded daily totals without smoothing. Gaps mean no dated records. ' + series.map(s => s.name + ': ' + (s.days.length ? s.days.reduce((sum,d)=>sum+d[1],0).toLocaleString() + ' recorded ' + (s.unit || 'completions') + ' across ' + s.days.length + ' observed days' : 'no dated records in this period')).join('. ')));
     svg.append(svgNode('rect',{x:75,y:65,width:880,height:27,fill:'currentColor',opacity:'.04',rx:4}));
-    svg.append(svgNode('text',{x:14,y:200,transform:'rotate(-90 14 200)','text-anchor':'middle',fill:'currentColor','data-axis-label':'y'},'Daily completions (3-day average)'));
+    svg.append(svgNode('text',{x:14,y:200,transform:'rotate(-90 14 200)','text-anchor':'middle',fill:'currentColor','data-axis-label':'y'},'Daily completions'));
     const levels = [0,100,250,500,1000,1500,max];
     for (const value of levels) {
       svg.append(svgNode('line',{x1:75,x2:955,y1:y(value),y2:y(value),stroke:'currentColor',opacity:'.15'}));
@@ -117,7 +92,7 @@
       let previous, points = [];
       const flush = () => {
         if (points.length > 1) {
-          const curve=smoothPath(points);
+          const curve=points.map((point,i)=>(i ? 'L ' : 'M ')+point.join(',')).join(' ');
           const line = svgNode('path',{d:curve,fill:'none',stroke:color,'stroke-width':2.5,'stroke-dasharray':patterns[available.indexOf(s)],'stroke-linecap':'round','stroke-linejoin':'round','data-agent':s.name});
           line.append(svgNode('title',{},s.name));
           lines.append(line);
@@ -128,7 +103,7 @@
         }
         points = [];
       };
-      movingAverage(s.days).forEach(([date,count]) => {
+      s.days.forEach(([date,count]) => {
         const at = Date.parse(date+'T00:00:00Z');
         if (previous !== undefined && at-previous!==86400000) flush();
         points.push([x(date),y(count)]);
@@ -158,7 +133,7 @@
   }
   async function refresh() {
     try {
-      const response=await fetch(endpoint+'?t='+Math.floor(Date.now()/60000),{cache:'no-store'});
+      const response=await fetch(endpoint+'?v=completed-files-1&t='+Math.floor(Date.now()/60000),{cache:'no-store'});
       if(!response.ok)throw Error('feed unavailable');
       const next=await response.json();
       if(next.schemaVersion!==1 || !Array.isArray(next.agents))throw Error('invalid feed');

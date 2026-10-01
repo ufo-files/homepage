@@ -21,9 +21,10 @@ assert.equal(await page.locator('#activity-chart path[data-agent]').count(),6);
 assert.deepEqual(await page.locator('#activity-chart path[data-agent]').evaluateAll(paths=>[...new Set(paths.map(p=>p.getAttribute('stroke')))]),['currentColor']);
 assert.equal(await page.locator('#activity-agents').count(),0);
 const path = await page.locator('#activity-chart path[data-agent=OCR]').first().getAttribute('d');
-assert.match(path,/ C /);
-const ys = path.split(/ [MC] |^M /).filter(Boolean).map(segment=>Number(segment.trim().split(' ').at(-1).split(',')[1]));
-assert.equal(ys[0],335); assert.equal(ys.at(-1),65); // Trailing averages 0,750,1500,3500; 0–250 fills 50%; 250–1500 fills 40%.
+assert.match(path,/ L /);
+assert.doesNotMatch(path,/[CQ]/);
+const ys = path.split(/ [ML] |^M /).filter(Boolean).map(segment=>Number(segment.trim().split(' ').at(-1).split(',')[1]));
+assert.deepEqual(ys,[335,92,83,65]); // Raw counts 0,1500,3000,6000 with the piecewise scale.
 assert.equal(await page.locator('#activity-chart path[data-agent=OCR]').first().getAttribute('stroke-linejoin'),'round');
 assert.equal(await page.locator('#activity-chart path[data-agent=OCR]').first().getAttribute('stroke-linecap'),'round');
 const bounds = await page.locator('#activity-chart path[data-agent=OCR]').first().evaluate(path => {
