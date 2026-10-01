@@ -1,6 +1,6 @@
 {
   "schema": "ufo-files-source-inventory/v1",
-  "generatedAt": "2026-10-01T03:41:49.794506+00:00",
+  "generatedAt": "2026-10-01T03:44:17.895458+00:00",
   "definition": "Archived content files, including scans and alternate formats; excludes metadata, logs, ZIP bundles, and partial downloads.",
   "completionRule": "Every archived content file has a nonempty machine-readable output with matching source path and byte size. This is processing coverage, not a content accuracy certification.",
   "sources": [
@@ -30,28 +30,28 @@
     },
     {
       "name": "Archives-for-the-Unexplained",
-      "totalFiles": 97614,
+      "totalFiles": 173615,
       "verifiedProcessedFiles": null,
-      "outputFiles": 30424,
+      "outputFiles": 35487,
       "processingComplete": false,
       "outputReadErrors": 0,
       "extensions": {
-        ".csv": 3,
-        ".doc": 166,
-        ".docx": 669,
+        ".csv": 6,
+        ".doc": 774,
+        ".docx": 671,
         ".html": 1,
-        ".jpeg": 1,
-        ".jpg": 174,
-        ".mov": 1,
-        ".mp3": 511,
+        ".jpeg": 4,
+        ".jpg": 38776,
+        ".mov": 2,
+        ".mp3": 608,
         ".mp4": 5,
-        ".pdf": 65172,
-        ".png": 367,
-        ".txt": 30439,
-        ".xls": 18,
-        ".xlsx": 87
+        ".pdf": 95067,
+        ".png": 379,
+        ".txt": 37199,
+        ".xls": 28,
+        ".xlsx": 95
       },
-      "checkedAt": "2026-09-28T16:47:24.940508+00:00"
+      "checkedAt": "2026-10-01T03:44:17.895458+00:00"
     },
     {
       "name": "Area52-Investigations",
