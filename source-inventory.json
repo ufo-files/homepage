@@ -1,6 +1,6 @@
 {
   "schema": "ufo-files-source-inventory/v1",
-  "generatedAt": "2026-10-01T06:03:18.545996+00:00",
+  "generatedAt": "2026-10-01T06:04:11.206052+00:00",
   "definition": "Archived content files, including scans and alternate formats; excludes metadata, logs, ZIP bundles, and partial downloads.",
   "completionRule": "Every archived content file has a nonempty machine-readable output with matching source path and byte size. This is processing coverage, not a content accuracy certification.",
   "sources": [
@@ -461,7 +461,7 @@
       "extensions": {
         ".mp4": 139
       },
-      "checkedAt": "2026-10-01T04:18:16.178350+00:00"
+      "checkedAt": "2026-10-01T06:04:11.206052+00:00"
     },
     {
       "name": "Whitepapers",
