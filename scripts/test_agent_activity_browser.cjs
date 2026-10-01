@@ -44,7 +44,9 @@ assert.equal(await page.locator('#agent-activity button, #agent-activity input, 
 const afterGap = await page.locator('#activity-chart path[data-agent=OCR]').nth(1).getAttribute('d');
 assert.ok(afterGap.startsWith('M '));
 assert.equal(Number(afterGap.split(' ')[1].split(',')[1]),335-.5*20/250*270); // No averaging across missing days.
-assert.match(await page.locator('#activity-status').innerText(),/2026-07-07/);
+assert.equal(await page.locator('#activity-status').isVisible(),false);
+assert.equal(await page.locator('#activity-title').innerText(),'PROJECT ACTIVITY');
+assert.match(await page.locator('#activity-chart').textContent(),/2026-07-07/);
 await page.locator('#agent-activity').screenshot({path:'/private/tmp/agent-activity-desktop.png'});
 await page.setViewportSize({width:390,height:844});
 assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));

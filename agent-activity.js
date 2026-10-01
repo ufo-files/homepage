@@ -132,7 +132,8 @@
       svg.append(svgNode('text',{x:970,y:label.y+4,fill:label.color,'data-series-label':label.name},label.name));
     }
     chart.append(svg);
-    status.textContent = `${format(first)}–${format(last)} UTC · Updated ${new Date(feed.generatedAt).toLocaleString()} · ${series.length} worker groups shown${feed.backfillInProgress ? ' · Historical import in progress' : ''}`;
+    status.textContent = '';
+    status.hidden = true;
   }
   function updateChart() {
     const available=seriesFor(feed, metric);
@@ -156,9 +157,9 @@
       feed=next;updateChart();
     } catch(error) {
       if(!feed) {
-        try {const r=await fetch('agent-activity.json');if(!r.ok)throw Error();feed=await r.json();updateChart();status.textContent+=' · Saved snapshot';}
-        catch {status.textContent='Activity history is temporarily unavailable.';}
-      } else { render(); status.textContent+=' · Live refresh unavailable; showing last received records'; }
+        try {const r=await fetch('agent-activity.json');if(!r.ok)throw Error();feed=await r.json();updateChart();status.textContent='Showing a saved snapshot; live activity is temporarily unavailable.';status.hidden=false;}
+        catch {status.textContent='Activity history is temporarily unavailable.';status.hidden=false;}
+      } else { render(); status.textContent='Live refresh unavailable; showing last received records.';status.hidden=false; }
     }
   }
   refresh();setInterval(()=>{if(!document.hidden)refresh();},60000);
