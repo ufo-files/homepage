@@ -1,6 +1,6 @@
 {
   "schema": "ufo-files-source-inventory/v1",
-  "generatedAt": "2026-10-01T08:02:00.551396+00:00",
+  "generatedAt": "2026-10-01T08:03:12.960311+00:00",
   "definition": "Archived content files, including scans and alternate formats; excludes metadata, logs, ZIP bundles, and partial downloads.",
   "completionRule": "Every archived content file has a nonempty machine-readable output with matching source path and byte size. This is processing coverage, not a content accuracy certification.",
   "sources": [
@@ -83,7 +83,7 @@
       "name": "Black-Vault-UFO",
       "totalFiles": 4437,
       "verifiedProcessedFiles": null,
-      "outputFiles": 2375,
+      "outputFiles": 2378,
       "processingComplete": false,
       "outputReadErrors": 0,
       "extensions": {
@@ -101,7 +101,7 @@
         ".wmv": 5,
         ".xlsx": 2
       },
-      "checkedAt": "2026-10-01T06:05:57.385041+00:00"
+      "checkedAt": "2026-10-01T08:03:12.960311+00:00"
     },
     {
       "name": "Brazil-Government-UAP",
