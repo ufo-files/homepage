@@ -1,6 +1,6 @@
 {
   "schema": "ufo-files-source-inventory/v1",
-  "generatedAt": "2026-10-01T13:34:55.071358+00:00",
+  "generatedAt": "2026-10-01T13:36:13.457908+00:00",
   "definition": "Archived content files, including scans and alternate formats; excludes metadata, logs, ZIP bundles, and partial downloads.",
   "completionRule": "Every archived content file has a nonempty machine-readable output with matching source path and byte size. This is processing coverage, not a content accuracy certification.",
   "sources": [
@@ -159,15 +159,15 @@
     },
     {
       "name": "DPIArchive",
-      "totalFiles": 3502,
+      "totalFiles": 3505,
       "verifiedProcessedFiles": null,
       "outputFiles": 3058,
       "processingComplete": false,
       "outputReadErrors": 0,
       "extensions": {
-        ".pdf": 3502
+        ".pdf": 3505
       },
-      "checkedAt": "2026-10-01T12:16:02.680412+00:00"
+      "checkedAt": "2026-10-01T13:36:13.457908+00:00"
     },
     {
       "name": "FBI-Vault-UFO",
