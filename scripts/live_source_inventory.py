@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Continuously refresh independent archive rows and publish a small live feed."""
+"""Refresh independent archive rows and publish the inventory once daily."""
 import argparse
 import base64
 import concurrent.futures
@@ -10,6 +10,20 @@ from pathlib import Path
 import subprocess
 import time
 from build_source_inventory import build
+
+
+REFRESH_INTERVAL = 24 * 60 * 60
+
+
+def refresh_delay(checked_at, interval, now=None):
+    """Honor saved check times across restarts; old or invalid times are due now."""
+    now = now or datetime.now(timezone.utc)
+    try:
+        checked = datetime.fromisoformat(checked_at)
+        age = (now - checked).total_seconds()
+    except (TypeError, ValueError):
+        return 0
+    return max(0, min(interval, interval - age))
 
 
 def stamp():
@@ -51,11 +65,20 @@ def run(args):
     # Old rows retain their original age when another source refreshes.
     for row in inventory['sources']:
         row.setdefault('checkedAt', inventory['generatedAt'])
-    due = {row['name']: 0 for row in inventory['sources']}
+    now = time.monotonic()
+    due = {row['name']: now + refresh_delay(row['checkedAt'], args.interval)
+           for row in inventory['sources']}
     totals = {row['name']: row.get('totalFiles') or 0 for row in inventory['sources']}
     running = {}
-    dirty = False
-    last_publish = 0
+    publication_state = args.state_dir/'publication.json'
+    published_at = (json.loads(publication_state.read_text())['publishedAt']
+                    if publication_state.exists() else inventory['generatedAt'])
+    dirty = state.exists()
+    next_publish = now + refresh_delay(published_at, args.interval)
+    retry_at = 0
+    print(f'{stamp()} refresh interval: {args.interval}s; '
+          f'next source check in {max(0, min(due.values(), default=now) - now):.0f}s; '
+          f'next publication eligible in {max(0, next_publish - now):.0f}s', flush=True)
     with concurrent.futures.ThreadPoolExecutor(max_workers=2) as pool:
         while True:
             now = time.monotonic()
@@ -76,13 +99,18 @@ def run(args):
                     print(f'{stamp()} checked {name}: {row["totalFiles"]} files', flush=True)
                 except Exception as exc:
                     print(f'{stamp()} inventory check failed for {name}: {exc}', flush=True)
-            if dirty and now - last_publish >= 60:
+            if dirty and now >= next_publish and now >= retry_at:
                 try:
                     publish(inventory, args.repository, args.branch)
+                    published_at = stamp()
+                    temporary = publication_state.with_suffix('.tmp')
+                    temporary.write_text(json.dumps({'publishedAt': published_at}) + '\n')
+                    temporary.replace(publication_state)
+                    next_publish = time.monotonic() + args.interval
                     dirty = False
                 except Exception as exc:
                     print(f'{stamp()} publication failed; retrying: {exc}', flush=True)
-                last_publish = now
+                retry_at = time.monotonic() + 60
             if (args.archive/'originals').is_dir() and (args.archive/'transcripts').is_dir():
                 active = set(running.values())
                 available = sorted((name for name, at in due.items() if at <= now and name not in active),
@@ -100,5 +128,5 @@ if __name__ == '__main__':
     parser.add_argument('--state-dir', type=Path, required=True)
     parser.add_argument('--repository', default='ufo-files/homepage')
     parser.add_argument('--branch', default='live-inventory')
-    parser.add_argument('--interval', type=int, default=900)
+    parser.add_argument('--interval', type=int, default=REFRESH_INTERVAL, help='Seconds between source checks and successful publications (default: daily)')
     run(parser.parse_args())
