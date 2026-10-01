@@ -1,6 +1,6 @@
 {
   "schema": "ufo-files-source-inventory/v1",
-  "generatedAt": "2026-10-01T16:39:18.404549+00:00",
+  "generatedAt": "2026-10-01T16:40:21.492935+00:00",
   "definition": "Archived content files, including scans and alternate formats; excludes metadata, logs, ZIP bundles, and partial downloads.",
   "completionRule": "Every archived content file has a nonempty machine-readable output with matching source path and byte size. This is processing coverage, not a content accuracy certification.",
   "sources": [
@@ -179,7 +179,7 @@
       "extensions": {
         ".pdf": 16
       },
-      "checkedAt": "2026-10-01T16:11:33.554099+00:00"
+      "checkedAt": "2026-10-01T16:39:30.565671+00:00"
     },
     {
       "name": "France-GEIPAN",
@@ -222,7 +222,7 @@
         ".html": 1,
         ".pdf": 31
       },
-      "checkedAt": "2026-10-01T16:11:38.571798+00:00"
+      "checkedAt": "2026-10-01T16:39:35.668654+00:00"
     },
     {
       "name": "NSA-UFO-FOIA",
@@ -234,7 +234,7 @@
       "extensions": {
         ".pdf": 64
       },
-      "checkedAt": "2026-10-01T16:11:56.823307+00:00"
+      "checkedAt": "2026-10-01T16:39:40.793339+00:00"
     },
     {
       "name": "National-Archives-UAP-Bulk",
@@ -315,7 +315,7 @@
       "extensions": {
         ".pdf": 22
       },
-      "checkedAt": "2026-10-01T16:11:28.545073+00:00"
+      "checkedAt": "2026-10-01T16:39:25.475892+00:00"
     },
     {
       "name": "UAP-Gerb",
@@ -424,7 +424,7 @@
       "extensions": {
         ".gz": 1
       },
-      "checkedAt": "2026-10-01T16:13:10.373988+00:00"
+      "checkedAt": "2026-10-01T16:40:21.492935+00:00"
     },
     {
       "name": "UPDB-UKTNA",
