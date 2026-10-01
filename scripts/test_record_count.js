@@ -88,3 +88,23 @@ test('relocated journal joins Whitepapers without changing totals or UPDB-MUFON'
   catalog.sources[0].words = 2000;
   assert.equal(currentSourceCollections(catalog).length, 3, 'Different MUFON records are not regrouped');
 });
+
+test('archive feed fetches live branch and bypasses stale cache', async () => {
+  const { fetchSourceInventory } = require('../record-count.js');
+  const payload = {schema:'ufo-files-source-inventory/v1', generatedAt:new Date().toISOString(),sources:[]};
+  let called;
+  assert.deepEqual(await fetchSourceInventory(async (url, options) => {
+    called = {url, options}; return new Response(JSON.stringify(payload));
+  }), payload);
+  assert.match(called.url, /homepage\/live-inventory\/source-inventory.json\?minute=/);
+  assert.equal(called.options.cache, 'no-store');
+  await assert.rejects(fetchSourceInventory(async () => new Response('', {status:503})));
+});
+
+test('freshness belongs to each row rather than the newest completed source', () => {
+  const { inventoryFresh } = require('../record-count.js');
+  const now = Date.parse('2026-10-01T03:00:00Z');
+  const inventory = {generatedAt:'2026-10-01T03:00:00Z'};
+  assert.equal(inventoryFresh({checkedAt:'2026-10-01T00:00:00Z'}, inventory, now), false);
+  assert.equal(inventoryFresh({checkedAt:'2026-10-01T02:45:00Z'}, inventory, now), true);
+});
