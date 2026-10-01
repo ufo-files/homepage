@@ -184,12 +184,6 @@ footer p { font-size: var(--font-size-small); }
 #activity-agents .activity-legend-item { font-size:.75rem; }
 #activity-chart { margin:.75rem 0; scrollbar-color:var(--muted) var(--mint); }
 #activity-chart:focus-visible { outline:2px solid var(--ink); outline-offset:4px; }
-.activity-scroll-hint { font-size:.75rem; color:var(--muted); margin:.5rem 0 1.25rem; }
-.activity-notes { display:grid; grid-template-columns:1fr 1fr; gap:2rem; border-top:1px solid var(--line); padding-top:1rem; }
-.activity-notes p { margin:0; font-size:.75rem; line-height:1.7; color:var(--muted); }
-.activity-notes strong { display:block; color:var(--ink); font-weight:400; margin-bottom:.4rem; }
-@media (min-width:1250px) { .activity-scroll-hint { display:none; } }
 @media (max-width:600px) {
   #activity-agents { display:grid; grid-template-columns:1fr 1fr; gap:.75rem; }
-  .activity-notes { grid-template-columns:1fr; gap:1rem; }
 }
