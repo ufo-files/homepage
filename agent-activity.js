@@ -19,6 +19,7 @@
   function monthWindow() {
     const end = new Date();
     end.setUTCHours(0,0,0,0);
+    end.setUTCDate(end.getUTCDate()-1);
     const start = new Date(end);
     const day = start.getUTCDate();
     start.setUTCDate(1);
@@ -40,7 +41,7 @@
       if (!totals.has(name)) continue;
       units.set(name, series.unit);
       for (const [day,count] of series.days) {
-        if (day >= from && day < to) totals.get(name).set(day,(totals.get(name).get(day)||0)+count);
+        if (day >= from && day <= to) totals.get(name).set(day,(totals.get(name).get(day)||0)+count);
       }
     }
     return roles.map(name => ({name,metric:type,unit:units.get(name),days:[...totals.get(name)].sort((a,b)=>a[0].localeCompare(b[0]))}));
