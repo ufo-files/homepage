@@ -54,7 +54,7 @@ assert.ok(afterGap.startsWith('M '));
 assert.equal(Number(afterGap.split(' ').at(-1).split(',')[0]),955,'Latest completed day reaches the right edge');
 assert.equal(Number(afterGap.split(' ')[1].split(',')[1]),335-.5*20/250*270); // No averaging across missing days.
 assert.equal(await page.locator('#activity-status').isVisible(),false);
-assert.equal(await page.locator('#activity-title').innerText(),'LAST 30-DAY PROJECT ACTIVITY');
+assert.equal(await page.locator('#activity-title').innerText(),'PROJECT ACTIVITY: LAST 30 DAYS');
 assert.match(await page.locator('#activity-chart').textContent(),/2026-07-07/);
 const ocrLabel=page.locator('[data-series-label="OCR"]');
 await ocrLabel.hover();
