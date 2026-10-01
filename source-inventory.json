@@ -1,6 +1,6 @@
 {
   "schema": "ufo-files-source-inventory/v1",
-  "generatedAt": "2026-10-01T02:11:06.592185+00:00",
+  "generatedAt": "2026-10-01T02:12:20.773700+00:00",
   "definition": "Archived content files, including scans and alternate formats; excludes metadata, logs, ZIP bundles, and partial downloads.",
   "completionRule": "Every archived content file has a nonempty machine-readable output with matching source path and byte size. This is processing coverage, not a content accuracy certification.",
   "sources": [
@@ -18,15 +18,15 @@
     },
     {
       "name": "American-Alchemy",
-      "totalFiles": 141,
-      "verifiedProcessedFiles": 141,
-      "outputFiles": 141,
+      "totalFiles": 142,
+      "verifiedProcessedFiles": 142,
+      "outputFiles": 142,
       "processingComplete": true,
       "outputReadErrors": 0,
       "extensions": {
-        ".mp4": 141
+        ".mp4": 142
       },
-      "checkedAt": "2026-09-28T16:47:24.940508+00:00"
+      "checkedAt": "2026-10-01T02:12:20.773700+00:00"
     },
     {
       "name": "Archives-for-the-Unexplained",
