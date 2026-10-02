@@ -11,6 +11,10 @@ async function fetchSourceInventory(fetcher = fetch) {
   return parseSourceInventory(await response.json());
 }
 
+function pendingResearchLabel(source) {
+  return source?.processingComplete === true ? 'Awaiting search indexing' : 'Awaiting processing';
+}
+
 function processingStatus(source) {
   return source?.processingComplete === true ? '✅' : 'In progress';
 }
@@ -179,7 +183,7 @@ function renderSources(catalog, inventory) {
       explore.href = `https://ufo-files.github.io/relationship-graph-builder/#config=${encodeURIComponent(encoded)}`;
       explore.textContent = 'Explore';
       explore.setAttribute('aria-label', `Explore ${label}`);
-      if (source.awaitingProcessing) research.textContent = 'Awaiting processing';
+      if (source.awaitingProcessing) research.textContent = pendingResearchLabel(archived);
       else research.append(explore);
       row.append(research);
       return row;
@@ -226,7 +230,7 @@ function startRecordCount() {
 }
 
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { fetchSourceInventory, processingStatus, parseRecordCount, fetchRecordCount, parseCatalogSummary, fetchCatalogHeader, currentSourceCollections, sourceCollectionsWithInventory, parseSourceInventory };
+  module.exports = { pendingResearchLabel, fetchSourceInventory, processingStatus, parseRecordCount, fetchRecordCount, parseCatalogSummary, fetchCatalogHeader, currentSourceCollections, sourceCollectionsWithInventory, parseSourceInventory };
 } else {
   startRecordCount();
 }

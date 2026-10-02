@@ -29,14 +29,14 @@
     {
       "name": "Americans-for-Safe-Aerospace",
       "totalFiles": 44,
-      "verifiedProcessedFiles": null,
-      "outputFiles": 0,
-      "processingComplete": false,
+      "verifiedProcessedFiles": 44,
+      "outputFiles": 44,
+      "processingComplete": true,
       "outputReadErrors": 0,
       "extensions": {
         ".html": 44
       },
-      "checkedAt": "2026-10-02T16:43:58.622685+00:00"
+      "checkedAt": "2026-10-02T18:54:37.858068+00:00"
     },
     {
       "name": "Archives-for-the-Unexplained",
@@ -225,15 +225,15 @@
     {
       "name": "NARCAP",
       "totalFiles": 62,
-      "verifiedProcessedFiles": null,
-      "outputFiles": 0,
-      "processingComplete": false,
+      "verifiedProcessedFiles": 62,
+      "outputFiles": 62,
+      "processingComplete": true,
       "outputReadErrors": 0,
       "extensions": {
         ".html": 11,
         ".pdf": 51
       },
-      "checkedAt": "2026-10-02T16:43:58.622685+00:00"
+      "checkedAt": "2026-10-02T18:54:37.858068+00:00"
     },
     {
       "name": "NSA-UFO-FOIA",

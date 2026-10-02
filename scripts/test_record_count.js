@@ -122,3 +122,10 @@ test('new archived collections appear before processing and use published counts
   assert.equal(sources[1].documents, 10);
   assert.equal(sources[1].awaitingProcessing, undefined);
 });
+
+test('pending research label distinguishes processing from indexing', () => {
+  const { pendingResearchLabel } = require('../record-count.js');
+  assert.equal(pendingResearchLabel({processingComplete:true}), 'Awaiting search indexing');
+  assert.equal(pendingResearchLabel({processingComplete:false}), 'Awaiting processing');
+  assert.equal(pendingResearchLabel(undefined), 'Awaiting processing');
+});
