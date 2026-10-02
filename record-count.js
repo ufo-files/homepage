@@ -118,11 +118,23 @@ function parseSourceInventory(inventory) {
   return inventory;
 }
 
+function sourceCollectionsWithInventory(catalog, inventory) {
+  const sources = currentSourceCollections(catalog);
+  const published = new Set(sources.map(source => source.name));
+  for (const source of inventory.sources) {
+    if (!published.has(source.name)) {
+      sources.push({ name: source.name, documents: 0, words: 0, awaitingProcessing: true });
+      published.add(source.name);
+    }
+  }
+  return sources;
+}
+
 function renderSources(catalog, inventory) {
   const body = document.getElementById('sources-body');
   if (!body || !inventory) return;
   const format = new Intl.NumberFormat('en-US');
-  const sources = currentSourceCollections(catalog);
+  const sources = sourceCollectionsWithInventory(catalog, inventory);
   const signature = JSON.stringify([catalog, inventory]);
   if (body.dataset.catalog !== signature) {
     const focusedUrl = body.contains(document.activeElement) ? document.activeElement.href : null;
@@ -131,9 +143,9 @@ function renderSources(catalog, inventory) {
       const name = document.createElement('th');
       name.scope = 'row';
       const label = source.name.replaceAll('-', ' ');
-      const link = document.createElement('a');
+      const link = document.createElement(source.awaitingProcessing ? 'span' : 'a');
       link.textContent = label;
-      link.href = `https://github.com/ufo-files/machine-data/tree/main/${encodeURIComponent(source.name)}`;
+      if (!source.awaitingProcessing) link.href = `https://github.com/ufo-files/machine-data/tree/main/${encodeURIComponent(source.name)}`;
       name.append(link);
       row.append(name);
       const archived = inventory.sources.find(item => item.name === source.name);
@@ -167,7 +179,8 @@ function renderSources(catalog, inventory) {
       explore.href = `https://ufo-files.github.io/relationship-graph-builder/#config=${encodeURIComponent(encoded)}`;
       explore.textContent = 'Explore';
       explore.setAttribute('aria-label', `Explore ${label}`);
-      research.append(explore);
+      if (source.awaitingProcessing) research.textContent = 'Awaiting processing';
+      else research.append(explore);
       row.append(research);
       return row;
     });
@@ -213,7 +226,7 @@ function startRecordCount() {
 }
 
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { fetchSourceInventory, processingStatus, parseRecordCount, fetchRecordCount, parseCatalogSummary, fetchCatalogHeader, currentSourceCollections, parseSourceInventory };
+  module.exports = { fetchSourceInventory, processingStatus, parseRecordCount, fetchRecordCount, parseCatalogSummary, fetchCatalogHeader, currentSourceCollections, sourceCollectionsWithInventory, parseSourceInventory };
 } else {
   startRecordCount();
 }
