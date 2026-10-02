@@ -107,3 +107,18 @@ test('inventory age does not change the processing result', () => {
   assert.equal(processingStatus({processingComplete:false,checkedAt:new Date().toISOString()}), 'In progress');
   assert.equal(processingStatus(undefined), 'In progress');
 });
+
+test('new archived collections appear before processing and use published counts when ready', () => {
+  const { sourceCollectionsWithInventory } = require('../record-count.js');
+  const inventory = { sources: [{ name: 'NARCAP', totalFiles: 62 }, { name: 'Existing', totalFiles: 4 }] };
+  const catalog = { sources: [{ name: 'Existing', documents: 3, words: 50 }] };
+  assert.deepEqual(sourceCollectionsWithInventory(catalog, inventory), [
+    { name: 'Existing', documents: 3, words: 50 },
+    { name: 'NARCAP', documents: 0, words: 0, awaitingProcessing: true },
+  ]);
+  catalog.sources.push({ name: 'NARCAP', documents: 10, words: 100 });
+  const sources = sourceCollectionsWithInventory(catalog, inventory);
+  assert.equal(sources.length, 2);
+  assert.equal(sources[1].documents, 10);
+  assert.equal(sources[1].awaitingProcessing, undefined);
+});
