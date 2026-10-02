@@ -1,6 +1,6 @@
 {
   "schema": "ufo-files-source-inventory/v1",
-  "generatedAt": "2026-10-02T18:13:20.181531+00:00",
+  "generatedAt": "2026-10-02T18:13:49.103384+00:00",
   "definition": "Archived content files, including scans and alternate formats; excludes metadata, logs, ZIP bundles, and partial downloads.",
   "completionRule": "Every archived content file has a nonempty machine-readable output with matching source path and byte size. This is processing coverage, not a content accuracy certification.",
   "sources": [
@@ -130,7 +130,7 @@
       "extensions": {
         ".jpg": 205
       },
-      "checkedAt": "2026-10-01T18:13:37.200679+00:00"
+      "checkedAt": "2026-10-02T18:13:49.103384+00:00"
     },
     {
       "name": "Chile-SEFAA",
@@ -491,27 +491,27 @@
     {
       "name": "Americans-for-Safe-Aerospace",
       "totalFiles": 44,
-      "verifiedProcessedFiles": null,
-      "outputFiles": 0,
-      "processingComplete": false,
+      "verifiedProcessedFiles": 44,
+      "outputFiles": 44,
+      "processingComplete": true,
       "outputReadErrors": 0,
       "extensions": {
         ".html": 44
       },
-      "checkedAt": "2026-10-02T16:43:58.622685+00:00"
+      "checkedAt": "2026-10-02T18:54:37.858068+00:00"
     },
     {
       "name": "NARCAP",
       "totalFiles": 62,
-      "verifiedProcessedFiles": null,
-      "outputFiles": 0,
-      "processingComplete": false,
+      "verifiedProcessedFiles": 62,
+      "outputFiles": 62,
+      "processingComplete": true,
       "outputReadErrors": 0,
       "extensions": {
         ".html": 11,
         ".pdf": 51
       },
-      "checkedAt": "2026-10-02T16:43:58.622685+00:00"
+      "checkedAt": "2026-10-02T18:54:37.858068+00:00"
     }
   ]
 }
