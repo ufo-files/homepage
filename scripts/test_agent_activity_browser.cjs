@@ -1,4 +1,4 @@
-const {chromium}=require('playwright');
+const {chromium}=require('@playwright/test');
 const assert=require('node:assert/strict');
 (async()=>{
 const browser=await chromium.launch({headless:true});
@@ -7,7 +7,7 @@ await page.clock.install({time:new Date('2026-08-08T12:00:00Z')});
 const errors=[];page.on('pageerror',e=>errors.push(e.message));
 const payload={schemaVersion:1,generatedAt:'2026-10-01T01:00:00Z',agents:[
 {name:'OCR',metric:'completions',days:[['2026-06-01',99999],['2026-08-01',0],['2026-08-02',1500],['2026-08-03',3000],['2026-08-04',6000],['2026-08-06',20],['2026-08-07',30],['2026-08-08',99999]]},
-{name:'Transcriptions',metric:'completions',days:[['2026-08-01',2],['2026-08-02',4]]},
+{name:'Transcriptions',metric:'completions',days:[['2026-08-01',2],['2026-08-02',4],['2026-08-07',1]]},
 {name:'Translations',metric:'completions',days:[['2026-08-01',7],['2026-08-02',9]]},
 {name:'Downloaders',metric:'completions',days:[['2026-07-31',3],['2026-08-01',6]]},
 {name:'Publisher',metric:'completions',days:[['2026-07-31',1],['2026-08-01',2]]}]};
@@ -22,9 +22,13 @@ await page.locator('#activity-chart path[data-agent=OCR]').first().waitFor();
 assert.equal(await page.locator('#activity-chart circle').count(),0);
 assert.equal(await page.locator('#activity-chart pattern, #activity-chart [data-fill-agent], #activity-agents rect').count(),0);
 assert.equal(await page.locator('#activity-chart path[data-agent=OCR]').count(),2); // Gap on Aug 5.
-assert.equal(await page.locator('#activity-chart path[data-agent]').count(),6);
+assert.equal(await page.locator('#activity-chart path[data-agent]').count(),7);
 assert.deepEqual(await page.locator('#activity-chart path[data-agent]').evaluateAll(paths=>[...new Set(paths.map(p=>p.getAttribute('stroke')))]),['currentColor']);
 assert.equal(await page.locator('#activity-agents').count(),0);
+const isolated = page.locator('path[data-agent="Transcriptions"]').last();
+assert.match(await isolated.getAttribute('d'), /^M .* L /);
+assert.ok(await isolated.evaluate(p=>p.getTotalLength()) > 0);
+assert.match(await isolated.textContent(), /2026-08-07 · 1 media jobs|2026-08-07 · 1 completions/);
 const path = await page.locator('#activity-chart path[data-agent=OCR]').first().getAttribute('d');
 assert.match(path,/ C /);
 const ys = path.split(/ [MC] |^M /).filter(Boolean).map(segment=>Number(segment.trim().split(' ').at(-1).split(',')[1]));
@@ -59,7 +63,7 @@ assert.match(await page.locator('#activity-chart').textContent(),/2026-07-07/);
 const ocrLabel=page.locator('[data-series-label="OCR"]');
 await ocrLabel.hover();
 assert.equal(await page.locator('[data-agent="OCR"].is-highlighted').count(),2);
-assert.equal(await page.locator('[data-agent].is-muted').count(),4);
+assert.equal(await page.locator('[data-agent].is-muted').count(),5);
 await page.mouse.move(0,0);
 assert.equal(await page.locator('[data-agent].is-highlighted, [data-agent].is-muted').count(),0);
 const hitPoint=await page.locator('[data-hover-agent="OCR"]').first().evaluate(path=>{

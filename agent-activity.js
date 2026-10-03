@@ -108,10 +108,13 @@
       const color = colorFor(available.indexOf(s));
       let previous, points = [];
       const flush = () => {
-        if (points.length > 1) {
-          const curve=linePath(points);
-          const line = svgNode('path',{d:curve,fill:'none',stroke:color,'stroke-width':2.5,'stroke-dasharray':patterns[available.indexOf(s)],'stroke-linecap':'round','stroke-linejoin':'round','data-agent':s.name});
-          line.append(svgNode('title',{},s.name+' · '+(s.unit || 'completions')));
+        if (points.length) {
+          // A lone observed day still needs a visible mark; never bridge missing days.
+          const isolated = points.length === 1;
+          const [px, py] = points[0];
+          const curve = isolated ? `M ${px-3},${py} L ${px+3},${py}` : linePath(points.map(p => p.slice(0,2)));
+          const line = svgNode('path',{d:curve,fill:'none',stroke:color,'stroke-width':2.5,'stroke-dasharray':isolated ? '' : patterns[available.indexOf(s)],'stroke-linecap':'round','stroke-linejoin':'round','data-agent':s.name});
+          line.append(svgNode('title',{},s.name+' · '+(isolated ? points[0][2]+' · '+points[0][3]+' ' : '')+(s.unit || 'completions')));
           lines.append(line);
           const target=svgNode('path',{d:curve,fill:'none',stroke:'transparent','stroke-width':14,'pointer-events':'stroke','data-hover-agent':s.name});
           target.addEventListener('pointerenter',()=>{hoveredSeries=s.name;highlight();});
@@ -123,7 +126,7 @@
       s.days.forEach(([date,count]) => {
         const at = Date.parse(date+'T00:00:00Z');
         if (previous !== undefined && at-previous!==86400000) flush();
-        points.push([x(date),y(count)]);
+        points.push([x(date),y(count),date,count]);
         previous=at;
       });
       if (points.length) endLabels.push({name:s.name,point:points.at(-1),color});
