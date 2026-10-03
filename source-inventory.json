@@ -433,6 +433,19 @@
       }
     },
     {
+      "name": "Vatican",
+      "totalFiles": 12,
+      "verifiedProcessedFiles": 12,
+      "outputFiles": 12,
+      "processingComplete": true,
+      "outputReadErrors": 0,
+      "extensions": {
+        ".html": 7,
+        ".pdf": 5
+      },
+      "checkedAt": "2026-10-03T16:31:59.629573+00:00"
+    },
+    {
       "name": "War-Gov-PURSUE",
       "totalFiles": 416,
       "verifiedProcessedFiles": null,
