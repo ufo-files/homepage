@@ -86,8 +86,9 @@ header nav .primaryBtn { margin-left: 1.25rem; }
 .intro p { max-width: 100%; }
 .intro .hero-copy > p:not(.badge) { max-width: 34rem; margin: 1.25rem 0 1.5rem; }
 .intro .badge { margin-bottom: 1.5rem; }
-.corpus-counts { display: flex; flex-wrap: wrap; gap: 0 1.25rem; }
-.corpus-counts .badge { margin-top: 0; }
+.count-badge-items { display: inline-grid; }
+.count-badge-item { grid-area: 1 / 1; opacity: 0; visibility: hidden; transform: translateY(.3em); transition: opacity .2s ease, transform .2s ease; }
+.count-badge-item.is-active { opacity: 1; visibility: visible; transform: translateY(0); }
 .feature { width: 100%; }
 .feature .wrapper { margin-inline: auto; }
 .feature img { height: auto; border: var(--border); border-radius: .5rem; box-shadow: var(--shadow); }
@@ -109,6 +110,7 @@ details[open] > .faq-question .arrow { transform: rotate(-180deg); }
 details[open] > .faq-answer { display: block; }
 @media (prefers-reduced-motion: reduce) {
   .arrow { transition: none; }
+  .count-badge-item { transition: none; transform: none; }
 }
 footer { width: 100%; padding: 2rem 0; border-top: var(--border); }
 .footer-inner { display: flex; justify-content: space-between; gap: 1rem; }
