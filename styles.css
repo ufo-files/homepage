@@ -86,6 +86,8 @@ header nav .primaryBtn { margin-left: 1.25rem; }
 .intro p { max-width: 100%; }
 .intro .hero-copy > p:not(.badge) { max-width: 34rem; margin: 1.25rem 0 1.5rem; }
 .intro .badge { margin-bottom: 1.5rem; }
+.corpus-counts { display: flex; flex-wrap: wrap; gap: 0 1.25rem; }
+.corpus-counts .badge { margin-top: 0; }
 .feature { width: 100%; }
 .feature .wrapper { margin-inline: auto; }
 .feature img { height: auto; border: var(--border); border-radius: .5rem; box-shadow: var(--shadow); }
