@@ -2,8 +2,14 @@
 
 function createCountBadge(badge, schedule, isHidden) {
   const nodes = [...badge.querySelectorAll('[data-count]')];
+  const items = badge.querySelector('.count-badge-items');
   const values = new Map();
   let active = null;
+
+  function resize() {
+    const node = nodes.find(node => node.dataset.count === active) || nodes[0];
+    items.style.width = `${node.getBoundingClientRect().width}px`;
+  }
 
   function render() {
     const available = nodes.filter(node => values.has(node.dataset.count));
@@ -24,6 +30,7 @@ function createCountBadge(badge, schedule, isHidden) {
       badge.dataset.state = value.state;
       badge.setAttribute('aria-label', available.map(node => values.get(node.dataset.count).text).join('; '));
     }
+    resize();
   }
 
   schedule(() => {
@@ -35,6 +42,7 @@ function createCountBadge(badge, schedule, isHidden) {
   }, 4000);
 
   return {
+    resize,
     update(key, text, title) {
       const node = nodes.find(node => node.dataset.count === key);
       if (!node) return;
@@ -53,5 +61,10 @@ if (typeof module !== 'undefined' && module.exports) {
   module.exports = { createCountBadge };
 } else {
   const badge = document.getElementById('record-count');
-  if (badge) window.corpusCountBadge = createCountBadge(badge, window.setInterval.bind(window), () => document.hidden);
+  if (badge) {
+    window.corpusCountBadge = createCountBadge(badge, window.setInterval.bind(window), () => document.hidden);
+    window.corpusCountBadge.resize();
+    window.addEventListener('resize', window.corpusCountBadge.resize);
+    document.fonts.ready.then(window.corpusCountBadge.resize);
+  }
 }
