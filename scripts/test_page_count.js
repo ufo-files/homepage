@@ -14,22 +14,22 @@ test('accepts a lower bound and rejects inconsistent or invalid totals', () => {
 
 test('refreshes independently and preserves the last measurement on failure', async () => {
   const saved = { document: global.document, window: global.window, fetch: global.fetch };
-  const badge = { hidden: true, dataset: {} };
+  const badge = { update(key, text, title) { this.key = key; this.textContent = text; this.title = title; this.state = 'ready'; }, unavailable() { this.state = 'stale'; } };
   let refresh;
   global.document = { hidden: false, getElementById: () => badge, addEventListener() {} };
-  global.window = { setInterval(callback, interval) { refresh = callback; assert.equal(interval, 60000); } };
+  global.window = { corpusCountBadge: badge, setInterval(callback, interval) { refresh = callback; assert.equal(interval, 60000); } };
   global.fetch = async () => ({ ok: true, json: async () => summary });
   try {
     startPageCount();
     await new Promise(resolve => setImmediate(resolve));
     assert.equal(badge.textContent, '≥5,178,020 document pages');
-    assert.equal(badge.hidden, false);
+    assert.equal(badge.key, 'pages');
     const title = badge.title;
     global.fetch = async () => { throw new Error('offline'); };
     await refresh();
     assert.equal(badge.textContent, '≥5,178,020 document pages');
     assert.equal(badge.title, title);
-    assert.equal(badge.dataset.state, 'stale');
+    assert.equal(badge.state, 'stale');
     global.fetch = async () => ({ ok: true, json: async () => ({ ...summary, pages: 5178021, pdf: { ...summary.pdf, pages: 5166061 } }) });
     await refresh();
     assert.equal(badge.textContent, '≥5,178,021 document pages');

@@ -196,7 +196,7 @@ function renderSources(catalog, inventory) {
 }
 
 function startRecordCount() {
-  const badge = document.getElementById('record-count');
+  const badge = window.corpusCountBadge;
   if (!badge) return;
   let loading = false;
   let inventory = null;
@@ -211,19 +211,14 @@ function startRecordCount() {
       if (latestInventory) inventory = latestInventory;
       const count = catalog.count;
       renderSources(catalog, inventory);
-      badge.textContent = `${new Intl.NumberFormat('en-US').format(count)} public records`;
-      badge.dataset.state = 'ready';
-      badge.title = 'Source records in the latest published UFO Files research catalog. Refreshed every minute.';
+      badge.update('records', `${new Intl.NumberFormat('en-US').format(count)} public records`,
+        'Source records in the latest published UFO Files research catalog. Refreshed every minute.');
     } catch {
-      badge.textContent = 'Record count unavailable';
-      badge.dataset.state = 'unavailable';
-      badge.title = 'The published catalog could not be reached. The count will retry automatically.';
+      badge.unavailable('records');
     } finally {
       loading = false;
     }
   }
-  badge.textContent = 'Loading record count…';
-  badge.dataset.state = 'loading';
   refresh();
   window.setInterval(refresh, 60000);
   document.addEventListener('visibilitychange', refresh);

@@ -19,7 +19,7 @@ function parsePageCount(data) {
 }
 
 function startPageCount() {
-  const badge = document.getElementById('page-count');
+  const badge = window.corpusCountBadge;
   if (!badge) return;
   let loading = false;
   let last = null;
@@ -30,13 +30,11 @@ function startPageCount() {
       const response = await fetch(PAGE_COUNT_URL, { cache: 'no-store', signal: AbortSignal.timeout(10000) });
       if (!response.ok) throw new Error('Page count unavailable');
       last = parsePageCount(await response.json());
-      badge.textContent = `${last.uncountedFiles ? '≥' : ''}${new Intl.NumberFormat('en-US').format(last.pages)} document pages`;
-      badge.hidden = false;
-      badge.dataset.state = 'ready';
-      badge.title = `Downloaded PDF and TIFF pages. Counted ${new Date(last.updatedAt).toLocaleString('en-US', { timeZone: 'UTC', timeZoneName: 'short' })}.${last.uncountedFiles ? ` ${last.uncountedFiles} files remain uncounted.` : ''}`;
+      badge.update('pages', `${last.uncountedFiles ? '≥' : ''}${new Intl.NumberFormat('en-US').format(last.pages)} document pages`,
+        `Downloaded PDF and TIFF pages. Counted ${new Date(last.updatedAt).toLocaleString('en-US', { timeZone: 'UTC', timeZoneName: 'short' })}.${last.uncountedFiles ? ` ${last.uncountedFiles} files remain uncounted.` : ''}`);
     } catch {
       // Keep the last measurement visible, including its original timestamp.
-      badge.dataset.state = last ? 'stale' : 'unavailable';
+      badge.unavailable('pages');
     } finally {
       loading = false;
     }
