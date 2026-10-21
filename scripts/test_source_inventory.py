@@ -3,7 +3,7 @@ from pathlib import Path
 import tempfile
 import unittest
 
-from build_source_inventory import build, source_file
+from build_source_inventory import build, source_file, update_fallback
 
 
 class SourceInventoryTests(unittest.TestCase):
@@ -31,6 +31,20 @@ class SourceInventoryTests(unittest.TestCase):
             self.assertTrue(build(root, ['Test'])['sources'][0]['processingComplete'])
             (original / 'b.jpg').write_bytes(b'changed source')
             self.assertFalse(build(root, ['Test'])['sources'][0]['processingComplete'])
+
+    def test_fallback_does_not_call_unverified_coverage_active(self):
+        with tempfile.TemporaryDirectory() as directory:
+            page = Path(directory) / 'index.html'
+            page.write_text('<tr><th scope="row">UPDB NICAP</th><td>1</td><td>2</td><td>3</td><td>4</td></tr>')
+            inventory = {'generatedAt': '2026-10-21T00:00:00Z', 'sources': [
+                {'name': 'UPDB-NICAP', 'totalFiles': 1, 'outputFiles': 5841,
+                 'verifiedProcessedFiles': 0, 'processingComplete': False}]}
+            update_fallback(page, inventory)
+            self.assertIn('Coverage incomplete', page.read_text())
+            self.assertIn('0 / 1 archived files verified', page.read_text())
+            self.assertNotIn('In progress', page.read_text())
+            update_fallback(page, inventory)
+            self.assertEqual(page.read_text().count('processing-status'), 1)
 
     def test_missing_archive_is_not_zero_or_complete(self):
         with tempfile.TemporaryDirectory() as directory:

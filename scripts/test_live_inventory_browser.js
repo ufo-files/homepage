@@ -16,7 +16,7 @@ const {chromium} = require('@playwright/test');
   total=142;
   await page.evaluate(()=>document.dispatchEvent(new Event('visibilitychange')));
   await page.waitForFunction(()=>document.querySelector('#sources-body tr td').textContent==='142');
-  assert.equal(await page.locator('.processing-status').innerText(),'✅');
+  assert.equal(await page.locator('.processing-status strong').innerText(),'Verified complete');
   await page.locator('#sources').scrollIntoViewIfNeeded();
   await page.screenshot({path:'/private/tmp/live-inventory-desktop.png'});
   await page.setViewportSize({width:390,height:844});

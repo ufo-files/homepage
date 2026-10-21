@@ -12,11 +12,20 @@ async function fetchSourceInventory(fetcher = fetch) {
 }
 
 function pendingResearchLabel(source) {
-  return source?.processingComplete === true ? 'Awaiting search indexing' : 'Awaiting processing';
+  return source?.processingComplete === true ? 'Awaiting search indexing' : 'Not yet searchable';
+}
+
+function databaseCoverageUnverified(source) {
+  return source?.extensions?.['.gz'] > 0 && source.verifiedProcessedFiles === 0 && source.outputFiles > 0;
 }
 
 function processingStatus(source) {
-  return source?.processingComplete === true ? '✅' : 'In progress';
+  if (source?.totalFiles == null) return 'Inventory unavailable';
+  if (!source.totalFiles) return 'No archived files';
+  if (source.processingComplete === true) return 'Verified complete';
+  if (source.outputReadErrors > 0) return 'Verification errors';
+  if (source.verifiedProcessedFiles == null || databaseCoverageUnverified(source)) return 'Verification needed';
+  return 'Coverage incomplete';
 }
 
 function parseRecordCount(header) {
@@ -139,7 +148,7 @@ function renderSources(catalog, inventory) {
   if (!body || !inventory) return;
   const format = new Intl.NumberFormat('en-US');
   const sources = sourceCollectionsWithInventory(catalog, inventory);
-  const signature = JSON.stringify([catalog, inventory]);
+  const signature = JSON.stringify([catalog, inventory, Math.floor(Date.now() / 3600000)]);
   if (body.dataset.catalog !== signature) {
     const focusedUrl = body.contains(document.activeElement) ? document.activeElement.href : null;
     const rows = sources.sort((a, b) => a.name.localeCompare(b.name)).map(source => {
@@ -168,13 +177,31 @@ function renderSources(catalog, inventory) {
       complete.className = 'processing-status';
       const checkedAt = archived?.checkedAt || inventory.generatedAt;
       total.title = `Archive checked ${checkedAt}`;
-      const verified = archived?.processingComplete === true;
-      complete.textContent = processingStatus(archived);
-      complete.setAttribute('aria-label', verified ? 'Processing complete at last check' : 'Processing in progress at last check');
-      complete.title = archived?.totalFiles == null ? 'Archive inventory unavailable' :
+      const status = processingStatus(archived);
+      const labelStatus = document.createElement('strong');
+      labelStatus.textContent = status;
+      complete.append(labelStatus);
+      const detail = document.createElement('small');
+      detail.textContent = archived?.totalFiles == null ? 'No current archive count available.' :
+        databaseCoverageUnverified(archived) ?
+          `${format.format(archived.outputFiles)} output files from a database export; record coverage not verified.` :
         archived.verifiedProcessedFiles == null ?
-          `${format.format(archived.outputFiles)} output files for ${format.format(archived.totalFiles)} archived source files; processing is incomplete. Inventory: ${checkedAt}` :
-          `${format.format(archived.verifiedProcessedFiles)} of ${format.format(archived.totalFiles)} archived files have verified machine-readable outputs. Inventory: ${checkedAt}`;
+          `${format.format(archived.outputFiles || 0)} output files; source coverage not verified.` :
+          `${format.format(archived.verifiedProcessedFiles)} / ${format.format(archived.totalFiles)} archived files verified.`;
+      complete.append(detail);
+      if (archived?.outputReadErrors > 0) {
+        const errors = document.createElement('small');
+        errors.textContent = `${format.format(archived.outputReadErrors)} output files could not be read.`;
+        complete.append(errors);
+      }
+      const checked = document.createElement('small');
+      if (archived) {
+        const date = new Date(checkedAt);
+        const stale = Date.now() - date.getTime() > 48 * 60 * 60 * 1000;
+        checked.textContent = `Checked ${date.toISOString().slice(0, 10)} UTC${stale ? ' · over 48 hours old' : ''}`;
+        checked.title = checkedAt;
+      } else checked.textContent = 'No inventory check recorded.';
+      complete.append(checked);
       row.append(complete);
       const research = document.createElement('td');
       const explore = document.createElement('a');
@@ -191,6 +218,11 @@ function renderSources(catalog, inventory) {
     body.replaceChildren(...rows);
     body.dataset.catalog = signature;
     if (focusedUrl) [...body.querySelectorAll('a')].find(link => link.href === focusedUrl)?.focus({ preventScroll: true });
+  }
+  const summary = document.getElementById('sources-summary');
+  if (summary) {
+    const complete = sources.filter(source => inventory.sources.some(row => row.name === source.name && row.processingComplete)).length;
+    summary.textContent = `${complete} of ${sources.length} collections have verified outputs for every archived file. Remaining collections have incomplete or unverified coverage. These checks do not indicate whether a worker is running.`;
   }
   document.getElementById('sources-caption').textContent = `${sources.length} sources · ${format.format(catalog.count)} records · Catalog published ${new Date(catalog.generatedAt).toLocaleString('en-US', { timeZone: 'UTC', timeZoneName: 'short' })}`;
 }
@@ -209,11 +241,17 @@ function startRecordCount() {
         fetchSourceInventory().catch(() => null),
       ]);
       if (latestInventory) inventory = latestInventory;
+      const status = document.getElementById('sources-status');
+      if (status) status.textContent = latestInventory ?
+        `Live inventory retrieved. Latest source check: ${new Date(latestInventory.generatedAt).toISOString()}. Each collection shows its own check date; checks older than 48 hours are flagged.` :
+        'Live archive update unavailable. Showing the last available inventory; check dates remain visible.';
       const count = catalog.count;
       renderSources(catalog, inventory);
       badge.update('records', `${new Intl.NumberFormat('en-US').format(count)} public records`,
         'Source records in the latest published UFO Files research catalog. Refreshed every minute.');
     } catch {
+      const status = document.getElementById('sources-status');
+      if (status) status.textContent = 'Live catalog update unavailable. Showing the last available snapshot; check dates remain visible.';
       badge.unavailable('records');
     } finally {
       loading = false;

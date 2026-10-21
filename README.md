@@ -37,6 +37,22 @@ new collection, with research links covering both names until the rebuild.
 The UPDB-MUFON collection is separate. The intro graph drifts slowly and
 respects reduced motion.
 
+## Source coverage reporting
+
+The table separates archived file counts, published searchable records, and verified
+processing coverage. “Verified complete” requires matching outputs for every
+archived source file. “Coverage incomplete” shows the verified file count;
+“Verification needed” means file coverage has not been established. In particular,
+UPDB compressed database exports can produce thousands of records from one file;
+output counts are not a completion percentage. Read errors and unavailable
+inventories have separate labels. None of these labels asserts a worker is running.
+
+Every collection shows its inventory check date. Checks over 48 hours old are
+flagged in the live table. Feed failures retain the previous results and display
+an explicit notice. Saved HTML contains dated coverage details for offline and
+JavaScript-disabled visits. Complete coverage applies to the archived files,
+not all material available at the original source or extraction accuracy.
+
 ## Local preview
 
 ```sh

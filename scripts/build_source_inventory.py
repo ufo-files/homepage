@@ -6,6 +6,7 @@ The output is a dated snapshot, not a count of unique documents or pages.
 import collections
 import datetime
 import json
+from html import escape
 import os
 from pathlib import Path
 import re
@@ -129,18 +130,37 @@ def update_fallback(path, inventory):
     sources = {row['name']: row for row in inventory['sources']}
     def replace_row(match):
         heading, body, end = match.groups()
-        source = sources.get(unquote(re.search(r'/main/([^"/]+)', heading).group(1)))
+        match_name = re.search(r'/main/([^"/]+)', heading)
+        name = unquote(match_name.group(1)) if match_name else re.sub('<[^>]+>', '', heading).replace(' ', '-')
+        source = sources.get(name)
         cells = re.findall(r'<td\b.*?</td>', body)
         if len(cells) == 6:
             cells = cells[1:4] + cells[5:]
         if len(cells) != 4:
             raise ValueError('Unexpected source table structure')
         total = f'{source["totalFiles"]:,}' if source and source['totalFiles'] is not None else 'Unavailable'
-        complete = source and source['processingComplete']
-        status = 'Processing complete' if complete else 'Processing in progress'
-        indicator = '✅' if complete else 'In progress'
+        if not source or source.get('totalFiles') is None:
+            status, detail = 'Inventory unavailable', 'No current archive count available.'
+        else:
+            if not source['totalFiles']:
+                status = 'No archived files'
+            elif source.get('processingComplete'):
+                status = 'Verified complete'
+            elif source.get('outputReadErrors', 0):
+                status = 'Verification errors'
+            elif source.get('verifiedProcessedFiles') is None or (source.get('extensions', {}).get('.gz', 0) and source.get('verifiedProcessedFiles') == 0 and source.get('outputFiles', 0)):
+                status = 'Verification needed'
+            else:
+                status = 'Coverage incomplete'
+            verified = source.get('verifiedProcessedFiles')
+            detail = (f"{source.get('outputFiles', 0):,} output files; source coverage not verified."
+                      if verified is None else f"{verified:,} / {source['totalFiles']:,} archived files verified.")
+        if source and source.get('extensions', {}).get('.gz', 0) and source.get('verifiedProcessedFiles') == 0 and source.get('outputFiles', 0):
+            detail = f"{source['outputFiles']:,} output files from a database export; record coverage not verified."
+        checked = source.get('checkedAt', inventory['generatedAt']) if source else None
+        stamp = f'Checked {checked[:10]} UTC (saved snapshot)' if checked else 'No inventory check recorded.'
         cells.insert(0, f'<td class="numeric">{total}</td>')
-        cells.insert(4, f'<td class="processing-status" aria-label="{status}">{indicator}</td>')
+        cells.insert(4, f'<td class="processing-status"><strong>{status}</strong><small>{detail}</small><small>{escape(stamp)}</small></td>')
         return heading + ''.join(cells) + end
     html = path.read_text()
     html = re.sub(r'(<tr><th scope="row">.*?</th>)(.*?)(</tr>)', replace_row, html)

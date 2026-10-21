@@ -101,11 +101,16 @@ test('archive feed fetches live branch and bypasses stale cache', async () => {
   await assert.rejects(fetchSourceInventory(async () => new Response('', {status:503})));
 });
 
-test('inventory age does not change the processing result', () => {
+test('coverage labels never imply that an unobserved worker is running', () => {
   const { processingStatus } = require('../record-count.js');
-  assert.equal(processingStatus({processingComplete:true,checkedAt:'2026-09-28T00:00:00Z'}), '✅');
-  assert.equal(processingStatus({processingComplete:false,checkedAt:new Date().toISOString()}), 'In progress');
-  assert.equal(processingStatus(undefined), 'In progress');
+  assert.equal(processingStatus({totalFiles:11,verifiedProcessedFiles:11,processingComplete:true,checkedAt:'2026-09-28T00:00:00Z'}), 'Verified complete');
+  assert.equal(processingStatus({totalFiles:100,outputFiles:20,verifiedProcessedFiles:null,processingComplete:false}), 'Verification needed');
+  assert.equal(processingStatus({totalFiles:342,verifiedProcessedFiles:325,processingComplete:false}), 'Coverage incomplete');
+  assert.equal(processingStatus({totalFiles:1,outputFiles:5841,verifiedProcessedFiles:0,processingComplete:false}), 'Coverage incomplete');
+  assert.equal(processingStatus({totalFiles:1,extensions:{'.gz':1},outputFiles:5841,verifiedProcessedFiles:0,processingComplete:false}), 'Verification needed');
+  assert.equal(processingStatus({totalFiles:2,outputReadErrors:1,processingComplete:false}), 'Verification errors');
+  assert.equal(processingStatus({totalFiles:0,processingComplete:false}), 'No archived files');
+  assert.equal(processingStatus(undefined), 'Inventory unavailable');
 });
 
 test('new archived collections appear before processing and use published counts when ready', () => {
@@ -126,6 +131,6 @@ test('new archived collections appear before processing and use published counts
 test('pending research label distinguishes processing from indexing', () => {
   const { pendingResearchLabel } = require('../record-count.js');
   assert.equal(pendingResearchLabel({processingComplete:true}), 'Awaiting search indexing');
-  assert.equal(pendingResearchLabel({processingComplete:false}), 'Awaiting processing');
-  assert.equal(pendingResearchLabel(undefined), 'Awaiting processing');
+  assert.equal(pendingResearchLabel({processingComplete:false}), 'Not yet searchable');
+  assert.equal(pendingResearchLabel(undefined), 'Not yet searchable');
 });

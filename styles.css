@@ -190,3 +190,7 @@ footer p { font-size: var(--font-size-small); }
 #activity-chart [data-series-label] { cursor:default; }
 #activity-chart [data-series-label].is-highlighted { text-decoration:underline; }
 #activity-chart [data-series-label]:focus-visible { outline:1px solid currentColor; outline-offset:3px; }
+
+.sources-table .processing-status { text-align:left; min-width:230px; }
+.processing-status strong { display:block; font-size:.75rem; }
+.processing-status small { display:block; margin-top:5px; color:var(--muted); font-size:.6875rem; line-height:1.5; }
