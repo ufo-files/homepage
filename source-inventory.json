@@ -1,6 +1,6 @@
 {
   "schema": "ufo-files-source-inventory/v1",
-  "generatedAt": "2026-10-21T19:17:26.814632+00:00",
+  "generatedAt": "2026-10-22T19:17:46.455251+00:00",
   "definition": "Archived content files, including scans and alternate formats; excludes metadata, logs, ZIP bundles, and partial downloads.",
   "completionRule": "Every archived content file has a nonempty machine-readable output with matching source path and byte size. This is processing coverage, not a content accuracy certification.",
   "sources": [
@@ -14,25 +14,25 @@
       "extensions": {
         ".pdf": 11
       },
-      "checkedAt": "2026-10-21T18:17:30.177558+00:00"
+      "checkedAt": "2026-10-22T18:17:36.395389+00:00"
     },
     {
       "name": "American-Alchemy",
-      "totalFiles": 144,
-      "verifiedProcessedFiles": 144,
-      "outputFiles": 144,
+      "totalFiles": 145,
+      "verifiedProcessedFiles": 145,
+      "outputFiles": 145,
       "processingComplete": true,
       "outputReadErrors": 0,
       "extensions": {
-        ".mp4": 144
+        ".mp4": 145
       },
-      "checkedAt": "2026-10-21T17:47:10.813721+00:00"
+      "checkedAt": "2026-10-22T17:47:19.342711+00:00"
     },
     {
       "name": "Archives-for-the-Unexplained",
       "totalFiles": 174106,
       "verifiedProcessedFiles": null,
-      "outputFiles": 46443,
+      "outputFiles": 48445,
       "processingComplete": false,
       "outputReadErrors": 0,
       "extensions": {
@@ -51,7 +51,7 @@
         ".xls": 28,
         ".xlsx": 95
       },
-      "checkedAt": "2026-10-21T19:17:26.814632+00:00"
+      "checkedAt": "2026-10-22T19:17:46.455251+00:00"
     },
     {
       "name": "Area52-Investigations",
@@ -63,7 +63,7 @@
       "extensions": {
         ".mp4": 125
       },
-      "checkedAt": "2026-10-21T18:23:01.904765+00:00"
+      "checkedAt": "2026-10-22T18:23:09.275242+00:00"
     },
     {
       "name": "Argentina-CIAE-CEFAE",
@@ -77,13 +77,13 @@
         ".html": 1,
         ".pdf": 13
       },
-      "checkedAt": "2026-10-21T03:41:24.378329+00:00"
+      "checkedAt": "2026-10-22T03:41:31.726114+00:00"
     },
     {
       "name": "Black-Vault-UFO",
       "totalFiles": 4437,
       "verifiedProcessedFiles": null,
-      "outputFiles": 3559,
+      "outputFiles": 4430,
       "processingComplete": false,
       "outputReadErrors": 0,
       "extensions": {
@@ -101,7 +101,7 @@
         ".wmv": 5,
         ".xlsx": 2
       },
-      "checkedAt": "2026-10-21T18:24:54.486527+00:00"
+      "checkedAt": "2026-10-22T18:25:01.787169+00:00"
     },
     {
       "name": "Brazil-Government-UAP",
@@ -118,7 +118,7 @@
         ".pdf": 262,
         ".png": 51
       },
-      "checkedAt": "2026-10-21T18:18:16.136195+00:00"
+      "checkedAt": "2026-10-22T18:18:32.779418+00:00"
     },
     {
       "name": "Canada-Library-and-Archives-UFO",
@@ -130,7 +130,7 @@
       "extensions": {
         ".jpg": 205
       },
-      "checkedAt": "2026-10-21T18:33:10.661572+00:00"
+      "checkedAt": "2026-10-22T18:33:16.718600+00:00"
     },
     {
       "name": "Chile-SEFAA",
@@ -143,7 +143,7 @@
         ".html": 111,
         ".pdf": 1320
       },
-      "checkedAt": "2026-10-21T03:43:12.099023+00:00"
+      "checkedAt": "2026-10-22T03:43:18.930276+00:00"
     },
     {
       "name": "DOE-NNSA-UAP-UFO",
@@ -155,19 +155,19 @@
       "extensions": {
         ".pdf": 2
       },
-      "checkedAt": "2026-10-21T18:17:09.763000+00:00"
+      "checkedAt": "2026-10-22T18:17:15.896139+00:00"
     },
     {
       "name": "DPIArchive",
       "totalFiles": 3505,
-      "verifiedProcessedFiles": null,
-      "outputFiles": 3494,
-      "processingComplete": false,
+      "verifiedProcessedFiles": 3505,
+      "outputFiles": 3505,
+      "processingComplete": true,
       "outputReadErrors": 0,
       "extensions": {
         ".pdf": 3505
       },
-      "checkedAt": "2026-10-21T18:27:28.081202+00:00"
+      "checkedAt": "2026-10-22T18:27:40.204227+00:00"
     },
     {
       "name": "FBI-Vault-UFO",
@@ -179,13 +179,13 @@
       "extensions": {
         ".pdf": 16
       },
-      "checkedAt": "2026-10-21T18:17:50.626246+00:00"
+      "checkedAt": "2026-10-22T18:17:56.912232+00:00"
     },
     {
       "name": "France-GEIPAN",
       "totalFiles": 16426,
-      "verifiedProcessedFiles": 9607,
-      "outputFiles": 17333,
+      "verifiedProcessedFiles": 11958,
+      "outputFiles": 19684,
       "processingComplete": false,
       "outputReadErrors": 0,
       "extensions": {
@@ -209,7 +209,7 @@
         ".xls": 2,
         ".xlsx": 10
       },
-      "checkedAt": "2026-10-21T18:20:38.730440+00:00"
+      "checkedAt": "2026-10-22T18:21:42.137467+00:00"
     },
     {
       "name": "Italy-Aeronautica-Militare-OVNI",
@@ -222,7 +222,7 @@
         ".html": 1,
         ".pdf": 32
       },
-      "checkedAt": "2026-10-21T03:41:24.380957+00:00"
+      "checkedAt": "2026-10-22T03:41:31.728041+00:00"
     },
     {
       "name": "NSA-UFO-FOIA",
@@ -234,13 +234,13 @@
       "extensions": {
         ".pdf": 64
       },
-      "checkedAt": "2026-10-21T18:19:27.290488+00:00"
+      "checkedAt": "2026-10-22T18:19:34.058553+00:00"
     },
     {
       "name": "National-Archives-UAP-Bulk",
       "totalFiles": 157919,
       "verifiedProcessedFiles": null,
-      "outputFiles": 5723,
+      "outputFiles": 6761,
       "processingComplete": false,
       "outputReadErrors": 0,
       "extensions": {
@@ -253,7 +253,7 @@
         ".tif": 9020,
         ".tiff": 150
       },
-      "checkedAt": "2026-10-21T19:06:42.403425+00:00"
+      "checkedAt": "2026-10-22T19:06:58.156569+00:00"
     },
     {
       "name": "National-Archives-of-Australia-UFO",
@@ -265,7 +265,7 @@
       "extensions": {
         ".jpg": 624
       },
-      "checkedAt": "2026-10-21T18:21:34.879731+00:00"
+      "checkedAt": "2026-10-22T18:21:42.138093+00:00"
     },
     {
       "name": "Rice-Archive-of-the-Impossible",
@@ -278,7 +278,7 @@
         ".mp4": 52,
         ".pdf": 7
       },
-      "checkedAt": "2026-10-21T18:20:23.398775+00:00"
+      "checkedAt": "2026-10-22T18:20:30.456175+00:00"
     },
     {
       "name": "Skywatcher-HQ",
@@ -290,7 +290,7 @@
       "extensions": {
         ".mp4": 8
       },
-      "checkedAt": "2026-10-21T18:17:25.031270+00:00"
+      "checkedAt": "2026-10-22T18:17:31.261802+00:00"
     },
     {
       "name": "Steven-Greer-Document-Library",
@@ -303,7 +303,7 @@
         ".docx": 14,
         ".pdf": 129
       },
-      "checkedAt": "2026-10-21T18:20:18.252452+00:00"
+      "checkedAt": "2026-10-22T18:20:30.320422+00:00"
     },
     {
       "name": "Tridactyls",
@@ -315,7 +315,7 @@
       "extensions": {
         ".pdf": 22
       },
-      "checkedAt": "2026-10-21T18:17:45.491614+00:00"
+      "checkedAt": "2026-10-22T18:17:51.723710+00:00"
     },
     {
       "name": "UAP-Gerb",
@@ -327,7 +327,7 @@
       "extensions": {
         ".mp4": 70
       },
-      "checkedAt": "2026-10-21T18:20:38.731345+00:00"
+      "checkedAt": "2026-10-22T18:20:50.873295+00:00"
     },
     {
       "name": "UPDB-BAASS",
@@ -339,7 +339,7 @@
       "extensions": {
         ".gz": 1
       },
-      "checkedAt": "2026-10-21T17:42:29.932246+00:00"
+      "checkedAt": "2026-10-22T17:42:38.025224+00:00"
     },
     {
       "name": "UPDB-Brazil-Government",
@@ -351,7 +351,7 @@
       "extensions": {
         ".gz": 1
       },
-      "checkedAt": "2026-10-21T18:12:40.172024+00:00"
+      "checkedAt": "2026-10-22T18:12:45.246812+00:00"
     },
     {
       "name": "UPDB-Canada-Government",
@@ -363,7 +363,7 @@
       "extensions": {
         ".gz": 1
       },
-      "checkedAt": "2026-10-20T18:10:43.788222+00:00"
+      "checkedAt": "2026-10-22T18:17:10.753099+00:00"
     },
     {
       "name": "UPDB-MUFON",
@@ -376,7 +376,7 @@
         ".gz": 1,
         ".json": 94762
       },
-      "checkedAt": "2026-10-21T18:20:13.123291+00:00"
+      "checkedAt": "2026-10-22T18:20:25.166206+00:00"
     },
     {
       "name": "UPDB-NICAP",
@@ -388,7 +388,7 @@
       "extensions": {
         ".gz": 1
       },
-      "checkedAt": "2026-10-21T18:20:02.866770+00:00"
+      "checkedAt": "2026-10-22T18:20:25.063737+00:00"
     },
     {
       "name": "UPDB-NIDS",
@@ -400,7 +400,7 @@
       "extensions": {
         ".gz": 1
       },
-      "checkedAt": "2026-10-21T18:15:17.561516+00:00"
+      "checkedAt": "2026-10-22T18:15:23.863173+00:00"
     },
     {
       "name": "UPDB-Pilots",
@@ -412,7 +412,7 @@
       "extensions": {
         ".gz": 1
       },
-      "checkedAt": "2026-10-21T18:19:12.051445+00:00"
+      "checkedAt": "2026-10-22T18:19:18.702420+00:00"
     },
     {
       "name": "UPDB-Skinwalker",
@@ -424,7 +424,7 @@
       "extensions": {
         ".gz": 1
       },
-      "checkedAt": "2026-10-21T18:21:04.246681+00:00"
+      "checkedAt": "2026-10-22T18:21:11.350110+00:00"
     },
     {
       "name": "UPDB-UKTNA",
@@ -436,7 +436,7 @@
       "extensions": {
         ".gz": 1
       },
-      "checkedAt": "2026-10-21T19:06:37.282907+00:00"
+      "checkedAt": "2026-10-22T19:06:58.142648+00:00"
     },
     {
       "name": "War-Gov-PURSUE",
@@ -449,7 +449,7 @@
         ".mp4": 149,
         ".pdf": 267
       },
-      "checkedAt": "2026-10-21T18:21:29.789499+00:00"
+      "checkedAt": "2026-10-22T18:21:36.988138+00:00"
     },
     {
       "name": "Weaponized-Podcast",
@@ -461,7 +461,7 @@
       "extensions": {
         ".mp4": 139
       },
-      "checkedAt": "2026-10-21T18:26:31.747996+00:00"
+      "checkedAt": "2026-10-22T18:26:38.923802+00:00"
     },
     {
       "name": "Whitepapers",
@@ -474,7 +474,7 @@
         ".jpeg": 1,
         ".pdf": 6
       },
-      "checkedAt": "2026-10-21T18:17:19.906765+00:00"
+      "checkedAt": "2026-10-22T18:17:26.115931+00:00"
     },
     {
       "name": "WikiLeaks-UFO",
@@ -486,7 +486,7 @@
       "extensions": {
         ".html": 13
       },
-      "checkedAt": "2026-10-21T18:17:35.298532+00:00"
+      "checkedAt": "2026-10-22T18:17:41.546160+00:00"
     },
     {
       "name": "Americans-for-Safe-Aerospace",
@@ -498,7 +498,7 @@
       "extensions": {
         ".html": 44
       },
-      "checkedAt": "2026-10-21T18:59:52.935454+00:00"
+      "checkedAt": "2026-10-22T18:59:59.681709+00:00"
     },
     {
       "name": "NARCAP",
@@ -511,7 +511,7 @@
         ".html": 11,
         ".pdf": 51
       },
-      "checkedAt": "2026-10-21T19:00:08.349659+00:00"
+      "checkedAt": "2026-10-22T19:00:15.070515+00:00"
     },
     {
       "name": "Vatican",
@@ -524,7 +524,7 @@
         ".html": 8,
         ".pdf": 6
       },
-      "checkedAt": "2026-10-21T16:34:20.511654+00:00"
+      "checkedAt": "2026-10-22T16:34:25.775899+00:00"
     }
   ]
 }
