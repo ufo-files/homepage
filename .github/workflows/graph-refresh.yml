@@ -1,0 +1,31 @@
+name: Rebuild homepage after graph screenshots
+
+on:
+  push:
+    branches: [graph-refresh-requests]
+    paths: [data/graph-refresh-request.json]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+
+concurrency:
+  group: homepage-graph-refresh
+  cancel-in-progress: false
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out completed snapshot request
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Rebuild the published homepage
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: bash scripts/rebuild_after_graph.sh
