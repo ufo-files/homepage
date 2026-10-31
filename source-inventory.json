@@ -1,6 +1,6 @@
 {
   "schema": "ufo-files-source-inventory/v1",
-  "generatedAt": "2026-10-28T17:43:21.100038+00:00",
+  "generatedAt": "2026-10-30T05:22:08.775163+00:00",
   "definition": "Archived content files, including scans and alternate formats; excludes metadata, logs, ZIP bundles, and partial downloads.",
   "completionRule": "Every archived content file has a nonempty machine-readable output with matching source path and byte size. This is processing coverage, not a content accuracy certification.",
   "sources": [
@@ -14,19 +14,17 @@
       "extensions": {
         ".pdf": 11
       },
-      "checkedAt": "2026-10-27T18:20:32.709589+00:00"
+      "checkedAt": "2026-10-30T05:20:32.147113+00:00"
     },
     {
       "name": "American-Alchemy",
-      "totalFiles": 145,
-      "verifiedProcessedFiles": 145,
+      "totalFiles": 0,
+      "verifiedProcessedFiles": 0,
       "outputFiles": 145,
-      "processingComplete": true,
+      "processingComplete": false,
       "outputReadErrors": 0,
-      "extensions": {
-        ".mp4": 145
-      },
-      "checkedAt": "2026-10-27T17:48:19.881792+00:00"
+      "extensions": {},
+      "checkedAt": "2026-10-30T05:20:01.683157+00:00"
     },
     {
       "name": "Archives-for-the-Unexplained",
@@ -55,15 +53,13 @@
     },
     {
       "name": "Area52-Investigations",
-      "totalFiles": 126,
-      "verifiedProcessedFiles": 126,
+      "totalFiles": 0,
+      "verifiedProcessedFiles": 0,
       "outputFiles": 126,
-      "processingComplete": true,
+      "processingComplete": false,
       "outputReadErrors": 0,
-      "extensions": {
-        ".mp4": 126
-      },
-      "checkedAt": "2026-10-27T18:40:46.561718+00:00"
+      "extensions": {},
+      "checkedAt": "2026-10-30T05:21:02.731443+00:00"
     },
     {
       "name": "Argentina-CIAE-CEFAE",
@@ -105,20 +101,13 @@
     },
     {
       "name": "Brazil-Government-UAP",
-      "totalFiles": 342,
-      "verifiedProcessedFiles": 341,
+      "totalFiles": 0,
+      "verifiedProcessedFiles": 0,
       "outputFiles": 1214,
       "processingComplete": false,
       "outputReadErrors": 0,
-      "extensions": {
-        ".html": 16,
-        ".jpeg": 8,
-        ".jpg": 4,
-        ".mp4": 1,
-        ".pdf": 262,
-        ".png": 51
-      },
-      "checkedAt": "2026-10-27T18:26:34.754512+00:00"
+      "extensions": {},
+      "checkedAt": "2026-10-30T05:21:33.220107+00:00"
     },
     {
       "name": "Canada-Library-and-Archives-UFO",
@@ -134,16 +123,13 @@
     },
     {
       "name": "Chile-SEFAA",
-      "totalFiles": 1431,
-      "verifiedProcessedFiles": 1431,
+      "totalFiles": 0,
+      "verifiedProcessedFiles": 0,
       "outputFiles": 2273,
-      "processingComplete": true,
+      "processingComplete": false,
       "outputReadErrors": 0,
-      "extensions": {
-        ".html": 111,
-        ".pdf": 1320
-      },
-      "checkedAt": "2026-10-28T03:44:52.691152+00:00"
+      "extensions": {},
+      "checkedAt": "2026-10-30T05:22:08.775163+00:00"
     },
     {
       "name": "DOE-NNSA-UAP-UFO",
@@ -490,15 +476,13 @@
     },
     {
       "name": "Americans-for-Safe-Aerospace",
-      "totalFiles": 44,
-      "verifiedProcessedFiles": 44,
+      "totalFiles": 0,
+      "verifiedProcessedFiles": 0,
       "outputFiles": 44,
-      "processingComplete": true,
+      "processingComplete": false,
       "outputReadErrors": 0,
-      "extensions": {
-        ".html": 44
-      },
-      "checkedAt": "2026-10-27T19:00:49.292454+00:00"
+      "extensions": {},
+      "checkedAt": "2026-10-30T05:20:47.350479+00:00"
     },
     {
       "name": "NARCAP",
