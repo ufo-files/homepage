@@ -300,3 +300,21 @@ footer p { font-size: var(--font-size-small); }
  .station-views { gap:1rem; }
  .station-views button { font-size:.6875rem; min-height:44px; }
 }
+
+/* A distinct home for the model, without another dashboard of marketing cards. */
+.model-section { background:var(--paper); }
+.model-layout { display:grid; grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr); align-items:center; gap:3rem; }
+.model-copy h2 { font-size:2.25rem; line-height:1.15; letter-spacing:-.04em; text-transform:none; margin:0 0 1.5rem; }
+.model-copy p { font-size:.875rem; line-height:1.8; margin:0 0 1.25rem; }
+.model-links { display:flex; flex-wrap:wrap; align-items:center; gap:1.25rem; margin-top:1.75rem; }
+.model-links a { font-size:.75rem; }
+.model-links .btn { display:inline-flex; gap:.6rem; }
+.model-screenshot { margin:0; min-width:0; }
+.model-screenshot a, .model-screenshot img { display:block; width:100%; }
+.model-screenshot img { height:auto; border:1px solid var(--line); border-radius:6px; }
+.model-screenshot figcaption { color:var(--muted); font-size:.6875rem; line-height:1.7; margin-top:1rem; }
+@media (max-width:900px) {
+ .model-layout { grid-template-columns:1fr; gap:2rem; }
+ .model-copy { max-width:40rem; }
+}
+@media (max-width:640px) { .model-copy h2 { font-size:2rem; } }
