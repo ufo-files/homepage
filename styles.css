@@ -217,8 +217,8 @@ footer p { font-size: var(--font-size-small); }
 .network-brand { display:flex; align-items:center; gap:1.25rem; }
 .network-mark { width:96px; height:96px; overflow:hidden; flex-shrink:0; mix-blend-mode:screen; }
 .network-mark img { height:100%; width:auto; max-width:none; position:relative; left:50%; transform:translateX(-50%); }
-.network-brand h2 { font-family:Helvetica,Arial,sans-serif; font-weight:400; font-size:3.5rem; letter-spacing:.04em; line-height:1; margin:0; color:inherit; }
-.network-brand p { font-size:.75rem; margin:.5rem 0 0; color:#c7ceca; }
+.network-brand h2 { font-family:Helvetica,Arial,sans-serif; font-weight:400; font-size:2rem; letter-spacing:0; line-height:1.08; margin:0; color:inherit; }
+.network-brand h2 span { display:block; }
 .network-caption { text-align:right; }
 .network-caption p { font-size:1rem; margin:0 0 .6rem; }
 .network-caption span { font-size:.6875rem; color:#aeb9af; }
@@ -270,8 +270,7 @@ footer p { font-size: var(--font-size-small); }
  .station-workflow article + article { border-top:1px solid var(--line); }
  .step-number { margin-bottom:1rem; }
  .network-mark { width:72px; height:72px; }
- .network-brand h2 { font-size:2.75rem; }
- .network-brand p { font-size:.625rem; }
+ .network-brand h2 { font-size:1.5rem; }
  .network-heading { margin-bottom:1.5rem; gap:1.5rem; }
  .broadcast-toolbar, .broadcast-bottom { padding:.8rem; font-size:.5625rem; }
  .broadcast-toolbar > span:last-child { display:none; }
