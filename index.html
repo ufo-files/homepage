@@ -57,10 +57,15 @@
           <h2 id="station-title">Field Station</h2>
           <div class="station-summary"><p>An open-source mobile AI lab. Monitor the sky and radio spectrum, review detections, and train your model from what you find.</p><a class="text-link" href="https://github.com/ufo-files/field-station">Build your Field Station <span aria-hidden="true">↗</span></a></div>
         </div>
-        <div class="station-screens">
-          <figure><a href="assets/field-station-review.png" aria-label="View the full-size detection review screenshot"><img src="assets/field-station-review.png" width="1440" height="960" loading="lazy" alt="Field Station’s human-reviewed detections, with classification filters, saved frames, and a live camera preview."></a><figcaption>Review detections. Keep the evidence.</figcaption></figure>
-          <figure><a href="assets/field-station-models.png" aria-label="View the full-size model history screenshot"><img src="assets/field-station-models.png" width="1440" height="960" loading="lazy" alt="Field Station’s Models screen, showing training history, the active model, and evaluation results."></a><figcaption>Train, compare, and publish your models.</figcaption></figure>
+        <div class="station-views" role="group" aria-label="Field Station screenshots" hidden>
+          <button type="button" aria-pressed="true" aria-controls="station-screenshot" data-image="assets/field-station-camera.png" data-alt="Field Station’s nighttime camera feed with live status, camera controls, and the RF spectrum." data-caption="Camera feed and radio spectrum. Nighttime view.">Camera feed</button>
+          <button type="button" aria-pressed="false" aria-controls="station-screenshot" data-image="assets/field-station-review.png" data-alt="Field Station’s human-reviewed detections with classification filters and saved frames." data-caption="Review detections. Keep the evidence.">Review detections</button>
+          <button type="button" aria-pressed="false" aria-controls="station-screenshot" data-image="assets/field-station-models.png" data-alt="Field Station’s model history, active model, and evaluation results." data-caption="Train, compare, and publish your models.">Models</button>
         </div>
+        <figure class="station-showcase" id="station-screenshot">
+          <a href="assets/field-station-camera.png" aria-label="View the full-size app screenshot"><img src="assets/field-station-camera.png" width="1440" height="960" loading="lazy" alt="Field Station’s nighttime camera feed with live status, camera controls, and the RF spectrum."></a>
+          <figcaption>Camera feed and radio spectrum. Nighttime view.</figcaption>
+        </figure>
       </div>
     </section>
     <section id="ufn" class="network-section" aria-labelledby="network-title">
