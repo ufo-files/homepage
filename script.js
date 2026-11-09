@@ -29,21 +29,6 @@ document.addEventListener('click', (event) => {
 mobile.addEventListener('change', () => setMenuState(false));
 setMenuState(false);
 
-// Keep YouTube requests out of the initial page load. The link remains usable without JS.
-const watchStream = document.getElementById('watch-stream');
-watchStream?.addEventListener('click', (event) => {
-  if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-  event.preventDefault();
-  const iframe = document.createElement('iframe');
-  iframe.src = 'https://www.youtube-nocookie.com/embed/wxNOhusyI8w?autoplay=1&mute=1&playsinline=1';
-  iframe.title = 'UFN — Field Station live camera and radio spectrum';
-  iframe.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
-  iframe.allowFullscreen = true;
-  iframe.referrerPolicy = 'strict-origin-when-cross-origin';
-  document.getElementById('broadcast-player').replaceChildren(iframe);
-  iframe.focus();
-});
-
 const stationViews = document.querySelector('.station-views');
 if (stationViews) {
   stationViews.hidden = false;
