@@ -25,6 +25,7 @@
       <button class="menu-toggle btn" type="button" aria-expanded="false" aria-controls="site-navigation" hidden>Menu</button>
       <ul id="site-navigation">
         <li><a href="#field-station">Field Station</a></li>
+        <li><a href="#anomaly-model">Model</a></li>
         <li><a href="#ufn">Watch UFN</a></li>
         <li><a href="#research">Research</a></li>
         <li><a href="#sources">Sources</a></li>
@@ -60,12 +61,22 @@
         <div class="station-views" role="group" aria-label="Field Station screenshots" hidden>
           <button type="button" aria-pressed="true" aria-controls="station-screenshot" data-image="assets/field-station-camera.png" data-alt="Field Station’s nighttime camera feed with live status, camera controls, and the RF spectrum." data-caption="Camera feed and radio spectrum. Nighttime view.">Camera feed</button>
           <button type="button" aria-pressed="false" aria-controls="station-screenshot" data-image="assets/field-station-review.png" data-alt="Field Station’s human-reviewed detections with classification filters and saved frames." data-caption="Review detections. Keep the evidence.">Review detections</button>
-          <button type="button" aria-pressed="false" aria-controls="station-screenshot" data-image="assets/field-station-models.png" data-alt="Field Station’s model history, active model, and evaluation results." data-caption="Train, compare, and publish your models.">Models</button>
         </div>
         <figure class="station-showcase" id="station-screenshot">
           <a href="assets/field-station-camera.png" aria-label="View the full-size app screenshot"><img src="assets/field-station-camera.png" width="1440" height="960" loading="lazy" alt="Field Station’s nighttime camera feed with live status, camera controls, and the RF spectrum."></a>
           <figcaption>Camera feed and radio spectrum. Nighttime view.</figcaption>
         </figure>
+      </div>
+    </section>
+    <section id="anomaly-model" class="model-section" aria-labelledby="model-title">
+      <div class="wrapper model-layout">
+        <div class="model-copy">
+          <h2 id="model-title">Anomaly Vision Model</h2>
+          <p>The vision model behind Field Station. It classifies detected image crops as anomalous or not anomalous, using examples reviewed by the station operator.</p>
+          <p>Review a detection, correct its label, and use those examples to train the next version. Published models include their weights, classification policy, evaluation results, and checksums.</p>
+          <div class="model-links"><a class="btn primaryBtn" href="https://github.com/ufo-files/anomaly-vision-model/releases/latest">Download the model <span aria-hidden="true">↗</span></a><a class="text-link" href="https://github.com/ufo-files/anomaly-vision-model">Explore the project <span aria-hidden="true">↗</span></a></div>
+        </div>
+        <figure class="model-screenshot"><a href="assets/field-station-models.png" aria-label="View the full-size model history screenshot"><img src="assets/field-station-models.png" width="1440" height="960" loading="lazy" alt="Field Station’s model history with its active model, training runs, and evaluation results."></a><figcaption>Model history in Field Station. Scores reflect agreement with reviewed training examples, not accuracy on unseen footage.</figcaption></figure>
       </div>
     </section>
     <section id="ufn" class="network-section" aria-labelledby="network-title">
