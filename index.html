@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f6f5ef">
   <title>UFO Files — Open-Source Data for UFO Files Research</title>
-  <meta name="description" content="Explore patterns and connections across public UFO records with open-source research tools.">
+  <meta name="description" content="Explore public UFO records, build an open-source Field Station, and watch UFN: the ufo-files.app network.">
   <meta property="og:title" content="UFO Files">
-  <meta property="og:description" content="A big data approach to public UFO files research.">
+  <meta property="og:description" content="Open research. Open skies. Public records, the Field Station platform, and UFN live observations.">
   <meta property="og:url" content="https://ufo-files.app/">
   <meta property="og:image" content="https://raw.githubusercontent.com/ufo-files/relationship-graph-builder/main/assets/screenshots/default-view.png">
   <meta name="twitter:card" content="summary_large_image">
@@ -24,12 +24,13 @@
     <nav aria-label="Main navigation">
       <button class="menu-toggle btn" type="button" aria-expanded="false" aria-controls="site-navigation" hidden>Menu</button>
       <ul id="site-navigation">
+        <li><a href="#field-station">Field Station</a></li>
+        <li><a href="#anomaly-model">Model</a></li>
+        <li><a href="#ufn">Watch UFN</a></li>
         <li><a href="#research">Research</a></li>
         <li><a href="#sources">Sources</a></li>
-        <li><a href="#agent-activity">Activity</a></li>
         <li><a href="#about">About</a></li>
         <li><a href="#faq">FAQ</a></li>
-        <li><a href="https://github.com/ufo-files/machine-data">Data</a></li>
         <li><a href="https://tips.hushline.app/to/ufo-files" rel="me">Contact</a></li>
       </ul>
       <a class="btn primaryBtn" href="https://ufo-files.github.io/relationship-graph-builder/">Explore data</a>
@@ -47,8 +48,52 @@
           </p>
           <h1 id="intro-title">Open-Source Data for UFO Files Research</h1>
           <p>UFO Files is a free and open-source repository of global, public UFO disclosure data. Non-disclosure agreement not necessary.</p>
-          <a class="btn btnLrg primaryBtn" href="https://ufo-files.github.io/relationship-graph-builder/">Start exploring the data</a>
+          <div class="hero-actions"><a class="btn btnLrg primaryBtn" href="https://ufo-files.github.io/relationship-graph-builder/">Start exploring the data</a><a class="text-link" href="#field-station">Meet Field Station <span aria-hidden="true">→</span></a></div>
         </div>
+      </div>
+    </section>
+    <section id="field-station" class="station-section" aria-labelledby="station-title">
+      <div class="wrapper">
+        <div class="station-intro">
+          <h2 id="station-title">Field Station</h2>
+          <div class="station-summary"><p>An open-source mobile AI lab. Monitor the sky and radio spectrum, review detections, and train your model from what you find.</p><a class="text-link" href="https://github.com/ufo-files/field-station">Build your Field Station <span aria-hidden="true">↗</span></a></div>
+        </div>
+        <div class="station-views" role="group" aria-label="Field Station screenshots" hidden>
+          <button type="button" aria-pressed="true" aria-controls="station-screenshot" data-image="assets/field-station-camera.png" data-alt="Field Station’s nighttime camera feed with live status, camera controls, and the RF spectrum." data-caption="Camera feed and radio spectrum. Nighttime view.">Camera feed</button>
+          <button type="button" aria-pressed="false" aria-controls="station-screenshot" data-image="assets/field-station-review.png" data-alt="Field Station’s human-reviewed detections with classification filters and saved frames." data-caption="Review detections. Keep the evidence.">Review detections</button>
+        </div>
+        <figure class="station-showcase" id="station-screenshot">
+          <a href="assets/field-station-camera.png" aria-label="View the full-size app screenshot"><img src="assets/field-station-camera.png" width="1440" height="960" loading="lazy" alt="Field Station’s nighttime camera feed with live status, camera controls, and the RF spectrum."></a>
+          <figcaption>Camera feed and radio spectrum. Nighttime view.</figcaption>
+        </figure>
+      </div>
+    </section>
+    <section id="anomaly-model" class="model-section" aria-labelledby="model-title">
+      <div class="wrapper model-layout">
+        <div class="model-copy">
+          <h2 id="model-title">Anomaly Vision Model</h2>
+          <p>The vision model behind Field Station. It classifies detected image crops as anomalous or not anomalous, using examples reviewed by the station operator.</p>
+          <p>Review a detection, correct its label, and use those examples to train the next version. Published models include their weights, classification policy, evaluation results, and checksums.</p>
+          <div class="model-links"><a class="btn primaryBtn" href="https://github.com/ufo-files/anomaly-vision-model/releases/latest">Download the model <span aria-hidden="true">↗</span></a><a class="text-link" href="https://github.com/ufo-files/anomaly-vision-model">Explore the project <span aria-hidden="true">↗</span></a></div>
+        </div>
+        <figure class="model-screenshot"><a href="assets/field-station-models.png" aria-label="View the full-size model history screenshot"><img src="assets/field-station-models.png" width="1440" height="960" loading="lazy" alt="Field Station’s model history with its active model, training runs, and evaluation results."></a><figcaption>Model history in Field Station. Scores reflect agreement with reviewed training examples, not accuracy on unseen footage.</figcaption></figure>
+      </div>
+    </section>
+    <section id="ufn" class="network-section" aria-labelledby="network-title">
+      <div class="wrapper">
+        <div class="network-heading">
+          <div class="network-brand"><div class="network-mark"><img src="assets/field-station-mark.jpg" width="1200" height="630" alt="" loading="lazy"></div><h2 id="network-title"><span>UFO-FILES.APP</span><span>NETWORK</span></h2></div>
+          <div class="network-caption"><p>Watch the Field Station live.</p></div>
+        </div>
+        <div class="broadcast-frame">
+          <div class="broadcast-toolbar"><span><span class="broadcast-dot" aria-hidden="true"></span> FIELD STATION / LIVE STREAM</span><span>VIDEO + RF · NO AUDIO</span></div>
+          <div class="broadcast-player" id="broadcast-player">
+            <img class="broadcast-poster" src="assets/field-station-standby.jpg" width="1280" height="720" alt="Field Station’s vintage standby screen: an alien giving a thumbs-up with the message We’ll be right back." loading="lazy">
+            <div class="broadcast-invitation"><a class="watch-stream" id="watch-stream" href="https://www.youtube.com/watch?v=WqK6XfywrVQ"><span class="play-icon" aria-hidden="true">▶</span><span>Watch UFN<span class="watch-subtitle">Watch live on YouTube</span></span></a><p>Preview shows our standby screen.<br>Opens our live broadcast on YouTube.</p></div>
+          </div>
+          <div class="broadcast-bottom"><span>From our station. Open to everyone.</span><a href="https://www.youtube.com/@ufofilesproject/live">Watch on YouTube <span aria-hidden="true">↗</span></a></div>
+        </div>
+        <div class="network-notes"><p>Follow the camera feed, radio spectrum, and anomalous detection boxes in one broadcast. When the camera disconnects, our standby screen takes over.</p><p>See something interesting? The stream is the observation. <a href="https://archive.org/details/@ufo-files">The evidence lives in the archive.</a></p></div>
       </div>
     </section>
     <section class="statement" aria-label="Our approach">
